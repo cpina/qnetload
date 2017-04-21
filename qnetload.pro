@@ -14,9 +14,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    networkinformationreader.cpp
+    networkinformationreader.cpp \
+    informationstorage.cpp
 
 HEADERS  += mainwindow.h \
-    networkinformationreader.h
+    networkinformationreader.h \
+    informationstorage.h
 
 FORMS    += mainwindow.ui

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "networkinformationreader.h"
+#include "informationstorage.h"
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -41,6 +42,7 @@ private Q_SLOTS:
 private:
     Ui::MainWindow *ui;
     NetworkInformationReader* m_networkInformation;
+    InformationStorage* m_informationStorage;
     QTimer* m_timer;
 };
 

@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_networkInformation(0),
+    m_informationStorage(new InformationStorage(this)),
     m_timer(0)
 {
     ui->setupUi(this);
@@ -41,6 +42,15 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::updateInformation()
 {
     NetworkInformationReader::NetworkBytesInOut information = m_networkInformation->readInformation();
+
+    m_informationStorage->addInformation(information);
+
+    quint64 maximumIn = m_informationStorage->maximumIn();
+    quint64 maximumOut = m_informationStorage->maximumOut();
+
+    qDebug() << "MaximumIn:" << maximumIn;
+    qDebug() << "MaximumOut:" << maximumOut;
+
 
 }
 
