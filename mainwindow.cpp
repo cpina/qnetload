@@ -21,9 +21,15 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_networkInformation(0)
 {
     ui->setupUi(this);
+
+    // TODO: wlan0 should come from the command line arguments
+    m_networkInformation = new NetworkInformation("wlan0", this);
+
+    m_networkInformation->readInformation();
 }
 
 MainWindow::~MainWindow()

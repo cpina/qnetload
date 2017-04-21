@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "networkinformation.h"
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -35,6 +36,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    NetworkInformation* m_networkInformation;
 };
 
 #endif // MAINWINDOW_H
