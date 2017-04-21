@@ -1,4 +1,4 @@
-#include "networkinformation.h"
+#include "networkinformationreader.h"
 
 #include <QFile>
 #include <QTextStream>
@@ -24,26 +24,26 @@
  * along with qnetload.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-NetworkInformation::NetworkInformation(const QString& interfaceName, QObject* parent)
+NetworkInformationReader::NetworkInformationReader(const QString& interfaceName, QObject* parent)
     :
     QObject(parent)
 {
     m_interfaceName = interfaceName;
 }
 
-bool NetworkInformation::verifyInterface() const
+bool NetworkInformationReader::verifyInterface() const
 {
     // TODO: if it doesn't exist return false
     return true;
 }
 
-NetworkInformation::NetworkBytesInOut NetworkInformation::readProcNetDevInterface(const QString& interface)
+NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readProcNetDevInterface(const QString& interface)
 {
     QFile file("/proc/net/dev");
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        return NetworkInformation::NetworkBytesInOut();
+        return NetworkInformationReader::NetworkBytesInOut();
     }
 
     QString line;
@@ -51,7 +51,7 @@ NetworkInformation::NetworkBytesInOut NetworkInformation::readProcNetDevInterfac
     {
         line = file.readLine();
 
-        NetworkInformation::NetworkBytesInOut information = readInformationFromLine(line, interface);
+        NetworkInformationReader::NetworkBytesInOut information = readInformationFromLine(line, interface);
 
         if (information.valid)
         {
@@ -60,10 +60,10 @@ NetworkInformation::NetworkBytesInOut NetworkInformation::readProcNetDevInterfac
 
     } while(!line.isEmpty());
 
-    return NetworkInformation::NetworkBytesInOut();
+    return NetworkInformationReader::NetworkBytesInOut();
 }
 
-NetworkInformation::NetworkBytesInOut NetworkInformation::readInformationFromLine(const QString& line, const QString& interface)
+NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readInformationFromLine(const QString& line, const QString& interface)
 {
     QRegularExpression lineInformationRe(QString(" *%1: * (\\d+) +\\d+ +\\d+ +\\d+ +\\d+ +\\d+ +\\d+ +\\d+ +(\\d+).*").arg(interface));
 
@@ -71,7 +71,7 @@ NetworkInformation::NetworkBytesInOut NetworkInformation::readInformationFromLin
 
     if (match.hasMatch())
     {
-        NetworkInformation::NetworkBytesInOut information;
+        NetworkInformationReader::NetworkBytesInOut information;
         information.in = match.captured(1).toULong();
         information.out = match.captured(2).toULong();
         information.milliSecondsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
@@ -81,13 +81,13 @@ NetworkInformation::NetworkBytesInOut NetworkInformation::readInformationFromLin
     }
     else
     {
-        return NetworkInformation::NetworkBytesInOut();
+        return NetworkInformationReader::NetworkBytesInOut();
     }
 }
 
-NetworkInformation::NetworkBytesInOut NetworkInformation::readInformation() const
+NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readInformation() const
 {
-    NetworkInformation::NetworkBytesInOut information = readProcNetDevInterface(m_interfaceName);
+    NetworkInformationReader::NetworkBytesInOut information = readProcNetDevInterface(m_interfaceName);
 
     qDebug() << "In :" << information.in;
     qDebug() << "Out:" << information.out;

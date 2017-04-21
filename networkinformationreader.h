@@ -22,7 +22,7 @@
  * along with qnetload.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class NetworkInformation : public QObject
+class NetworkInformationReader : public QObject
 {
 public:
     struct NetworkBytesInOut {
@@ -34,7 +34,7 @@ public:
         NetworkBytesInOut() : in(0), out(0), milliSecondsSinceEpoch(0), valid(false) {}
     };
 
-    NetworkInformation(const QString& interfaceName, QObject* parent=0);
+    NetworkInformationReader(const QString& interfaceName, QObject* parent=0);
     bool verifyInterface() const;
     NetworkBytesInOut readInformation() const;
 

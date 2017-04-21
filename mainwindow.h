@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "networkinformation.h"
+#include "networkinformationreader.h"
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -34,9 +34,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
+private Q_SLOTS:
+    void updateInformation();
+
 private:
     Ui::MainWindow *ui;
-    NetworkInformation* m_networkInformation;
+    NetworkInformationReader* m_networkInformation;
+    QTimer* m_timer;
 };
 
 #endif // MAINWINDOW_H

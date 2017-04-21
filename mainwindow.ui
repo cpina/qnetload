@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>380</width>
-    <height>140</height>
+    <height>110</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,7 @@
        </font>
       </property>
       <property name="text">
-       <string>wlan0 up: 20:45:43</string>
+       <string>wlan0: 20:45:43</string>
       </property>
       <property name="margin">
        <number>0</number>

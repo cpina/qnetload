@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDebug>
+#include <QTimer>
+
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
@@ -22,14 +25,23 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_networkInformation(0)
+    m_networkInformation(0),
+    m_timer(0)
 {
     ui->setupUi(this);
 
     // TODO: wlan0 should come from the command line arguments
-    m_networkInformation = new NetworkInformation("wlan0", this);
+    m_networkInformation = new NetworkInformationReader("wlan0", this);
 
-    m_networkInformation->readInformation();
+    m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(updateInformation()));
+    m_timer->start(1000);
+}
+
+void MainWindow::updateInformation()
+{
+    NetworkInformationReader::NetworkBytesInOut information = m_networkInformation->readInformation();
+
 }
 
 MainWindow::~MainWindow()
