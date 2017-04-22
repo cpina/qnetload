@@ -1,14 +1,11 @@
 # qnetload
-Note that this early stages of work in progress.
+## Introduction
+Note that this has been quickly done over a weekend: not much quality testing or testing at all has happened yet. The license is GPL v3.
 
-I still (2017) use xnetload and I think that the way that shows the information is extremely useful. Sadly xnetload was removed from Debian in 2010:
+I still (2017) use xnetload and the way that shows the information is extremely useful for my use cases. Sadly xnetload was removed from Debian in 2010:
 https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=595195
 
-I've evaluated many similar packages but I wasn't satifised with any of them, so if time permits I'll write a very similar xnetload using Qt (so I named it qnetload).
-
-The user interface is very similar to xnetload (almost the same).
-
-It only accepts one command line argument: the interface. xnetload had many options that I haven't implemented them. Note that to launch xnetload we had to do: "xnetload -i wlan0" and for qnetload is only "qnetload wlan0".
+I've evaluated many similar packages but I wasn't satisfied with any of them, so I started writing a xnetload replacement. I've named qnetload as a tribute to xnetload and because it's implemented using the Qt libraries.
 
 See the screenshots:
 xnetload (the original one):
@@ -16,3 +13,26 @@ xnetload (the original one):
 
 qnetload (this one):
 ![qnetload](documentation/qnetload.png)
+
+## Installation
+I've only tested it on a Debian Jessie (8.7).
+
+This works for me:
+```
+git clone https://github.com/cpina/qnetload.git
+cd qnetload
+mkdir build
+cmake ../
+make
+make install
+```
+
+Then to execute it:
+```
+qnetload wlan0
+```
+(or similar interface)
+
+If it doesn't work for you feel free to contact me.
+
+Carles Pina i Estany (carles@pina.cat)

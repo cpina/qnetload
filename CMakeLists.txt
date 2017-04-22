@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 
-project(Qt5App)
+project(qnetload)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -29,3 +29,5 @@ qt5_wrap_ui(UI_GENERATED_HEADERS ${UI_SOURCES})
 add_executable(${TARGET} ${SOURCES} ${UI_GENERATED_HEADERS})
 
 target_link_libraries(${TARGET} ${QT5_LIBRARIES})
+
+install(TARGETS qnetload DESTINATION bin)
