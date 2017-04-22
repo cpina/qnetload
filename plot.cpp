@@ -81,9 +81,19 @@ void Plot::paintBars(QPainter *painter)
 
     for (int i = 0; i < values.count(); i++)
     {
-        float y = (height() * log(values[i])) / maximumValue;
+        float y;
+        if (values[i] != 0)
+        {
+            y = (height() * log(values[i])) / maximumValue;
+
+        }
+        else
+        {
+            y = 0;
+        }
 
         y = height() - y;
+
 
         painter->drawLine(QPoint(i, height()),
                           QPoint(i, y));
