@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     networkinformationreader.cpp \
-    informationstorage.cpp
+    informationstorage.cpp \
+    formatnumber.cpp
 
 HEADERS  += mainwindow.h \
     networkinformationreader.h \
-    informationstorage.h
+    informationstorage.h \
+    formatnumber.h
 
 FORMS    += mainwindow.ui

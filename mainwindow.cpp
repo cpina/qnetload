@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "formatnumber.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -40,6 +41,14 @@ MainWindow::MainWindow(QWidget *parent) :
     m_timer->start(1000);
 
     ui->interface_and_time_label->setText(QString("%1: 0:00:00").arg(m_networkInformation->interfaceName()));
+    ui->in_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(0),
+                                                          FormatNumber::formatSpeed(0),
+                                                          FormatNumber::formatTransfer(0)));
+
+    ui->out_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(0),
+                                                           FormatNumber::formatSpeed(0),
+                                                           FormatNumber::formatTransfer(0)));
+
 }
 
 void MainWindow::updateInformation()
@@ -49,29 +58,29 @@ void MainWindow::updateInformation()
     m_informationStorage->addInformation(information);
 
     quint64 maximumIn = m_informationStorage->maximumSpeedIn();
-    quint64 maximumOut = m_informationStorage->maximumSpeedout();
+    quint64 maximumOut = m_informationStorage->maximumSpeedOut();
+
+    quint64 transferredIn = m_informationStorage->transferredIn();
+    quint64 transferredOut = m_informationStorage->transferredOut();
+
+    InformationStorage::CurrentSpeed currentSpeed = m_informationStorage->calculateCurrentSpeed();
+    quint64 currentSpeedIn = currentSpeed.inSpeed;
+    quint64 currentSpeedOut = currentSpeed.outSpeed;
+
 
     ui->interface_and_time_label->setText(QString("%1: %2").arg(m_networkInformation->interfaceName(),
-                                                                formatMilliseconds(m_informationStorage->millisecondsSinceStart())));
+                                                                FormatNumber::formatElapsedTime(m_informationStorage->millisecondsSinceStart())));
+
+    ui->in_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(currentSpeedIn),
+                                                          FormatNumber::formatSpeed(maximumIn),
+                                                          FormatNumber::formatTransfer(transferredIn)));
+
+    ui->out_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(currentSpeedOut),
+                                                           FormatNumber::formatSpeed(maximumOut),
+                                                           FormatNumber::formatTransfer(transferredOut)));
 
     qDebug() << "MaximumIn:" << maximumIn;
     qDebug() << "MaximumOut:" << maximumOut;
-}
-
-QString MainWindow::padNumber(int number)
-{
-    return QString("%1").arg(number, 2, 10, QChar('0'));
-}
-
-QString MainWindow::formatMilliseconds(quint64 milliseconds)
-{
-    int seconds = milliseconds / 1000;
-    int minutes = seconds / 60;
-    seconds %= 60;
-    int hours = minutes / 60;
-    minutes %= 60;
-
-    return QString("%1:%2:%3").arg(hours).arg(padNumber(minutes)).arg(padNumber(seconds));
 }
 
 MainWindow::~MainWindow()

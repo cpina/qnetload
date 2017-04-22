@@ -1,9 +1,8 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef FORMATBYTES_H
+#define FORMATBYTES_H
 
-#include <QMainWindow>
-#include "networkinformationreader.h"
-#include "informationstorage.h"
+#include <QString>
+#include <QStringList>
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -23,27 +22,18 @@
  * along with qnetload.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class FormatNumber
 {
-    Q_OBJECT
-
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-
-private Q_SLOTS:
-    void updateInformation();
+    static QString formatSpeed(quint64 bytesSecond);
+    static QString formatTransfer(quint64 bytes);
+    static QString formatElapsedTime(quint64 milliseconds);
 
 private:
-    Ui::MainWindow *ui;
-    NetworkInformationReader* m_networkInformation;
-    InformationStorage* m_informationStorage;
-    QTimer* m_timer;
+    static QString formatBytes(quint64 bytes, const QString& unitsPostfix);
+
+    static QString padNumber(int number);
+    static QStringList prefixes();
 };
 
-#endif // MAINWINDOW_H
+#endif // FORMATBYTES_H
