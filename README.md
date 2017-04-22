@@ -17,6 +17,13 @@ qnetload (this one):
 ## Installation
 I've only tested it on a Debian Jessie (8.7).
 
+Pre-requisites: Qt5 and cmake need to be installed.
+
+This can be done on a Debian/Ubuntu system:
+```
+apt-get install cmake libqt5gui5 libqt5core5a
+```
+
 This works for me:
 ```
 git clone https://github.com/cpina/qnetload.git
@@ -31,7 +38,8 @@ Then to execute it:
 ```
 qnetload wlan0
 ```
-(or similar interface)
+(or another interface instead of wlan0)
+
 
 If it doesn't work for you feel free to contact me.
 

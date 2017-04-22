@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     QApplication::setApplicationVersion("0.1");
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Display traffic for a network interface");
+    parser.setApplicationDescription("Display traffic for a network interface.\n\nqnetload Copyright (C) 2017 Carles Pina i Estany <carles@pina.cat>\nLicense: GPLv3");
     parser.addHelpOption();
     parser.addVersionOption();
     parser.addPositionalArgument("interface", QCoreApplication::translate("interface", "Interface to monitor."));
