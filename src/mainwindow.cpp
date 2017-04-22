@@ -37,7 +37,10 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
     if (!m_networkInformation->isValid())
     {
-        printf("qnetload: interface not found in /proc/net/dev\n");
+        QString message = QString("%1: %2 interface not found in %3").arg(QApplication::applicationName())
+                                                                     .arg(interfaceName)
+                                                                     .arg(m_networkInformation->procNetDev());
+        qWarning() << message;
         exit(2);
     }
 

@@ -25,10 +25,25 @@
  */
 
 NetworkInformationReader::NetworkInformationReader(const QString& interfaceName, QObject* parent)
-    :
-    QObject(parent)
+    : QObject(parent)
+    , m_procNetDev("/proc/net/dev")
 {
     m_interfaceName = interfaceName;
+}
+
+
+NetworkInformationReader::NetworkInformationReader(const QString& interfaceName,
+                                                   const QString& procNetDevFile,
+                                                   QObject* parent)
+    : QObject(parent)
+    , m_procNetDev(procNetDevFile)
+{
+    m_interfaceName = interfaceName;
+}
+
+QString NetworkInformationReader::procNetDev() const
+{
+    return m_procNetDev;
 }
 
 bool NetworkInformationReader::isValid() const
@@ -43,9 +58,9 @@ QString NetworkInformationReader::interfaceName() const
     return m_interfaceName;
 }
 
-NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readProcNetDevInterface(const QString& interface)
+NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readProcNetDevInterface(const QString& interface) const
 {
-    QFile file("/proc/net/dev");
+    QFile file(procNetDev());
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {

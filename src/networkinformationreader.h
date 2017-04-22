@@ -35,15 +35,21 @@ public:
     };
 
     NetworkInformationReader(const QString& interfaceName, QObject* parent=0);
+    NetworkInformationReader(const QString& interfaceName, const QString& procNetDevPath, QObject* parent=0);
+
     QString interfaceName() const;
     bool isValid() const;
     NetworkBytesInOut readInformation() const;
 
+    void setProcNetDev(const QString& path);
+    QString procNetDev() const;
+
+    NetworkBytesInOut readProcNetDevInterface(const QString& interface) const;
 
 private:
     static NetworkBytesInOut readInformationFromLine(const QString &line, const QString &interface);
-    static NetworkBytesInOut readProcNetDevInterface(const QString& interface);
     QString m_interfaceName;
+    QString m_procNetDev;
 };
 
 #endif // NETWORKINFORMATION_H
