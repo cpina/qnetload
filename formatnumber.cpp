@@ -56,7 +56,6 @@ QString FormatNumber::padNumber(int number)
     return QString("%1").arg(number, 2, 10, QChar('0'));
 }
 
-
 QStringList FormatNumber::prefixes()
 {
     static QStringList prefixList = (QStringList() << "" << "k" << "M" << "G" << "T" << "P" << "E");

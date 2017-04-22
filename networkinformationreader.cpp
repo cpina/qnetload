@@ -31,10 +31,11 @@ NetworkInformationReader::NetworkInformationReader(const QString& interfaceName,
     m_interfaceName = interfaceName;
 }
 
-bool NetworkInformationReader::verifyInterface() const
+bool NetworkInformationReader::isValid() const
 {
-    // TODO: if it doesn't exist return false
-    return true;
+    NetworkBytesInOut bytesInOut = readProcNetDevInterface(m_interfaceName);
+
+    return bytesInOut.valid;
 }
 
 QString NetworkInformationReader::interfaceName() const

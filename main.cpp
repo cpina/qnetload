@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <QCommandLineParser>
+#include <QDebug>
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -21,9 +23,29 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
+    QApplication app(argc, argv);
+    QApplication::setApplicationName("qnetload");
+    QApplication::setApplicationVersion("0.1");
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Display traffic for a network interface");
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.addPositionalArgument("interface", QCoreApplication::translate("interface", "Interface to monitor."));
+
+    parser.process(app);
+
+    const QStringList args = parser.positionalArguments();
+
+    if (args.count() != 1)
+    {
+        parser.showHelp(1);
+    }
+
+    const QString interfaceName = args[0];
+
+    MainWindow w(interfaceName);
     w.show();
 
-    return a.exec();
+    return app.exec();
 }

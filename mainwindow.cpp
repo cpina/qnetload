@@ -24,7 +24,7 @@
  * along with qnetload.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_networkInformation(0),
@@ -33,8 +33,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // TODO: wlan0 should come from the command line arguments
-    m_networkInformation = new NetworkInformationReader("wlan0", this);
+    m_networkInformation = new NetworkInformationReader(interfaceName, this);
+
+    if (!m_networkInformation->isValid())
+    {
+        printf("qnetload: interface not found in /proc/net/dev\n");
+        exit(2);
+    }
 
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(updateInformation()));
