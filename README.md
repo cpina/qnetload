@@ -10,11 +10,11 @@ I've evaluated many similar packages but I wasn't satisfied with any of them, so
 See the screenshots:
 xnetload (the original one):
 
-![xnetload](documentation/xnetload.png)
+![xnetload](images-for-documentation/xnetload.png | width=480)
 
 qnetload (this one):
 
-![qnetload](documentation/qnetload.png)
+![qnetload](images-for-documentation/qnetload.png | width=480)
 
 ## Installation
 I've only tested it on a Debian Jessie (8.7).
