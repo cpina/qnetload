@@ -85,7 +85,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="in_graph" native="true">
+     <widget class="Plot" name="in_graph" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -122,7 +122,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="out_graph" native="true">
+     <widget class="Plot" name="out_graph" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -135,6 +135,14 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>Plot</class>
+   <extends>QWidget</extends>
+   <header>plot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

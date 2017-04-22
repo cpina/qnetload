@@ -79,9 +79,6 @@ void MainWindow::updateInformation()
     ui->out_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(currentSpeedOut),
                                                            FormatNumber::formatSpeed(maximumOut),
                                                            FormatNumber::formatTransfer(transferredOut)));
-
-    qDebug() << "MaximumIn:" << maximumIn;
-    qDebug() << "MaximumOut:" << maximumOut;
 }
 
 MainWindow::~MainWindow()

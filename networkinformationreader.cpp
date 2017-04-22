@@ -93,10 +93,5 @@ NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readInform
 NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readInformation() const
 {
     NetworkInformationReader::NetworkBytesInOut information = readProcNetDevInterface(m_interfaceName);
-
-    qDebug() << "In :" << information.in;
-    qDebug() << "Out:" << information.out;
-    qDebug() << "milliSecondsSinceEpoch:" << information.milliSecondsSinceEpoch;
-
     return information;
 }
