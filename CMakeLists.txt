@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.0.2)
+enable_testing()
 
 project(qnetload)
+
+add_subdirectory(tests)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
