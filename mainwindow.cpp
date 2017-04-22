@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
                                                            FormatNumber::formatSpeed(0),
                                                            FormatNumber::formatTransfer(0)));
 
+    updateInformation();
 }
 
 void MainWindow::updateInformation()

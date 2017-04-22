@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     networkinformationreader.cpp \
     informationstorage.cpp \
-    formatnumber.cpp
+    formatnumber.cpp \
+    plot.cpp
 
 HEADERS  += mainwindow.h \
     networkinformationreader.h \
     informationstorage.h \
-    formatnumber.h
+    formatnumber.h \
+    plot.h
 
 FORMS    += mainwindow.ui
