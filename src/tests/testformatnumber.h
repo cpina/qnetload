@@ -13,4 +13,7 @@ private Q_SLOTS:
 
     void testFormatSpeed_data();
     void testFormatSpeed();
+
+    void testFormatTransfer_data();
+    void testFormatTransfer();
 };

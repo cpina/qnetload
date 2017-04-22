@@ -28,7 +28,7 @@ void TestFormatNumber::testFormatElapsedTime()
 
 void TestFormatNumber::testFormatSpeed_data()
 {
-    QTest::addColumn<quint64>("bytes");
+    QTest::addColumn<quint64>("bytesSecond");
     QTest::addColumn<QString>("humanReadable");
 
     QTest::newRow("num1") << quint64(10) << QString("10.0 B/s");
@@ -40,11 +40,33 @@ void TestFormatNumber::testFormatSpeed_data()
 
 void TestFormatNumber::testFormatSpeed()
 {
+    QFETCH(quint64, bytesSecond);
+    QFETCH(QString, humanReadable);
+
+    QCOMPARE(FormatNumber::formatSpeed(bytesSecond), humanReadable);
+}
+
+
+void TestFormatNumber::testFormatTransfer_data()
+{
+    QTest::addColumn<quint64>("bytes");
+    QTest::addColumn<QString>("humanReadable");
+
+    QTest::newRow("num1") << quint64(10) << QString("10.0 B");
+    QTest::newRow("num2") << quint64(1023) << QString("1023.0 B");
+    QTest::newRow("num3") << quint64(1025) << QString("1.0 kB");
+    QTest::newRow("num4") << quint64(1024*1024*1024) << QString("1024.0 MB");
+    QTest::newRow("num5") << quint64(2)*1024*1024*1024 << QString("2.0 GB");
+}
+
+void TestFormatNumber::testFormatTransfer()
+{
     QFETCH(quint64, bytes);
     QFETCH(QString, humanReadable);
 
-    QCOMPARE(FormatNumber::formatSpeed(bytes), humanReadable);
+    QCOMPARE(FormatNumber::formatTransfer(bytes), humanReadable);
 }
+
 
 
 QTEST_MAIN(TestFormatNumber)
