@@ -43,7 +43,7 @@ void InformationStorage::setCapacity(int maximumInformation)
 
 quint64 InformationStorage::millisecondsSinceStart() const
 {
-    if (m_informations.length() == 0)
+    if (m_informations.isEmpty())
     {
         return 0;
     }
@@ -51,16 +51,14 @@ quint64 InformationStorage::millisecondsSinceStart() const
     return m_informations.last().milliSecondsSinceEpoch - m_startsMillisecondsSinceEpoch;
 }
 
-InformationStorage::CurrentSpeed InformationStorage::currentSpeed()
+NetworkInformationReader::NetworkBytesInOut InformationStorage::currentSpeed()
 {
-    CurrentSpeed currentSpeed;
-
-    if (!m_informations.isEmpty())
+    if (m_informations.isEmpty())
     {
-        currentSpeed.inSpeed = m_informations.last().in;
-        currentSpeed.outSpeed = m_informations.last().out;
+        NetworkInformationReader::NetworkBytesInOut networkBytesInOut;
+        return networkBytesInOut;
     }
-    return currentSpeed;
+    return m_informations.last();
 }
 
 void InformationStorage::addInformation(const NetworkInformationReader::NetworkBytesInOut& information)

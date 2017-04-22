@@ -78,9 +78,9 @@ void MainWindow::updateInformation()
     quint64 transferredIn = m_informationStorage->transferredIn();
     quint64 transferredOut = m_informationStorage->transferredOut();
 
-    InformationStorage::CurrentSpeed currentSpeed = m_informationStorage->currentSpeed();
-    quint64 currentSpeedIn = currentSpeed.inSpeed;
-    quint64 currentSpeedOut = currentSpeed.outSpeed;
+    NetworkInformationReader::NetworkBytesInOut currentSpeed = m_informationStorage->currentSpeed();
+    quint64 currentSpeedIn = currentSpeed.in;
+    quint64 currentSpeedOut = currentSpeed.out;
 
 
     ui->interface_and_time_label->setText(QString("%1: %2").arg(m_networkInformation->interfaceName(),

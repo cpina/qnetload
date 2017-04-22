@@ -26,14 +26,6 @@
 class InformationStorage : public QObject
 {
 public:
-    struct CurrentSpeed
-    {
-        quint64 inSpeed;
-        quint64 outSpeed;
-
-        CurrentSpeed() : inSpeed(0), outSpeed(0) {}
-    };
-
     enum InOrOutType
     {
         InType,
@@ -54,7 +46,7 @@ public:
 
     QList<int> lastValues(int numberOfValues, InOrOutType type);
 
-    CurrentSpeed currentSpeed();
+    NetworkInformationReader::NetworkBytesInOut currentSpeed();
 
 private:
     int m_maximumInformation;
