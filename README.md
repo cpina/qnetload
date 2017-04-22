@@ -31,7 +31,8 @@ This works for me:
 git clone https://github.com/cpina/qnetload.git
 cd qnetload
 mkdir build
-cmake ../
+cd build
+cmake ../src
 make
 make install
 ```
