@@ -11,10 +11,10 @@ I've evaluated many similar packages but I wasn't satisfied with any of them, so
 
 See the screenshots:
 xnetload (the original one):
-<a img=https://raw.githubusercontent.com/cpina/qnetload/master/images-for-documentation/xnetload.png"">
+![xnetload](images-for-documentation/xnetload.png)
 
 qnetload (this one):
-<a img=https://raw.githubusercontent.com/cpina/qnetload/master/images-for-documentation/xnetload.png"">
+![qnetload](images-for-documentation/qnetload.png)
 
 ## Installation
 I've only tested it on a Debian Jessie (8.7).
