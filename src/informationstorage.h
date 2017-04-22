@@ -49,6 +49,9 @@ public:
     NetworkInformationReader::NetworkBytesInOut currentSpeed();
 
 private:
+    NetworkInformationReader::NetworkBytesInOut calculateSpeed(const NetworkInformationReader::NetworkBytesInOut& before,
+                                                               const NetworkInformationReader::NetworkBytesInOut& after);
+
     int m_maximumInformation;
     QVector<NetworkInformationReader::NetworkBytesInOut> m_informations;
 

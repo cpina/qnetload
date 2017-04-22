@@ -58,27 +58,24 @@ NetworkInformationReader::NetworkBytesInOut InformationStorage::currentSpeed()
     return m_informations.last();
 }
 
+NetworkInformationReader::NetworkBytesInOut InformationStorage::calculateSpeed(const NetworkInformationReader::NetworkBytesInOut& before,
+                                                         const NetworkInformationReader::NetworkBytesInOut& after)
+{
+    NetworkInformationReader::NetworkBytesInOut speed;
+
+    float seconds_elapsed = (after.milliSecondsSinceEpoch-before.milliSecondsSinceEpoch)/1000.0;
+
+    speed.in = (after.in-before.in) / seconds_elapsed;
+    speed.out = (after.out-before.out) / seconds_elapsed;
+
+    return speed;
+}
+
 void InformationStorage::addInformation(const NetworkInformationReader::NetworkBytesInOut& information)
 {
     if (m_startedBytes.in == 0 || m_startedBytes.out == 0)
     {
         m_startedBytes = information;
-        return;
-    }
-
-    // Information comes with total bytes, here we convert it into speed
-    if (m_informations.isEmpty()) {
-        // We use the initial transfer number
-        NetworkInformationReader::NetworkBytesInOut speed = information;
-        speed.in = (speed.in-m_startedBytes.in) / ((speed.milliSecondsSinceEpoch-m_startedBytes.milliSecondsSinceEpoch)/1000.0);
-        speed.out = (speed.out-m_startedBytes.out) / ((speed.milliSecondsSinceEpoch-m_startedBytes.milliSecondsSinceEpoch)/1000.0);
-
-        m_maximumSpeedIn = speed.in;
-        m_maximumSpeedOut = speed.out;
-
-        m_latestBytes = information;
-
-        m_informations.append(speed);
         return;
     }
 
@@ -88,11 +85,22 @@ void InformationStorage::addInformation(const NetworkInformationReader::NetworkB
         m_informations.removeFirst();
     }
 
-    NetworkInformationReader::NetworkBytesInOut speed = information;
-    speed.in = (speed.in-m_latestBytes.in) / ((speed.milliSecondsSinceEpoch-m_latestBytes.milliSecondsSinceEpoch)/1000.0);
-    speed.out = (speed.out-m_latestBytes.out) / ((speed.milliSecondsSinceEpoch-m_latestBytes.milliSecondsSinceEpoch)/1000.0);
+    NetworkInformationReader::NetworkBytesInOut speed;
+
+    // Information comes with total bytes, here we convert it into speed
+    if (m_informations.isEmpty()) {
+        // We use the initial transfer data
+        speed = calculateSpeed(m_startedBytes, information);
+    }
+    else
+    {
+        speed = calculateSpeed(m_latestBytes, information);
+    }
+    speed.milliSecondsSinceEpoch = information.milliSecondsSinceEpoch;
 
     m_informations.append(speed);
+
+    m_latestBytes = information;
 
     if (speed.in > m_maximumSpeedIn)
     {
@@ -103,8 +111,6 @@ void InformationStorage::addInformation(const NetworkInformationReader::NetworkB
     {
         m_maximumSpeedOut = speed.out;
     }
-
-    m_latestBytes = information;
 }
 
 quint64 InformationStorage::maximumSpeedIn() const
