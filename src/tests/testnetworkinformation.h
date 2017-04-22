@@ -10,7 +10,6 @@ public:
     TestNetworkInformation();
 
 private Q_SLOTS:
-    void initTest();
     void testIsValid();
     void testReadInformation();
 
