@@ -85,6 +85,4 @@ void TestFormatNumber::testFormatTransfer()
     QCOMPARE(FormatNumber::formatTransfer(bytes), humanReadable);
 }
 
-
-
 QTEST_MAIN(TestFormatNumber)
