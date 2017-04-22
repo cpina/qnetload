@@ -27,16 +27,9 @@ class Plot : public QWidget
 {
     Q_OBJECT
 public:
-    enum PlotType
-    {
-        InType,
-        OutType,
-        UndefinedType
-    };
-
     explicit Plot(QWidget *parent = 0);
 
-    void setType(PlotType plotType);
+    void setType(InformationStorage::InOrOutType inOrOutType);
     void setInformationStorage(InformationStorage* informationStorage);
     void update(InformationStorage* informationStorage);
     int maximumValue();
@@ -54,7 +47,7 @@ private:
     void paintScale(QPainter *painter);
     void paintBars(QPainter *painter);
 
-    PlotType m_type;
+    InformationStorage::InOrOutType m_type;
     InformationStorage* m_informationStorage;
 };
 

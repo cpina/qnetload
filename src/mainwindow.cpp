@@ -57,9 +57,10 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
                                                            FormatNumber::formatSpeed(0),
                                                            FormatNumber::formatTransfer(0)));
 
-    ui->in_graph->setType(Plot::InType);
+    ui->in_graph->setType(InformationStorage::InType);
     ui->in_graph->setInformationStorage(m_informationStorage);
-    ui->out_graph->setType(Plot::OutType);
+
+    ui->out_graph->setType(InformationStorage::OutType);
     ui->out_graph->setInformationStorage(m_informationStorage);
 
     updateInformation();

@@ -37,7 +37,8 @@ public:
     enum InOrOutType
     {
         InType,
-        OutType
+        OutType,
+        UndefinedType
     };
 
     explicit InformationStorage(QObject *parent = 0);

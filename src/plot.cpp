@@ -25,7 +25,7 @@
 
 Plot::Plot(QWidget *parent) :
     QWidget(parent),
-    m_type(UndefinedType)
+    m_type(InformationStorage::UndefinedType)
 {
     QPalette pal(palette());
     pal.setColor(QPalette::Background, Qt::white);
@@ -38,10 +38,10 @@ int Plot::maximumValue()
     int maximum = 0;
     switch (m_type)
     {
-        case InType:
+        case InformationStorage::InType:
             maximum = m_informationStorage->maximumSpeedIn();
             break;
-        case OutType:
+        case InformationStorage::OutType:
             maximum = m_informationStorage->maximumSpeedOut();
             break;
         default:
@@ -113,9 +113,9 @@ void Plot::paintEvent(QPaintEvent *event)
     paintBars(&painter);
 }
 
-void Plot::setType(PlotType plotType)
+void Plot::setType(InformationStorage::InOrOutType inOrOutType)
 {
-    m_type = plotType;
+    m_type = inOrOutType;
 }
 
 void Plot::setInformationStorage(InformationStorage* informationStorage)
