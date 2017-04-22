@@ -9,9 +9,11 @@ I've evaluated many similar packages but I wasn't satisfied with any of them, so
 
 See the screenshots:
 xnetload (the original one):
+
 ![xnetload](documentation/xnetload.png)
 
 qnetload (this one):
+
 ![qnetload](documentation/qnetload.png)
 
 ## Installation
