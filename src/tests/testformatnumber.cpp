@@ -40,11 +40,11 @@ void TestFormatNumber::testFormatSpeed_data()
 
 void TestFormatNumber::testFormatSpeed()
 {
-    QCOMPARE(FormatNumber::formatSpeed(10), QString("10.0 B/s"));
-    QCOMPARE(FormatNumber::formatSpeed(1023), QString("1023.0 B/s"));
-    QCOMPARE(FormatNumber::formatSpeed(1025), QString("1.0 kB/s"));
-    QCOMPARE(FormatNumber::formatSpeed(1024*1024*1024), QString("1024.0 MB/s"));
-    QCOMPARE(FormatNumber::formatSpeed(quint64(2)*1024*1024*1024), QString("2.0 GB/s"));
+    QFETCH(quint64, bytes);
+    QFETCH(QString, humanReadable);
+
+    QCOMPARE(FormatNumber::formatSpeed(bytes), humanReadable);
 }
+
 
 QTEST_MAIN(TestFormatNumber)
