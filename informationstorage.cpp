@@ -67,7 +67,7 @@ InformationStorage::CurrentSpeed InformationStorage::calculateCurrentSpeed()
 
     CurrentSpeed currentSpeed;
     currentSpeed.inSpeed = (bytesReceived / (elapsedMilliseconds/1000.0));
-    currentSpeed.outSpeed = (bytesReceived / (elapsedMilliseconds/1000.0));
+    currentSpeed.outSpeed = (bytesSent / (elapsedMilliseconds/1000.0));
 
     return currentSpeed;
 }

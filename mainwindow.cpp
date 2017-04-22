@@ -49,6 +49,9 @@ MainWindow::MainWindow(QWidget *parent) :
                                                            FormatNumber::formatSpeed(0),
                                                            FormatNumber::formatTransfer(0)));
 
+    ui->in_graph->setType(Plot::InType);
+    ui->out_graph->setType(Plot::OutType);
+
     updateInformation();
 }
 

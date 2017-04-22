@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "informationstorage.h"
+
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
@@ -25,11 +27,24 @@ class Plot : public QWidget
 {
     Q_OBJECT
 public:
+    enum PlotType
+    {
+        InType,
+        OutType,
+        UndefinedType
+    };
+
     explicit Plot(QWidget *parent = 0);
+
+    void setType(PlotType plotType);
+    void update(const InformationStorage& informationStorage);
 
 signals:
 
 public slots:
+
+private:
+    PlotType m_type;
 
 };
 

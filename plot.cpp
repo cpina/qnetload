@@ -21,10 +21,20 @@
  */
 
 Plot::Plot(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    m_type(UndefinedType)
 {
     QPalette pal(palette());
     pal.setColor(QPalette::Background, Qt::white);
     setAutoFillBackground(true);
     setPalette(pal);
+}
+
+void Plot::update(const InformationStorage& informationStorage)
+{
+    qDebug() << "TEST";
+}
+void Plot::setType(PlotType plotType)
+{
+    m_type = plotType;
 }
