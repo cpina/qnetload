@@ -34,6 +34,12 @@ public:
         CurrentSpeed() : inSpeed(0), outSpeed(0) {}
     };
 
+    enum InOrOutType
+    {
+        InType,
+        OutType
+    };
+
     explicit InformationStorage(QObject *parent = 0);
 
     void addInformation(const NetworkInformationReader::NetworkBytesInOut& information);
@@ -45,7 +51,9 @@ public:
 
     void setCapacity(int maximumInformation);
 
-    CurrentSpeed calculateCurrentSpeed();
+    QList<int> lastValues(int numberOfValues, InOrOutType type);
+
+    CurrentSpeed currentSpeed();
 
 private:
     int m_maximumInformation;
@@ -53,9 +61,14 @@ private:
 
     quint64 m_maximumSpeedIn;
     quint64 m_maximumSpeedOut;
+
     quint64 m_startsMillisecondsSinceEpoch;
     quint64 m_startsInBytes;
     quint64 m_startsOutBytes;
+
+    quint64 m_latestInBytes;
+    quint64 m_latestOutBytes;
+    quint64 m_latestMillisecondsSinceEpoch;
 };
 
 #endif // INFORMATIONSTORAGE_H

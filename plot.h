@@ -37,15 +37,25 @@ public:
     explicit Plot(QWidget *parent = 0);
 
     void setType(PlotType plotType);
-    void update(const InformationStorage& informationStorage);
+    void setInformationStorage(InformationStorage* informationStorage);
+    void update(InformationStorage* informationStorage);
+    int maximumValue();
+    float maximumValueLog();
+
+
+protected:
+    void paintEvent(QPaintEvent *event);
 
 signals:
 
 public slots:
 
 private:
-    PlotType m_type;
+    void paintScale(QPainter *painter);
+    void paintBars(QPainter *painter);
 
+    PlotType m_type;
+    InformationStorage* m_informationStorage;
 };
 
 #endif // PLOT_H

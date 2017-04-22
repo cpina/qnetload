@@ -1,6 +1,9 @@
 #include "plot.h"
 
 #include <QDebug>
+#include <QPainter>
+
+#include <math.h>
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -30,11 +33,82 @@ Plot::Plot(QWidget *parent) :
     setPalette(pal);
 }
 
-void Plot::update(const InformationStorage& informationStorage)
+int Plot::maximumValue()
 {
-    qDebug() << "TEST";
+    int maximum = 0;
+    switch (m_type)
+    {
+        case InType:
+            maximum = m_informationStorage->maximumSpeedIn();
+            break;
+        case OutType:
+            maximum = m_informationStorage->maximumSpeedOut();
+            break;
+        default:
+            Q_ASSERT(false);
+    }
+    return maximum;
 }
+
+float Plot::maximumValueLog()
+{
+    return log(maximumValue());
+}
+
+void Plot::paintScale(QPainter* painter)
+{
+    float logMaximum = maximumValueLog();
+
+    float space_between_horizontal_lines = height() / logMaximum;
+
+    int line_number = 0;
+    for (float y = height(); y > space_between_horizontal_lines/2; y-= space_between_horizontal_lines, line_number++)
+    {
+        if (space_between_horizontal_lines < 15 && line_number % 2 == 1)
+        {
+            continue;
+        }
+        painter->drawLine(QPoint(0, y),
+                         QPoint(width(), y));
+    }
+}
+
+void Plot::paintBars(QPainter *painter)
+{
+    QList<int> values = m_informationStorage->lastValues(width(), InformationStorage::InType);
+
+    float maximumValue = maximumValueLog();
+
+    for (int i = 0; i < values.count(); i++)
+    {
+        float y = (height() * log(values[i])) / maximumValue;
+
+        y = height() - y;
+
+        painter->drawLine(QPoint(i, height()),
+                          QPoint(i, y));
+    }
+}
+
+void Plot::paintEvent(QPaintEvent *event)
+{
+    int maxValue = maximumValue();
+
+    if (maxValue == 0)
+    {
+        return;
+    }
+    QPainter painter(this);
+    paintScale(&painter);
+    paintBars(&painter);
+}
+
 void Plot::setType(PlotType plotType)
 {
     m_type = plotType;
+}
+
+void Plot::setInformationStorage(InformationStorage* informationStorage)
+{
+    m_informationStorage = informationStorage;
 }

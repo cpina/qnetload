@@ -50,7 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
                                                            FormatNumber::formatTransfer(0)));
 
     ui->in_graph->setType(Plot::InType);
+    ui->in_graph->setInformationStorage(m_informationStorage);
     ui->out_graph->setType(Plot::OutType);
+    ui->out_graph->setInformationStorage(m_informationStorage);
 
     updateInformation();
 }
@@ -67,7 +69,7 @@ void MainWindow::updateInformation()
     quint64 transferredIn = m_informationStorage->transferredIn();
     quint64 transferredOut = m_informationStorage->transferredOut();
 
-    InformationStorage::CurrentSpeed currentSpeed = m_informationStorage->calculateCurrentSpeed();
+    InformationStorage::CurrentSpeed currentSpeed = m_informationStorage->currentSpeed();
     quint64 currentSpeedIn = currentSpeed.inSpeed;
     quint64 currentSpeedOut = currentSpeed.outSpeed;
 
@@ -82,6 +84,8 @@ void MainWindow::updateInformation()
     ui->out_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(currentSpeedOut),
                                                            FormatNumber::formatSpeed(maximumOut),
                                                            FormatNumber::formatTransfer(transferredOut)));
+    ui->in_graph->repaint();
+    ui->out_graph->repaint();
 }
 
 MainWindow::~MainWindow()

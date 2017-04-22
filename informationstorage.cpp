@@ -51,59 +51,64 @@ quint64 InformationStorage::millisecondsSinceStart() const
     return m_informations.last().milliSecondsSinceEpoch - m_startsMillisecondsSinceEpoch;
 }
 
-InformationStorage::CurrentSpeed InformationStorage::calculateCurrentSpeed()
+InformationStorage::CurrentSpeed InformationStorage::currentSpeed()
 {
-    if (m_informations.length() < 2)
-    {
-        return CurrentSpeed();
-    }
-
-    int lastIndex = m_informations.length()-1;
-    int preLastIndex = m_informations.length()-2;
-
-    qint64 elapsedMilliseconds = m_informations[lastIndex].milliSecondsSinceEpoch - m_informations[preLastIndex].milliSecondsSinceEpoch;
-    quint64 bytesReceived = m_informations[lastIndex].in - m_informations[preLastIndex].in;
-    quint64 bytesSent = m_informations[lastIndex].out - m_informations[preLastIndex].out;
-
     CurrentSpeed currentSpeed;
-    currentSpeed.inSpeed = (bytesReceived / (elapsedMilliseconds/1000.0));
-    currentSpeed.outSpeed = (bytesSent / (elapsedMilliseconds/1000.0));
 
+    if (!m_informations.isEmpty())
+    {
+        currentSpeed.inSpeed = m_informations.last().in;
+        currentSpeed.outSpeed = m_informations.last().out;
+    }
     return currentSpeed;
 }
 
-
 void InformationStorage::addInformation(const NetworkInformationReader::NetworkBytesInOut& information)
 {
+    if (m_startsInBytes == 0 || m_startsOutBytes == 0)
+    {
+        m_startsInBytes = information.in;
+        m_startsOutBytes = information.out;
+        m_startsMillisecondsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
+        return;
+    }
+
+    // Information comes with total bytes, here we convert it into speed
+    if (m_informations.isEmpty()) {
+        // We use the initial transfer number
+        NetworkInformationReader::NetworkBytesInOut speed = information;
+        speed.in = (speed.in-m_startsInBytes) / ((speed.milliSecondsSinceEpoch-m_startsMillisecondsSinceEpoch)/1000.0);
+        speed.out = (speed.out-m_startsOutBytes) / ((speed.milliSecondsSinceEpoch-m_startsMillisecondsSinceEpoch)/1000.0);
+
+        m_informations.append(speed);
+        return;
+    }
+
     // Instead of doing this we could do a circular list (should avoid reallocations)
     if (m_informations.size() == m_maximumInformation)
     {
         m_informations.removeFirst();
     }
 
-    m_informations.append(information);
+    NetworkInformationReader::NetworkBytesInOut speed = information;
+    speed.in = (speed.in-m_latestInBytes) / ((speed.milliSecondsSinceEpoch-m_latestMillisecondsSinceEpoch)/1000.0);
+    speed.out = (speed.out-m_latestOutBytes) / ((speed.milliSecondsSinceEpoch-m_latestMillisecondsSinceEpoch)/1000.0);
 
-    CurrentSpeed currentSpeed = calculateCurrentSpeed();
+    m_informations.append(speed);
 
-    if (currentSpeed.inSpeed > m_maximumSpeedIn)
+    if (speed.in > m_maximumSpeedIn)
     {
-        m_maximumSpeedIn = currentSpeed.inSpeed;
+        m_maximumSpeedIn = speed.in;
     }
 
-    if (currentSpeed.outSpeed > m_maximumSpeedOut)
+    if (speed.out > m_maximumSpeedOut)
     {
-        m_maximumSpeedOut = currentSpeed.outSpeed;
+        m_maximumSpeedOut = speed.out;
     }
 
-    if (m_startsInBytes == 0)
-    {
-        m_startsInBytes = information.in;
-    }
-
-    if (m_startsOutBytes == 0)
-    {
-        m_startsOutBytes = information.out;
-    }
+    m_latestInBytes = information.in;
+    m_latestOutBytes = information.out;
+    m_latestMillisecondsSinceEpoch = information.milliSecondsSinceEpoch;
 }
 
 quint64 InformationStorage::maximumSpeedIn() const
@@ -118,11 +123,41 @@ quint64 InformationStorage::maximumSpeedOut() const
 
 quint64 InformationStorage::transferredIn() const
 {
-    return m_informations.last().in - m_startsInBytes;
+    if (m_informations.isEmpty())
+    {
+        return 0;
+    }
+    return m_latestInBytes - m_startsInBytes;
 }
 
 quint64 InformationStorage::transferredOut() const
 {
-    return m_informations.last().out - m_startsOutBytes;
+    if (m_informations.isEmpty())
+    {
+        return 0;
+    }
+
+    return m_latestOutBytes - m_startsOutBytes;
+}
+
+QList<int> InformationStorage::lastValues(int numberOfValues, InOrOutType type)
+{
+    QList<int> values;
+
+    int initial = qMax(0, m_informations.count()-numberOfValues);
+
+    for (int i = initial; i < m_informations.count(); i++)
+    {
+        if (type == InType)
+        {
+            values.append(m_informations.at(i).in);
+        }
+        else if (type == OutType)
+        {
+            values.append(m_informations.at(i).out);
+        }
+    }
+
+    return values;
 }
 
