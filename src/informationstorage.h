@@ -59,9 +59,7 @@ private:
     quint64 m_startsInBytes;
     quint64 m_startsOutBytes;
 
-    quint64 m_latestInBytes;
-    quint64 m_latestOutBytes;
-    quint64 m_latestMillisecondsSinceEpoch;
+    NetworkInformationReader::NetworkBytesInOut m_latest;
 };
 
 #endif // INFORMATIONSTORAGE_H
