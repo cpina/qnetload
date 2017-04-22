@@ -1,4 +1,4 @@
-#include "testnetworkinformation.h"
+#include "testnetworkinformationreader.h"
 
 #include <QDebug>
 
