@@ -33,7 +33,7 @@ void TestFormatNumber::testFormatSpeed_data()
 
     QTest::newRow("num1") << quint64(10) << QString("10.0 B/s");
     QTest::newRow("num2") << quint64(1023) << QString("1023.0 B/s");
-    QTest::newRow("num3") << quint64(1025) << QString("1.0 kB/s");
+    QTest::newRow("num3") << quint64(1025) << QString("1.0 KB/s");
     QTest::newRow("num4") << quint64(1024*1024*1024) << QString("1024.0 MB/s");
     QTest::newRow("num5") << quint64(2)*1024*1024*1024 << QString("2.0 GB/s");
 }
@@ -54,7 +54,7 @@ void TestFormatNumber::testFormatTransfer_data()
 
     QTest::newRow("num1") << quint64(10) << QString("10.0 B");
     QTest::newRow("num2") << quint64(1023) << QString("1023.0 B");
-    QTest::newRow("num3") << quint64(1025) << QString("1.0 kB");
+    QTest::newRow("num3") << quint64(1025) << QString("1.0 KB");
     QTest::newRow("num4") << quint64(1024*1024*1024) << QString("1024.0 MB");
     QTest::newRow("num5") << quint64(2)*1024*1024*1024 << QString("2.0 GB");
 }

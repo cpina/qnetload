@@ -58,6 +58,6 @@ QString FormatNumber::padNumber(int number)
 
 QStringList FormatNumber::prefixes()
 {
-    static QStringList prefixList = (QStringList() << "" << "k" << "M" << "G" << "T" << "P" << "E");
+    static QStringList prefixList = (QStringList() << "" << "K" << "M" << "G" << "T" << "P" << "E");
     return prefixList;
 }

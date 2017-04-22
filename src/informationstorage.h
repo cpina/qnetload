@@ -55,11 +55,8 @@ private:
     quint64 m_maximumSpeedIn;
     quint64 m_maximumSpeedOut;
 
-    quint64 m_startsMillisecondsSinceEpoch;
-    quint64 m_startsInBytes;
-    quint64 m_startsOutBytes;
-
-    NetworkInformationReader::NetworkBytesInOut m_latest;
+    NetworkInformationReader::NetworkBytesInOut m_startedBytes;
+    NetworkInformationReader::NetworkBytesInOut m_latestBytes;
 };
 
 #endif // INFORMATIONSTORAGE_H

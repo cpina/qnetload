@@ -24,10 +24,7 @@ InformationStorage::InformationStorage(QObject *parent) :
     QObject(parent),
     m_maximumInformation(0),
     m_maximumSpeedIn(0),
-    m_maximumSpeedOut(0),
-    m_startsMillisecondsSinceEpoch(QDateTime::currentMSecsSinceEpoch()),
-    m_startsInBytes(0),
-    m_startsOutBytes(0)
+    m_maximumSpeedOut(0)
 {
     setCapacity(600);
 }
@@ -48,7 +45,7 @@ quint64 InformationStorage::millisecondsSinceStart() const
         return 0;
     }
 
-    return m_informations.last().milliSecondsSinceEpoch - m_startsMillisecondsSinceEpoch;
+    return m_informations.last().milliSecondsSinceEpoch - m_startedBytes.milliSecondsSinceEpoch;
 }
 
 NetworkInformationReader::NetworkBytesInOut InformationStorage::currentSpeed()
@@ -63,11 +60,9 @@ NetworkInformationReader::NetworkBytesInOut InformationStorage::currentSpeed()
 
 void InformationStorage::addInformation(const NetworkInformationReader::NetworkBytesInOut& information)
 {
-    if (m_startsInBytes == 0 || m_startsOutBytes == 0)
+    if (m_startedBytes.in == 0 || m_startedBytes.out == 0)
     {
-        m_startsInBytes = information.in;
-        m_startsOutBytes = information.out;
-        m_startsMillisecondsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
+        m_startedBytes = information;
         return;
     }
 
@@ -75,13 +70,13 @@ void InformationStorage::addInformation(const NetworkInformationReader::NetworkB
     if (m_informations.isEmpty()) {
         // We use the initial transfer number
         NetworkInformationReader::NetworkBytesInOut speed = information;
-        speed.in = (speed.in-m_startsInBytes) / ((speed.milliSecondsSinceEpoch-m_startsMillisecondsSinceEpoch)/1000.0);
-        speed.out = (speed.out-m_startsOutBytes) / ((speed.milliSecondsSinceEpoch-m_startsMillisecondsSinceEpoch)/1000.0);
+        speed.in = (speed.in-m_startedBytes.in) / ((speed.milliSecondsSinceEpoch-m_startedBytes.milliSecondsSinceEpoch)/1000.0);
+        speed.out = (speed.out-m_startedBytes.out) / ((speed.milliSecondsSinceEpoch-m_startedBytes.milliSecondsSinceEpoch)/1000.0);
 
         m_maximumSpeedIn = speed.in;
         m_maximumSpeedOut = speed.out;
 
-        m_latest = information;
+        m_latestBytes = information;
 
         m_informations.append(speed);
         return;
@@ -94,8 +89,8 @@ void InformationStorage::addInformation(const NetworkInformationReader::NetworkB
     }
 
     NetworkInformationReader::NetworkBytesInOut speed = information;
-    speed.in = (speed.in-m_latest.in) / ((speed.milliSecondsSinceEpoch-m_latest.milliSecondsSinceEpoch)/1000.0);
-    speed.out = (speed.out-m_latest.out) / ((speed.milliSecondsSinceEpoch-m_latest.milliSecondsSinceEpoch)/1000.0);
+    speed.in = (speed.in-m_latestBytes.in) / ((speed.milliSecondsSinceEpoch-m_latestBytes.milliSecondsSinceEpoch)/1000.0);
+    speed.out = (speed.out-m_latestBytes.out) / ((speed.milliSecondsSinceEpoch-m_latestBytes.milliSecondsSinceEpoch)/1000.0);
 
     m_informations.append(speed);
 
@@ -109,7 +104,7 @@ void InformationStorage::addInformation(const NetworkInformationReader::NetworkB
         m_maximumSpeedOut = speed.out;
     }
 
-    m_latest = information;
+    m_latestBytes = information;
 }
 
 quint64 InformationStorage::maximumSpeedIn() const
@@ -128,7 +123,7 @@ quint64 InformationStorage::transferredIn() const
     {
         return 0;
     }
-    return m_latest.in - m_startsInBytes;
+    return m_latestBytes.in - m_startedBytes.in;
 }
 
 quint64 InformationStorage::transferredOut() const
@@ -138,7 +133,7 @@ quint64 InformationStorage::transferredOut() const
         return 0;
     }
 
-    return m_latest.out - m_startsOutBytes;
+    return m_latestBytes.out - m_startedBytes.out;
 }
 
 QList<int> InformationStorage::lastValues(int numberOfValues, InOrOutType type)
