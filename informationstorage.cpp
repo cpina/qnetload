@@ -80,6 +80,13 @@ void InformationStorage::addInformation(const NetworkInformationReader::NetworkB
         speed.in = (speed.in-m_startsInBytes) / ((speed.milliSecondsSinceEpoch-m_startsMillisecondsSinceEpoch)/1000.0);
         speed.out = (speed.out-m_startsOutBytes) / ((speed.milliSecondsSinceEpoch-m_startsMillisecondsSinceEpoch)/1000.0);
 
+        m_maximumSpeedIn = speed.in;
+        m_maximumSpeedOut = speed.out;
+
+        m_latestInBytes = information.in;
+        m_latestOutBytes = information.out;
+        m_latestMillisecondsSinceEpoch = information.milliSecondsSinceEpoch;
+
         m_informations.append(speed);
         return;
     }
