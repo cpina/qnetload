@@ -35,6 +35,7 @@ public:
     };
 
     NetworkInformationReader(const QString& interfaceName, QObject* parent=0);
+    QString interfaceName() const;
     bool verifyInterface() const;
     NetworkBytesInOut readInformation() const;
 

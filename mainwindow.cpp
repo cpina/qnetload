@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QTimer>
+#include <QTime>
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -37,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(updateInformation()));
     m_timer->start(1000);
+
+    ui->interface_and_time_label->setText(QString("%1: 0:00:00").arg(m_networkInformation->interfaceName()));
 }
 
 void MainWindow::updateInformation()
@@ -45,13 +48,30 @@ void MainWindow::updateInformation()
 
     m_informationStorage->addInformation(information);
 
-    quint64 maximumIn = m_informationStorage->maximumIn();
-    quint64 maximumOut = m_informationStorage->maximumOut();
+    quint64 maximumIn = m_informationStorage->maximumSpeedIn();
+    quint64 maximumOut = m_informationStorage->maximumSpeedout();
+
+    ui->interface_and_time_label->setText(QString("%1: %2").arg(m_networkInformation->interfaceName(),
+                                                                formatMilliseconds(m_informationStorage->millisecondsSinceStart())));
 
     qDebug() << "MaximumIn:" << maximumIn;
     qDebug() << "MaximumOut:" << maximumOut;
+}
 
+QString MainWindow::padNumber(int number)
+{
+    return QString("%1").arg(number, 2, 10, QChar('0'));
+}
 
+QString MainWindow::formatMilliseconds(quint64 milliseconds)
+{
+    int seconds = milliseconds / 1000;
+    int minutes = seconds / 60;
+    seconds %= 60;
+    int hours = minutes / 60;
+    minutes %= 60;
+
+    return QString("%1:%2:%3").arg(hours).arg(padNumber(minutes)).arg(padNumber(seconds));
 }
 
 MainWindow::~MainWindow()

@@ -37,6 +37,11 @@ bool NetworkInformationReader::verifyInterface() const
     return true;
 }
 
+QString NetworkInformationReader::interfaceName() const
+{
+    return m_interfaceName;
+}
+
 NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readProcNetDevInterface(const QString& interface)
 {
     QFile file("/proc/net/dev");

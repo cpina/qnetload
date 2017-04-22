@@ -40,6 +40,9 @@ private Q_SLOTS:
     void updateInformation();
 
 private:
+    static QString padNumber(int number);
+    static QString formatMilliseconds(quint64 milliseconds);
+
     Ui::MainWindow *ui;
     NetworkInformationReader* m_networkInformation;
     InformationStorage* m_informationStorage;
