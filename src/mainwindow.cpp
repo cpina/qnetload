@@ -61,6 +61,8 @@ MainWindow::MainWindow(const QString& interfaceName, const QString& helpText, QW
         exit(2);
     }
 
+    setTooltips();
+
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(updateInformation()));
     m_timer->start(1000);
@@ -77,6 +79,20 @@ MainWindow::MainWindow(const QString& interfaceName, const QString& helpText, QW
     ui->out_graph->setInformationStorage(m_informationStorage);
 
     updateInformation();
+}
+
+void MainWindow::setTooltips()
+{
+    ui->interface_name->setToolTip(tr("Monitored interface"));
+    ui->time_running->setToolTip(tr("Time elapsed since qnetload was started"));
+
+    ui->in_current_speed->setToolTip(tr("Speed receiving data"));
+    ui->in_maximum_speed->setToolTip(tr("Maximum speed receiving data (intervals of 1 second)"));
+    ui->in_transferred->setToolTip(tr("Total amount of data received since qnetload was started"));
+
+    ui->out_current_speed->setToolTip(tr("Speed sending data"));
+    ui->out_maximum_speed->setToolTip(tr("Maximum speed sending data (intervals of 1 second)"));
+    ui->out_transferred->setToolTip(tr("Total amount of data sent since qnetload was started"));
 }
 
 void MainWindow::setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,

@@ -43,6 +43,7 @@ private:
     void setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
                       quint64 currentSpeedIn, quint64 maximumSpeedIn, quint64 transferredIn,
                       quint64 currentSpeedOut, quint64 maximumSpeedOut, quint64 transferredOut);
+    void setTooltips();
 
     Ui::MainWindow *ui;
     NetworkInformationReader* m_networkInformation;
