@@ -103,12 +103,12 @@ void MainWindow::setAllLabels(const QString& interfaceName, quint64 milliseconds
     ui->time_running->setText(FormatNumber::formatElapsedTime(millisecondsSinceStart));
 
     ui->in_current_speed->setText(FormatNumber::formatSpeed(currentSpeedIn));
-    ui->in_maximum_speed->setText(FormatNumber::formatSpeed(maximumSpeedIn));
-    ui->in_transferred->setText(FormatNumber::formatTransfer(transferredIn));
+    ui->in_maximum_speed->setText(QString("(%1)").arg(FormatNumber::formatSpeed(maximumSpeedIn)));
+    ui->in_transferred->setText(QString("[%1]").arg(FormatNumber::formatTransfer(transferredIn)));
 
     ui->out_current_speed->setText(FormatNumber::formatSpeed(currentSpeedOut));
-    ui->out_maximum_speed->setText(FormatNumber::formatSpeed(maximumSpeedOut));
-    ui->out_transferred->setText(FormatNumber::formatTransfer(transferredOut));
+    ui->out_maximum_speed->setText(QString("(%1)").arg(FormatNumber::formatSpeed(maximumSpeedOut)));
+    ui->out_transferred->setText(QString("[%1]").arg(FormatNumber::formatTransfer(transferredOut)));
 }
 
 void MainWindow::updateInformation()

@@ -285,7 +285,7 @@
          </font>
         </property>
         <property name="text">
-         <string>in: </string>
+         <string>out: </string>
         </property>
        </widget>
       </item>
