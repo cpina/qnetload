@@ -58,6 +58,32 @@ QString NetworkInformationReader::interfaceName() const
     return m_interfaceName;
 }
 
+QStringList NetworkInformationReader::listOfInterfaces() const
+{
+    QFile file(procNetDev());
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return QStringList();
+    }
+
+    QStringList listOfInterfaces;
+    QString line;
+    do
+    {
+        line = file.readLine();
+        QRegularExpressionMatch match = parseLine(line);
+
+        if (match.hasMatch())
+        {
+            listOfInterfaces.append(match.captured(1));
+        }
+
+    } while (!line.isEmpty());
+
+    return listOfInterfaces;
+}
+
 NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readProcNetDevInterface(const QString& interface) const
 {
     QFile file(procNetDev());
@@ -72,10 +98,16 @@ NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readProcNe
     {
         line = file.readLine();
 
-        NetworkInformationReader::NetworkBytesInOut information = readInformationFromLine(line, interface);
+        QRegularExpressionMatch match = parseLine(line);
 
-        if (information.valid)
+        if (match.hasMatch() && match.captured(1) == interface)
         {
+            NetworkInformationReader::NetworkBytesInOut information;
+            information.in = match.captured(2).toULong();
+            information.out = match.captured(3).toULong();
+            information.milliSecondsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
+            information.valid = true;
+
             return information;
         }
 
@@ -84,17 +116,18 @@ NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readProcNe
     return NetworkInformationReader::NetworkBytesInOut();
 }
 
-NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readInformationFromLine(const QString& line, const QString& interface)
+QRegularExpressionMatch NetworkInformationReader::parseLine(const QString& line)
 {
-    QRegularExpression lineInformationRe(QString(" *%1: * (\\d+) +\\d+ +\\d+ +\\d+ +\\d+ +\\d+ +\\d+ +\\d+ +(\\d+).*").arg(interface));
+    QRegularExpression lineInformationRe(" *(.+): * (\\d+) +\\d+ +\\d+ +\\d+ +\\d+ +\\d+ +\\d+ +\\d+ +(\\d+).*");
 
     QRegularExpressionMatch match = lineInformationRe.match(line);
 
-    if (match.hasMatch())
+    return match;
+/*    if (match.hasMatch())
     {
         NetworkInformationReader::NetworkBytesInOut information;
-        information.in = match.captured(1).toULong();
-        information.out = match.captured(2).toULong();
+        information.in = match.captured(2).toULong();
+        information.out = match.captured(3).toULong();
         information.milliSecondsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
         information.valid = true;
 
@@ -103,7 +136,7 @@ NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readInform
     else
     {
         return NetworkInformationReader::NetworkBytesInOut();
-    }
+    }*/
 }
 
 NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readInformation() const

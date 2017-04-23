@@ -46,8 +46,10 @@ public:
 
     NetworkBytesInOut readProcNetDevInterface(const QString& interface) const;
 
+    QStringList listOfInterfaces() const;
+
 private:
-    static NetworkBytesInOut readInformationFromLine(const QString &line, const QString &interface);
+    static QRegularExpressionMatch parseLine(const QString &line);
     QString m_interfaceName;
     QString m_procNetDev;
 };

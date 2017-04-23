@@ -35,12 +35,17 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
     m_networkInformation = new NetworkInformationReader(interfaceName, this);
 
-    if (!m_networkInformation->isValid())
+    QStringList listOfInterfaces = m_networkInformation->listOfInterfaces();
+    if (!listOfInterfaces.contains(interfaceName))
     {
         QString message = QString("%1: %2 interface not found in %3").arg(QApplication::applicationName())
                                                                      .arg(interfaceName)
                                                                      .arg(m_networkInformation->procNetDev());
         qWarning() << message;
+
+        message = QString("Instead of %1 use one of those: %2").arg(interfaceName).arg(listOfInterfaces.join(", "));
+        qWarning() << message;
+
         exit(2);
     }
 
