@@ -65,14 +65,10 @@ MainWindow::MainWindow(const QString& interfaceName, const QString& helpText, QW
     connect(m_timer, SIGNAL(timeout()), this, SLOT(updateInformation()));
     m_timer->start(1000);
 
-    ui->interface_and_time_label->setText(QString("%1: 0:00:00").arg(m_networkInformation->interfaceName()));
-    ui->in_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(0),
-                                                          FormatNumber::formatSpeed(0),
-                                                          FormatNumber::formatTransfer(0)));
-
-    ui->out_label->setText(QString("out: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(0),
-                                                            FormatNumber::formatSpeed(0),
-                                                            FormatNumber::formatTransfer(0)));
+    // Speed to zero to start with
+    setAllLabels(m_networkInformation->interfaceName(), 0,
+                 0, 0, 0,
+                 0, 0, 0);
 
     ui->in_graph->setType(InformationStorage::InType);
     ui->in_graph->setInformationStorage(m_informationStorage);
@@ -83,14 +79,30 @@ MainWindow::MainWindow(const QString& interfaceName, const QString& helpText, QW
     updateInformation();
 }
 
+void MainWindow::setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
+                  quint64 currentSpeedIn, quint64 maximumSpeedIn, quint64 transferredIn,
+                  quint64 currentSpeedOut, quint64 maximumSpeedOut, quint64 transferredOut)
+{
+    ui->interface_name->setText(interfaceName);
+    ui->time_running->setText(FormatNumber::formatElapsedTime(millisecondsSinceStart));
+
+    ui->in_current_speed->setText(FormatNumber::formatSpeed(currentSpeedIn));
+    ui->in_maximum_speed->setText(FormatNumber::formatSpeed(maximumSpeedIn));
+    ui->in_transferred->setText(FormatNumber::formatTransfer(transferredIn));
+
+    ui->out_current_speed->setText(FormatNumber::formatSpeed(currentSpeedOut));
+    ui->out_maximum_speed->setText(FormatNumber::formatSpeed(maximumSpeedOut));
+    ui->out_transferred->setText(FormatNumber::formatTransfer(transferredOut));
+}
+
 void MainWindow::updateInformation()
 {
     NetworkInformationReader::NetworkBytesInOut information = m_networkInformation->readInformation();
 
     m_informationStorage->addInformation(information);
 
-    quint64 maximumIn = m_informationStorage->maximumSpeedIn();
-    quint64 maximumOut = m_informationStorage->maximumSpeedOut();
+    quint64 maximumSpeedIn = m_informationStorage->maximumSpeedIn();
+    quint64 maximumSpeedOut = m_informationStorage->maximumSpeedOut();
 
     quint64 transferredIn = m_informationStorage->transferredIn();
     quint64 transferredOut = m_informationStorage->transferredOut();
@@ -99,17 +111,10 @@ void MainWindow::updateInformation()
     quint64 currentSpeedIn = currentSpeed.in;
     quint64 currentSpeedOut = currentSpeed.out;
 
+    setAllLabels(m_networkInformation->interfaceName(), m_informationStorage->millisecondsSinceStart(),
+                 currentSpeedIn, maximumSpeedIn, transferredIn,
+                 currentSpeedOut, maximumSpeedOut, transferredOut);
 
-    ui->interface_and_time_label->setText(QString("%1: %2").arg(m_networkInformation->interfaceName(),
-                                                                FormatNumber::formatElapsedTime(m_informationStorage->millisecondsSinceStart())));
-
-    ui->in_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(currentSpeedIn),
-                                                          FormatNumber::formatSpeed(maximumIn),
-                                                          FormatNumber::formatTransfer(transferredIn)));
-
-    ui->out_label->setText(QString("out: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(currentSpeedOut),
-                                                            FormatNumber::formatSpeed(maximumOut),
-                                                            FormatNumber::formatTransfer(transferredOut)));
     ui->in_graph->repaint();
     ui->out_graph->repaint();
 }
