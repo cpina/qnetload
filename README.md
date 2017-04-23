@@ -46,6 +46,12 @@ qnetload wlan0
 (or another interface instead of wlan0)
 
 
-If it doesn't work for you feel free to contact me.
+If it doesn't work for you feel free to contact me (carles@pina.cat)
+
+## TODO
+Many things can be done. My main idea is that the user interface should be the same or extremely similar and the way of working (invoking with the interface, etc.). Some possible ideas:
+* If no interface is passed: choose one and let the user change it using the mouse (possibly just clicking on the interface?)
+* Save in the settings the latest used interface and use it by default
+* Be able to change between kiloBytes and kiloBits (same for the other units)
 
 Carles Pina i Estany (carles@pina.cat)
