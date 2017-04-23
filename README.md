@@ -7,7 +7,7 @@ https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=595195
 
 Thanks R.F. Smith for programming the original xnetload!
 
-I've evaluated many similar packages but I wasn't satisfied with any of them, so I wrote a xnetloda replacement. I've named it qnetload as a tribute to xnetload and because it's implemented using the Qt libraries.
+I've evaluated many similar packages but I wasn't satisfied with any of them, so I wrote an xnetload replacement. I've named it qnetload as a tribute to xnetload and because it's implemented using the Qt libraries.
 
 See the screenshots:
 xnetload (the original one):
