@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
+#include <QMessageBox>
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -31,20 +32,21 @@ int main(int argc, char *argv[])
     parser.setApplicationDescription("Display traffic for a network interface.\n\nqnetload Copyright (C) 2017 Carles Pina i Estany <carles@pina.cat>\nLicense: GPLv3");
     parser.addHelpOption();
     parser.addVersionOption();
-    parser.addPositionalArgument("interface", QCoreApplication::translate("interface", "Interface to monitor."));
+    parser.addPositionalArgument("interface", QCoreApplication::translate("interface", "Interface to monitor (e.g. eth0, wlan0, ...)."));
 
     parser.process(app);
 
     const QStringList args = parser.positionalArguments();
 
-    if (args.count() != 1)
+    QString interfaceName;
+    QString helpText = parser.helpText();
+
+    if (args.count() == 1)
     {
-        parser.showHelp(1);
+        interfaceName = args[0];
     }
 
-    const QString interfaceName = args[0];
-
-    MainWindow w(interfaceName);
+    MainWindow w(interfaceName, helpText);
     w.show();
 
     return app.exec();

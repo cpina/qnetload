@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QTime>
+#include <QMessageBox>
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -24,7 +25,7 @@
  * along with qnetload.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
+MainWindow::MainWindow(const QString& interfaceName, const QString& helpText, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_networkInformation(0),
@@ -36,15 +37,26 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     m_networkInformation = new NetworkInformationReader(interfaceName, this);
 
     QStringList listOfInterfaces = m_networkInformation->listOfInterfaces();
+    if (interfaceName.isEmpty())
+    {
+        QMessageBox::critical(0, QObject::tr("qnetload"),
+                              QObject::tr("Please pass the interface name as first argument when executing qnetload.\n\n"
+                                          "It could be: %2").arg(listOfInterfaces.join(", ")));
+        qWarning() << helpText;
+        exit(3);
+    }
+
     if (!listOfInterfaces.contains(interfaceName))
     {
-        QString message = QString("%1: %2 interface not found in %3").arg(QApplication::applicationName())
+        QString message1 = tr("%1: %2 interface not found in %3").arg(QApplication::applicationName())
                                                                      .arg(interfaceName)
                                                                      .arg(m_networkInformation->procNetDev());
-        qWarning() << message;
+        qWarning() << message1;
 
-        message = QString("Instead of %1 use one of those: %2").arg(interfaceName).arg(listOfInterfaces.join(", "));
-        qWarning() << message;
+        QString message2 = tr("Instead of %1 use one of those: %2").arg(interfaceName).arg(listOfInterfaces.join(", "));
+        qWarning() << message2;
+
+        QMessageBox::critical(this, tr("qnetload"), message1 + "\n" + message2);
 
         exit(2);
     }

@@ -32,7 +32,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(const QString& interfaceName, QWidget *parent = 0);
+    explicit MainWindow(const QString& interfaceName, const QString& helpText, QWidget *parent = 0);
     ~MainWindow();
 
 
