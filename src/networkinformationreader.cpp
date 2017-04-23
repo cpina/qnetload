@@ -46,13 +46,6 @@ QString NetworkInformationReader::procNetDev() const
     return m_procNetDev;
 }
 
-bool NetworkInformationReader::isValid() const
-{
-    NetworkBytesInOut bytesInOut = readProcNetDevInterface(m_interfaceName);
-
-    return bytesInOut.valid;
-}
-
 QString NetworkInformationReader::interfaceName() const
 {
     return m_interfaceName;
@@ -106,7 +99,6 @@ NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readProcNe
             information.in = match.captured(2).toULong();
             information.out = match.captured(3).toULong();
             information.milliSecondsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
-            information.valid = true;
 
             return information;
         }

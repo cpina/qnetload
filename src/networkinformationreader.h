@@ -29,16 +29,14 @@ public:
         quint64 in;
         quint64 out;
         qint64 milliSecondsSinceEpoch;
-        bool valid;
 
-        NetworkBytesInOut() : in(0), out(0), milliSecondsSinceEpoch(0), valid(false) {}
+        NetworkBytesInOut() : in(0), out(0), milliSecondsSinceEpoch(0) {}
     };
 
     NetworkInformationReader(const QString& interfaceName, QObject* parent=0);
     NetworkInformationReader(const QString& interfaceName, const QString& procNetDevPath, QObject* parent=0);
 
     QString interfaceName() const;
-    bool isValid() const;
     NetworkBytesInOut readInformation() const;
 
     void setProcNetDev(const QString& path);

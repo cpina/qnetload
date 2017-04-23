@@ -39,14 +39,11 @@ void TestNetworkInformation::testReadInformation()
     QVERIFY(information.milliSecondsSinceEpoch <= QDateTime::currentMSecsSinceEpoch());
 }
 
-void TestNetworkInformation::testIsValid()
+void TestNetworkInformation::testListOfInterfaces()
 {
-    m_networkInformationReader.reset(new NetworkInformationReader("non_existing", "proc_net_dev_files/example01.txt"));
-
-    QVERIFY(!m_networkInformationReader->isValid());
-
     m_networkInformationReader.reset(new NetworkInformationReader("eth1", "proc_net_dev_files/example01.txt"));
-    QVERIFY(m_networkInformationReader->isValid());
+
+    QCOMPARE(m_networkInformationReader->listOfInterfaces(), QStringList() << "tun0" << "lo" << "wlan0" << "docker0" << "eth1");
 }
 
 QTEST_MAIN(TestNetworkInformation)

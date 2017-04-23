@@ -28,7 +28,7 @@ public:
     TestNetworkInformation();
 
 private Q_SLOTS:
-    void testIsValid();
+    void testListOfInterfaces();
     void testReadInformation();
 
 private:
