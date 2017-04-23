@@ -58,9 +58,9 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
                                                           FormatNumber::formatSpeed(0),
                                                           FormatNumber::formatTransfer(0)));
 
-    ui->out_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(0),
-                                                           FormatNumber::formatSpeed(0),
-                                                           FormatNumber::formatTransfer(0)));
+    ui->out_label->setText(QString("out: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(0),
+                                                            FormatNumber::formatSpeed(0),
+                                                            FormatNumber::formatTransfer(0)));
 
     ui->in_graph->setType(InformationStorage::InType);
     ui->in_graph->setInformationStorage(m_informationStorage);
@@ -95,9 +95,9 @@ void MainWindow::updateInformation()
                                                           FormatNumber::formatSpeed(maximumIn),
                                                           FormatNumber::formatTransfer(transferredIn)));
 
-    ui->out_label->setText(QString("in: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(currentSpeedOut),
-                                                           FormatNumber::formatSpeed(maximumOut),
-                                                           FormatNumber::formatTransfer(transferredOut)));
+    ui->out_label->setText(QString("out: %1 (%2) [%3]").arg(FormatNumber::formatSpeed(currentSpeedOut),
+                                                            FormatNumber::formatSpeed(maximumOut),
+                                                            FormatNumber::formatTransfer(transferredOut)));
     ui->in_graph->repaint();
     ui->out_graph->repaint();
 }

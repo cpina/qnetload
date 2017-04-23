@@ -115,20 +115,6 @@ QRegularExpressionMatch NetworkInformationReader::parseLine(const QString& line)
     QRegularExpressionMatch match = lineInformationRe.match(line);
 
     return match;
-/*    if (match.hasMatch())
-    {
-        NetworkInformationReader::NetworkBytesInOut information;
-        information.in = match.captured(2).toULong();
-        information.out = match.captured(3).toULong();
-        information.milliSecondsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
-        information.valid = true;
-
-        return information;
-    }
-    else
-    {
-        return NetworkInformationReader::NetworkBytesInOut();
-    }*/
 }
 
 NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readInformation() const
