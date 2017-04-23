@@ -7,7 +7,7 @@ https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=595195
 
 Thanks R.F. Smith for programming the original xnetload!
 
-I've evaluated many similar packages but I wasn't satisfied with any of them, so I started writing a xnetload replacement. I've named qnetload as a tribute to xnetload and because it's implemented using the Qt libraries.
+I've evaluated many similar packages but I wasn't satisfied with any of them, so I wrote a xnetloda replacement. I've named it qnetload as a tribute to xnetload and because it's implemented using the Qt libraries.
 
 See the screenshots:
 xnetload (the original one):
@@ -19,39 +19,32 @@ qnetload (this one):
 ![qnetload](images-for-documentation/qnetload.png)
 
 ## Installation
-I've only tested it on a Debian Jessie (8.7).
+### Debian and Ubuntu
+I've tested it on Ubuntu 17.04 Zesty but it should work with other Ubuntus as well.
+On Debian I've tested it on a Debian 8.7 Jessie.
 
-Pre-requisites: Qt5 and cmake need to be installed.
-
-This can be done on a Debian/Ubuntu system:
 ```
-apt-get install cmake libqt5gui5 libqt5core5a
-```
-
-This works for me:
-```
+sudo apt-get install git cmake qtbase5-dev
 git clone https://github.com/cpina/qnetload.git
 cd qnetload
 mkdir build
 cd build
 cmake ../src
 make
-make install
+sudo make install
 ```
 
-Then to execute it:
-```
-qnetload wlan0
-```
-(or another interface instead of wlan0)
+Then qnetload should be in your path and can be executed just typing qnetload on the command line.
 
-
-If it doesn't work for you feel free to contact me (carles@pina.cat)
+If it doesn't work for you feel free to contact me (carles@pina.cat) or open a Github bug. Please include the output of the commands.
 
 ## TODO
-Many things can be done. My main idea is that the user interface should be the same or extremely similar and the way of working (invoking with the interface, etc.). Some possible ideas:
-* If no interface is passed: choose one and let the user change it using the mouse (possibly just clicking on the interface?)
+I'd like the user interface and way to use it to be very similar to xnetload. Some possible ideas:
+
+* If no interface name is passed: choose one and let the user change it using the mouse (possibly just clicking on the interface name)
 * Save in the settings the latest used interface and use it by default
 * Be able to change between kiloBytes and kiloBits (same for the other units)
+
+If you would like something else let me know (create a bug or drop me an email).
 
 Carles Pina i Estany (carles@pina.cat)
