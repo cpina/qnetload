@@ -38,6 +38,13 @@ Then qnetload should be in your path and can be executed just typing qnetload on
 
 If it doesn't work for you feel free to contact me (carles@pina.cat) or open a Github bug. Please include the output of the commands.
 
+### Other distributions
+qnetload should work with any Linux distribution if git (to make it easier to fetch, or use the "Download" option on Github), cmake and Qt5 are available.
+
+Try to use your package management to install Qt5 (this is the line "sudo apt-get install..." an use the same steps as Debian and Ubuntu.
+
+qnetload would work with any system providing that the file /proc/net/dev has the same structure as Linux.
+
 ## TODO
 I'd like the user interface and way to use it to be very similar to xnetload. Some possible ideas:
 
