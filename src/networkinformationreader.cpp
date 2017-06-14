@@ -24,19 +24,23 @@
  * along with qnetload.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-NetworkInformationReader::NetworkInformationReader(const QString& interfaceName, QObject* parent)
+NetworkInformationReader::NetworkInformationReader(QObject* parent)
     : QObject(parent)
     , m_procNetDev("/proc/net/dev")
 {
-    m_interfaceName = interfaceName;
 }
-
 
 NetworkInformationReader::NetworkInformationReader(const QString& interfaceName,
                                                    const QString& procNetDevFile,
                                                    QObject* parent)
     : QObject(parent)
     , m_procNetDev(procNetDevFile)
+{
+    setInterfaceName(interfaceName);
+}
+
+
+void NetworkInformationReader::setInterfaceName(const QString& interfaceName)
 {
     m_interfaceName = interfaceName;
 }
@@ -121,4 +125,32 @@ NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readInform
 {
     NetworkInformationReader::NetworkBytesInOut information = readProcNetDevInterface(m_interfaceName);
     return information;
+}
+
+QString NetworkInformationReader::chooseInterfaceFromProcNetDevInterface() const
+{
+    // Choose a valid interface name from a priority list
+    QStringList prefixes;
+
+    prefixes.append("wl");      // wlan0 (WirelessLAN, classic) or wlp4s0 (WireLess Pci 4... systemd/udev)
+    prefixes.append("enp");     // enp0s20f0u3c2 (EtherNet Pci 0 Slot 2...  systemd/udev)
+    prefixes.append("eth");     // eth0 (ETHernet 0)
+
+    QStringList interfaces = listOfInterfaces();
+
+    Q_ASSERT(!interfaces.isEmpty());
+
+    interfaces.sort();
+
+    Q_FOREACH(const QString& prefix, prefixes)
+    {
+        Q_FOREACH(const QString& interface, interfaces)
+        {
+            if (interface.startsWith(prefix))
+            {
+                return interface;
+            }
+        }
+    }
+    return interfaces.first();
 }

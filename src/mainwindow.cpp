@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <QTime>
 #include <QMessageBox>
+#include <QSettings>
+
 
 /*
  * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
@@ -25,7 +27,7 @@
  * along with qnetload.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-MainWindow::MainWindow(const QString& interfaceName, const QString& helpText, QWidget *parent) :
+MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_networkInformation(0),
@@ -34,33 +36,38 @@ MainWindow::MainWindow(const QString& interfaceName, const QString& helpText, QW
 {
     ui->setupUi(this);
 
-    m_networkInformation = new NetworkInformationReader(interfaceName, this);
+    QString interfaceSelectedName = interfaceName;
+
+    m_networkInformation = new NetworkInformationReader(this);
 
     QStringList listOfInterfaces = m_networkInformation->listOfInterfaces();
-    if (interfaceName.isEmpty())
+
+    if (listOfInterfaces.isEmpty())
     {
-        QMessageBox::critical(0, QObject::tr("qnetload"),
-                              QObject::tr("Please pass the interface name as first argument when executing qnetload.\n\n"
-                                          "It could be: %2").arg(listOfInterfaces.join(", ")));
-        qWarning() << helpText;
-        exit(3);
-    }
-
-    if (!listOfInterfaces.contains(interfaceName))
-    {
-        QString message1 = tr("%1: %2 interface not found in %3").arg(QApplication::applicationName())
-                                                                     .arg(interfaceName)
-                                                                     .arg(m_networkInformation->procNetDev());
-        qWarning() << message1;
-
-        QString message2 = tr("Instead of %1 use one of those: %2").arg(interfaceName).arg(listOfInterfaces.join(", "));
-        qWarning() << message2;
-
-        QMessageBox::critical(this, tr("qnetload"), message1 + "\n" + message2);
-
+        QString message = tr("qnetload cannot read any interface from %1").arg(m_networkInformation->procNetDev());
+        QMessageBox::critical(this, tr("qnetload"), message);
         exit(2);
     }
 
+    if (interfaceSelectedName.isEmpty())
+    {
+        interfaceSelectedName = chooseInterfaceName();
+    }
+
+    if (!listOfInterfaces.contains(interfaceSelectedName))
+    {
+        QString message1 = tr("Passed interface %1 not found in %2").arg(interfaceSelectedName)
+                                                                    .arg(m_networkInformation->procNetDev());
+        QString message2 = tr("qnetload will choose another interface");
+
+        QMessageBox::warning(this, tr("qnetload"), message1 + "\n" + message2);
+        interfaceSelectedName = chooseInterfaceName();
+    }
+
+    m_networkInformation->setInterfaceName(interfaceSelectedName);
+
+    QSettings settings;
+    settings.setValue("latestInterfaceName", interfaceSelectedName);
     setTooltips();
 
     m_timer = new QTimer(this);
@@ -79,6 +86,20 @@ MainWindow::MainWindow(const QString& interfaceName, const QString& helpText, QW
     ui->out_graph->setInformationStorage(m_informationStorage);
 
     updateInformation();
+}
+
+QString MainWindow::chooseInterfaceName() const
+{
+    QSettings settings;
+
+    if (settings.value("latestInterfaceName").isValid())
+    {
+        return settings.value("latestInterfaceName").toString();
+    }
+    else
+    {
+        return m_networkInformation->chooseInterfaceFromProcNetDevInterface();
+    }
 }
 
 void MainWindow::setTooltips()

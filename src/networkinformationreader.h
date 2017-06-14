@@ -33,9 +33,10 @@ public:
         NetworkBytesInOut() : in(0), out(0), milliSecondsSinceEpoch(0) {}
     };
 
-    NetworkInformationReader(const QString& interfaceName, QObject* parent=0);
-    NetworkInformationReader(const QString& interfaceName, const QString& procNetDevPath, QObject* parent=0);
+    NetworkInformationReader(QObject* parent=0);
+    NetworkInformationReader(const QString &interfaceName, const QString& procNetDevPath, QObject* parent=0);
 
+    void setInterfaceName(const QString& interfaceName);
     QString interfaceName() const;
     NetworkBytesInOut readInformation() const;
 
@@ -45,6 +46,8 @@ public:
     NetworkBytesInOut readProcNetDevInterface(const QString& interface) const;
 
     QStringList listOfInterfaces() const;
+
+    QString chooseInterfaceFromProcNetDevInterface() const;
 
 private:
     static QRegularExpressionMatch parseLine(const QString &line);

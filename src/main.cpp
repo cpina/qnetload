@@ -25,28 +25,24 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    QApplication::setOrganizationName("qnetload");
     QApplication::setApplicationName("qnetload");
-    QApplication::setApplicationVersion("0.1");
+    QApplication::setApplicationVersion("0.2");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Display traffic for a network interface.\n\nqnetload Copyright (C) 2017 Carles Pina i Estany <carles@pina.cat>\nLicense: GPLv3");
     parser.addHelpOption();
     parser.addVersionOption();
-    parser.addPositionalArgument("interface", QCoreApplication::translate("interface", "Interface to monitor (e.g. eth0, wlan0, ...)."));
+    QCommandLineOption interfaceOption(QStringList() << "i" << "interface",
+                                       QObject::tr("Interface to monitor. Defaults to the one used previously."), "interface");
+
+    parser.addOption(interfaceOption);
 
     parser.process(app);
 
-    const QStringList args = parser.positionalArguments();
+    QString interfaceName = parser.value(interfaceOption);
 
-    QString interfaceName;
-    QString helpText = parser.helpText();
-
-    if (args.count() == 1)
-    {
-        interfaceName = args[0];
-    }
-
-    MainWindow w(interfaceName, helpText);
+    MainWindow w(interfaceName);
     w.show();
 
     return app.exec();

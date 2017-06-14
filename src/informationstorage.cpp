@@ -40,6 +40,7 @@ void InformationStorage::setCapacity(int maximumInformation)
 
 quint64 InformationStorage::millisecondsSinceStart() const
 {
+    return QDateTime::currentMSecsSinceEpoch() - m_startedBytes.milliSecondsSinceEpoch;
     if (m_informations.isEmpty())
     {
         return 0;
@@ -73,8 +74,9 @@ NetworkInformationReader::NetworkBytesInOut InformationStorage::calculateSpeed(c
 
 void InformationStorage::addInformation(const NetworkInformationReader::NetworkBytesInOut& information)
 {
-    if (m_startedBytes.in == 0 || m_startedBytes.out == 0)
+    if (m_startedBytes.milliSecondsSinceEpoch == 0)
     {
+        // It hasn't been initialized yet
         m_startedBytes = information;
         return;
     }

@@ -32,7 +32,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(const QString& interfaceName, const QString& helpText, QWidget *parent = 0);
+    explicit MainWindow(const QString& interfaceName, QWidget *parent = 0);
     ~MainWindow();
 
 
@@ -40,6 +40,7 @@ private Q_SLOTS:
     void updateInformation();
 
 private:
+    QString chooseInterfaceName() const;
     void setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
                       quint64 currentSpeedIn, quint64 maximumSpeedIn, quint64 transferredIn,
                       quint64 currentSpeedOut, quint64 maximumSpeedOut, quint64 transferredOut);
