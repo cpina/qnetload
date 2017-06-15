@@ -48,7 +48,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="interface_name">
+       <widget class="ClickableLabel" name="interface_name">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -412,6 +412,11 @@
    <extends>QWidget</extends>
    <header>plot.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ClickableLabel</class>
+   <extends>QLabel</extends>
+   <header>clickablelabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

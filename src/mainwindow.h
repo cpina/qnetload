@@ -38,6 +38,7 @@ public:
 
 private Q_SLOTS:
     void updateInformation();
+    void changeInterface();
 
 private:
     QString chooseInterfaceName() const;

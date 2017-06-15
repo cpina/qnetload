@@ -30,15 +30,19 @@
 MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_networkInformation(0),
     m_informationStorage(new InformationStorage(this)),
-    m_timer(0)
+    m_networkInformation(new NetworkInformationReader(this)),
+    m_timer(new QTimer(this))
 {
     ui->setupUi(this);
+    connect(ui->interface_name, SIGNAL(clicked()),
+            this, SLOT(changeInterface()));
 
     QString interfaceSelectedName = interfaceName;
 
-    m_networkInformation = new NetworkInformationReader(this);
+
+    connect(m_networkInformation, SIGNAL(interfaceNameChanged()),
+            m_informationStorage, SLOT(initialize()));
 
     QStringList listOfInterfaces = m_networkInformation->listOfInterfaces();
 
@@ -66,11 +70,8 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
     m_networkInformation->setInterfaceName(interfaceSelectedName);
 
-    QSettings settings;
-    settings.setValue("latestInterfaceName", interfaceSelectedName);
     setTooltips();
 
-    m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(updateInformation()));
     m_timer->start(1000);
 
@@ -86,6 +87,20 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     ui->out_graph->setInformationStorage(m_informationStorage);
 
     updateInformation();
+}
+
+void MainWindow::changeInterface()
+{
+    QString currentInterface = m_networkInformation->interfaceName();
+    QStringList listOfInterfaces = m_networkInformation->listOfInterfaces();
+
+    int newIndex = (listOfInterfaces.indexOf(currentInterface) + 1) % listOfInterfaces.count();
+
+    QString newInterface = listOfInterfaces.at(newIndex);
+
+    m_networkInformation->setInterfaceName(newInterface);
+
+    QTimer::singleShot(1, this, SLOT(updateInformation()));
 }
 
 QString MainWindow::chooseInterfaceName() const
@@ -158,5 +173,8 @@ void MainWindow::updateInformation()
 
 MainWindow::~MainWindow()
 {
+    QSettings settings;
+    settings.setValue("latestInterfaceName", m_networkInformation->interfaceName());
+
     delete ui;
 }

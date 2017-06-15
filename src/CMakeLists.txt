@@ -21,6 +21,7 @@ set(SOURCES
   informationstorage.cpp
   formatnumber.cpp
   plot.cpp
+  clickablelabel.cpp
 )
 
 set(UI_SOURCES

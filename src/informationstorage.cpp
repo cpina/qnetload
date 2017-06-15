@@ -21,12 +21,22 @@
  */
 
 InformationStorage::InformationStorage(QObject *parent) :
-    QObject(parent),
-    m_maximumInformation(0),
-    m_maximumSpeedIn(0),
-    m_maximumSpeedOut(0)
+    QObject(parent)
 {
-    setCapacity(600);
+    initialize();
+}
+
+void InformationStorage::initialize()
+{
+    m_maximumInformation = 0;
+    m_maximumSpeedIn = 0;
+    m_maximumSpeedOut = 0;
+
+    m_informations.clear();
+    m_startedBytes = NetworkInformationReader::NetworkBytesInOut();
+    m_latestBytes = NetworkInformationReader::NetworkBytesInOut();
+
+    setCapacity(4096);
 }
 
 void InformationStorage::setCapacity(int maximumInformation)
@@ -41,12 +51,6 @@ void InformationStorage::setCapacity(int maximumInformation)
 quint64 InformationStorage::millisecondsSinceStart() const
 {
     return QDateTime::currentMSecsSinceEpoch() - m_startedBytes.milliSecondsSinceEpoch;
-    if (m_informations.isEmpty())
-    {
-        return 0;
-    }
-
-    return m_informations.last().milliSecondsSinceEpoch - m_startedBytes.milliSecondsSinceEpoch;
 }
 
 NetworkInformationReader::NetworkBytesInOut InformationStorage::currentSpeed()

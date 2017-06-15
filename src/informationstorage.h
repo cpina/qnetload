@@ -25,6 +25,8 @@
 
 class InformationStorage : public QObject
 {
+    Q_OBJECT
+
 public:
     enum InOrOutType
     {
@@ -47,6 +49,9 @@ public:
     QList<int> lastValues(int numberOfValues, InOrOutType type);
 
     NetworkInformationReader::NetworkBytesInOut currentSpeed();
+
+public slots:
+    void initialize();
 
 private:
     NetworkInformationReader::NetworkBytesInOut calculateSpeed(const NetworkInformationReader::NetworkBytesInOut& before,

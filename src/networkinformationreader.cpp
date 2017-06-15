@@ -42,7 +42,11 @@ NetworkInformationReader::NetworkInformationReader(const QString& interfaceName,
 
 void NetworkInformationReader::setInterfaceName(const QString& interfaceName)
 {
-    m_interfaceName = interfaceName;
+    if (interfaceName != m_interfaceName)
+    {
+        emit interfaceNameChanged();
+        m_interfaceName = interfaceName;
+    }
 }
 
 QString NetworkInformationReader::procNetDev() const

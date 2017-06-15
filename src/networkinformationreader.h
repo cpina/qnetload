@@ -24,6 +24,8 @@
 
 class NetworkInformationReader : public QObject
 {
+    Q_OBJECT
+
 public:
     struct NetworkBytesInOut {
         quint64 in;
@@ -48,6 +50,9 @@ public:
     QStringList listOfInterfaces() const;
 
     QString chooseInterfaceFromProcNetDevInterface() const;
+
+signals:
+    void interfaceNameChanged();
 
 private:
     static QRegularExpressionMatch parseLine(const QString &line);
