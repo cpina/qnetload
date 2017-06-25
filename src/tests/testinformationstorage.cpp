@@ -112,11 +112,14 @@ void TestInformationStorage::testMillisecondsSinceStart()
 {
     m_informationStorage->setCapacity(1);
 
-    addData(1000, 400, 100000);
-    addData(1000, 400, 150000);
-    addData(1000, 400, 160000);
+    quint64 millisecondsTimestamp = QDateTime::currentMSecsSinceEpoch();
 
-    QCOMPARE(m_informationStorage->millisecondsSinceStart(), quint64(60000));
+    addData(1000, 400, millisecondsTimestamp);
+    addData(1000, 400, millisecondsTimestamp);
+    addData(1000, 400, millisecondsTimestamp);
+
+    quint64 millisecondsSinceStart = m_informationStorage->millisecondsSinceStart();
+    QVERIFY(millisecondsSinceStart <= QDateTime::currentMSecsSinceEpoch() - millisecondsTimestamp);
 }
 
 void TestInformationStorage::addData(quint64 in, quint64 out, qint64 millisecondsSinceEpoch)
