@@ -1,7 +1,5 @@
 # qnetload
 ## Introduction
-Note that this has been quickly done over a weekend: not much quality testing or testing at all has happened yet. The license is GPL v3.
-
 I still (2017) use xnetload and the way that shows the information is extremely useful for my use cases. Sadly xnetload was removed from Debian in 2010:
 https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=595195
 
@@ -41,16 +39,23 @@ If it doesn't work for you feel free to contact me (carles@pina.cat) or open a G
 ### Other distributions
 qnetload should work with any Linux distribution if git (to make it easier to fetch, or use the "Download" option on Github), cmake and Qt5 are available.
 
-Try to use your package management to install Qt5 (this is the line "sudo apt-get install..." an use the same steps as Debian and Ubuntu.
+Try to use your package management to install Qt5 (some equivalent of "sudo apt-get install qtbase5-dev" and then the steps in the "Debian and Ubuntu" section.
 
 qnetload would work with any system providing that the file /proc/net/dev has the same structure as Linux.
 
-## TODO
-I'd like the user interface and way to use it to be very similar to xnetload. Some possible ideas:
+## Features
+These features were not available on the original xnetload but might be handy:
 
-* If no interface name is passed: choose one and let the user change it using the mouse (possibly just clicking on the interface name)
-* Save in the settings the latest used interface and use it by default
+* The first time that qnetload is executed (if it doesn't have any arguments): it will automatically choose a network interface.
+* Clicking on the interface name: changes the interface.
+* If qnetload is executed again: it will try to use the most-recently monitored interface.
+* Passing an interface name (e.g. "qnetload -i eth0") monitors the user interface regardless of the latest one used.
+
+## TODO
+I'd like to keep the user interface and way of working similar to xnetload so the TODO list tries to respect this.
+
 * Be able to change between kiloBytes and kiloBits (same for the other units)
+* Handle what happens if the monitored interface disappears.
 
 If you would like something else let me know (create a bug or drop me an email).
 
