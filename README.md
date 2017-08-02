@@ -22,7 +22,7 @@ I've tested it on Ubuntu 17.04 Zesty but it should work with other Ubuntus as we
 On Debian I've tested it on a Debian 8.7 Jessie.
 
 ```
-sudo apt-get install git cmake qtbase5-dev
+sudo apt-get install git cmake qt5-default
 git clone https://github.com/cpina/qnetload.git
 cd qnetload
 mkdir build
