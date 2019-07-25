@@ -75,7 +75,7 @@ void Plot::paintScale(QPainter* painter)
 
 void Plot::paintBars(QPainter *painter)
 {
-    QList<int> values = m_informationStorage->lastValues(width(), InformationStorage::InType);
+    QList<int> values = m_informationStorage->lastValues(width(), m_type);
 
     float maximumValue = maximumValueLog();
 
