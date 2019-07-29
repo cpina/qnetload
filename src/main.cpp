@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QApplication::setOrganizationName("qnetload");
     QApplication::setApplicationName("qnetload");
-    QApplication::setApplicationVersion("0.2");
+    QApplication::setApplicationVersion("0.3");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Display traffic for a network interface.\n\nqnetload Copyright (C) 2017 Carles Pina i Estany <carles@pina.cat>\nLicense: GPLv3");

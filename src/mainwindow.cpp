@@ -160,6 +160,11 @@ void MainWindow::wheelEvent(QWheelEvent* event)
         newFontSize = readCurrentFontSize() - 1;
     }
 
+    if (newFontSize <= 0)
+    {
+        return;
+    }
+
     int inGraphHeight = ui->in_graph->height();
     setFontSize(newFontSize);
 
