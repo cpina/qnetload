@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QTime>
 #include <QMessageBox>
+#include <QMenu>
 #include <QSettings>
 
 
@@ -40,6 +41,7 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
     QString interfaceSelectedName = interfaceName;
 
+    setFontSize(readCurrentFontSize());
 
     connect(m_networkInformation, SIGNAL(interfaceNameChanged()),
             m_informationStorage, SLOT(initialize()));
@@ -87,6 +89,10 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     ui->out_graph->setInformationStorage(m_informationStorage);
 
     updateInformation();
+
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &QWidget::customContextMenuRequested,
+            this, &MainWindow::showContextualMenu);
 }
 
 void MainWindow::changeInterface()
@@ -101,6 +107,56 @@ void MainWindow::changeInterface()
     m_networkInformation->setInterfaceName(newInterface);
 
     QTimer::singleShot(1, this, SLOT(updateInformation()));
+
+    QSettings settings;
+    settings.setValue("latestInterfaceName", newInterface);
+}
+
+void MainWindow::showContextualMenu(const QPoint& position)
+{
+    QMenu* contextualMenu = new QMenu(this);
+
+    QMenu* fontSizes = new QMenu("Font Size", contextualMenu);
+
+    int currentFontSize = readCurrentFontSize();
+    for(int fontSize = 5; fontSize < 15; fontSize++)
+    {
+        QAction* fontSizeAction = fontSizes->addAction(QString::number(fontSize));
+
+        fontSizeAction->setCheckable(true);
+        fontSizeAction->setChecked(currentFontSize == fontSize);
+
+        connect(fontSizeAction, &QAction::triggered,
+                this, [this, fontSize]{setFontSize(fontSize);} );
+    }
+
+    contextualMenu->addMenu(fontSizes);
+
+    contextualMenu->exec(mapToGlobal(position));
+}
+
+int MainWindow::readCurrentFontSize() const
+{
+    QSettings settings;
+
+    if (settings.value("fontSize").isValid())
+    {
+        return settings.value("fontSize").toInt();
+    }
+    return 9;
+}
+
+void MainWindow::setFontSize(int fontSize)
+{
+    for(QLabel* label : findChildren<QLabel*>())
+    {
+        QFont font = label->font();
+        font.setPointSize(fontSize);
+        label->setFont(font);
+    }
+
+    QSettings settings;
+    settings.setValue("fontSize", fontSize);
 }
 
 QString MainWindow::chooseInterfaceName() const
@@ -173,8 +229,5 @@ void MainWindow::updateInformation()
 
 MainWindow::~MainWindow()
 {
-    QSettings settings;
-    settings.setValue("latestInterfaceName", m_networkInformation->interfaceName());
-
     delete ui;
 }
