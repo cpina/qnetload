@@ -44,6 +44,11 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
     setFontSize(readCurrentFontSize());
 
+    QSettings settings;
+    restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
+    restoreState(settings.value("mainWindowState").toByteArray());
+
+
     connect(m_networkInformation, SIGNAL(interfaceNameChanged()),
             m_informationStorage, SLOT(initialize()));
 
@@ -138,6 +143,11 @@ void MainWindow::showContextualMenu(const QPoint& position)
 
 void MainWindow::wheelEvent(QWheelEvent* event)
 {
+    if (!(QApplication::keyboardModifiers() & Qt::ControlModifier))
+    {
+        return;
+    }
+
     int y = event->angleDelta().y();
 
     int newFontSize;
@@ -260,5 +270,9 @@ void MainWindow::updateInformation()
 
 MainWindow::~MainWindow()
 {
+    QSettings settings;
+    settings.setValue("mainWindowGeometry", saveGeometry());
+    settings.setValue("mainWindowState", saveState());
+
     delete ui;
 }
