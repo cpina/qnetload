@@ -82,6 +82,7 @@ QStringList NetworkInformationReader::listOfInterfaces() const
 
     } while (!line.isEmpty());
 
+    listOfInterfaces.sort();
     return listOfInterfaces;
 }
 

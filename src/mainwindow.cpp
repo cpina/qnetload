@@ -122,7 +122,7 @@ void MainWindow::showContextualMenu(const QPoint& position)
 {
     QMenu* contextualMenu = new QMenu(this);
 
-    QMenu* fontSizes = new QMenu("Font Size", contextualMenu);
+    QMenu* fontSizes = new QMenu(tr("Font Size"), contextualMenu);
 
     int currentFontSize = readCurrentFontSize();
     for(int fontSize = 5; fontSize < 15; fontSize++)
@@ -137,6 +137,21 @@ void MainWindow::showContextualMenu(const QPoint& position)
     }
 
     contextualMenu->addMenu(fontSizes);
+
+    QMenu* interfaces = new QMenu(tr("Interfaces"), contextualMenu);
+
+    for(QString interface : m_networkInformation->listOfInterfaces())
+    {
+        QAction* interfaceAction = interfaces->addAction(interface);
+
+        interfaceAction->setCheckable(true);
+        interfaceAction->setChecked(interface == m_networkInformation->interfaceName());
+
+        connect(interfaceAction, &QAction::triggered,
+                this, [this, interface]{m_networkInformation->setInterfaceName(interface);} );
+    }
+
+    contextualMenu->addMenu(interfaces);
 
     contextualMenu->exec(mapToGlobal(position));
 }
