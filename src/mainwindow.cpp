@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QSettings>
+#include <QWheelEvent>
 
 
 /*
@@ -133,6 +134,36 @@ void MainWindow::showContextualMenu(const QPoint& position)
     contextualMenu->addMenu(fontSizes);
 
     contextualMenu->exec(mapToGlobal(position));
+}
+
+void MainWindow::wheelEvent(QWheelEvent* event)
+{
+    int y = event->angleDelta().y();
+
+    int newFontSize;
+    if (y>0)
+    {
+        newFontSize = readCurrentFontSize() + 1;
+    }
+    else
+    {
+        newFontSize = readCurrentFontSize() - 1;
+    }
+
+    int inGraphHeight = ui->in_graph->height();
+    setFontSize(newFontSize);
+
+    // Easy way to force the labels to be drawn to get the differential
+    QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    int graphDelta = inGraphHeight - ui->in_graph->height();
+
+    QSize newSize = size();
+    QSize oldSize = size();
+
+    newSize.setHeight(oldSize.height() + graphDelta * 2);
+    newSize.setWidth(oldSize.width() + graphDelta * 2);
+
+    resize(newSize);
 }
 
 int MainWindow::readCurrentFontSize() const

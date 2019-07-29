@@ -35,6 +35,9 @@ public:
     explicit MainWindow(const QString& interfaceName, QWidget *parent = 0);
     ~MainWindow();
 
+protected:
+    void wheelEvent(QWheelEvent* event);
+
 private Q_SLOTS:
     void updateInformation();
     void changeInterface();
