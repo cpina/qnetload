@@ -146,6 +146,13 @@ void MainWindow::showContextualMenu(const QPoint& position)
         interfaceAction->setCheckable(true);
         interfaceAction->setChecked(interface == m_networkInformation->interfaceName());
 
+        if (NetworkInformationReader::isNotableInterface(interface))
+        {
+            QFont font = interfaceAction->font();
+            font.setBold(NetworkInformationReader::isNotableInterface(interface));
+            interfaceAction->setFont(font);
+        }
+
         connect(interfaceAction, &QAction::triggered,
                 this, [this, interface]{m_networkInformation->setInterfaceName(interface);} );
     }

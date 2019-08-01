@@ -51,6 +51,8 @@ public:
 
     QString chooseInterfaceFromProcNetDevInterface() const;
 
+    static bool isNotableInterface(const QString& interface);
+
 signals:
     void interfaceNameChanged();
 

@@ -159,3 +159,9 @@ QString NetworkInformationReader::chooseInterfaceFromProcNetDevInterface() const
     }
     return interfaces.first();
 }
+
+bool NetworkInformationReader::isNotableInterface(const QString& interface)
+{
+    return interface.startsWith("eth") || interface.startsWith("enp") ||
+            interface.startsWith("wlan") || interface.startsWith("wlp");
+}
