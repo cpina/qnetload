@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     QApplication::setApplicationVersion("0.3");
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Display traffic for a network interface.\n\nqnetload Copyright (C) 2017 Carles Pina i Estany <carles@pina.cat>\nLicense: GPLv3");
+    parser.setApplicationDescription("Display traffic for a network interface.\n\nqnetload Copyright (C) 2017, 2019 Carles Pina i Estany <carles@pina.cat>\nLicense: GPLv3");
     parser.addHelpOption();
     parser.addVersionOption();
     QCommandLineOption interfaceOption(QStringList() << "i" << "interface",

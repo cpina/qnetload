@@ -6,7 +6,7 @@
 #include "informationstorage.h"
 
 /*
- * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2019 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
