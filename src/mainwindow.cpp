@@ -32,13 +32,13 @@
 MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_informationStorage(new InformationStorage(this)),
     m_networkInformation(new NetworkInformationReader(this)),
+    m_informationStorage(new InformationStorage(this)),
     m_timer(new QTimer(this))
 {
     ui->setupUi(this);
-    connect(ui->interface_name, SIGNAL(clicked()),
-            this, SLOT(selectNextInterface()));
+    connect(ui->interface_name, &ClickableLabel::clicked,
+            this, &MainWindow::selectNextInterface);
 
     QString interfaceSelectedName = interfaceName;
 
@@ -49,8 +49,8 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     restoreState(settings.value("mainWindowState").toByteArray());
 
 
-    connect(m_networkInformation, SIGNAL(interfaceNameChanged()),
-            m_informationStorage, SLOT(initialize()));
+    connect(m_networkInformation, &NetworkInformationReader::interfaceNameChanged,
+            m_informationStorage, &InformationStorage::initialize);
     connect(m_networkInformation, SIGNAL(interfaceNameChanged()),
             this, SLOT(interfaceNameChanged()));
 
@@ -82,7 +82,7 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
     setTooltips();
 
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(updateInformation()));
+    connect(m_timer, &QTimer::timeout, this, &MainWindow::updateInformation);
     m_timer->start(1000);
 
     // Speed to zero to start with
