@@ -44,8 +44,8 @@ void NetworkInformationReader::setInterfaceName(const QString& interfaceName)
 {
     if (interfaceName != m_interfaceName)
     {
-        emit interfaceNameChanged();
         m_interfaceName = interfaceName;
+        emit interfaceNameChanged();
     }
 }
 

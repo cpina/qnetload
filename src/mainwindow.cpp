@@ -38,7 +38,7 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->interface_name, SIGNAL(clicked()),
-            this, SLOT(changeInterface()));
+            this, SLOT(selectNextInterface()));
 
     QString interfaceSelectedName = interfaceName;
 
@@ -51,6 +51,8 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
     connect(m_networkInformation, SIGNAL(interfaceNameChanged()),
             m_informationStorage, SLOT(initialize()));
+    connect(m_networkInformation, SIGNAL(interfaceNameChanged()),
+            this, SLOT(interfaceNameChanged()));
 
     QStringList listOfInterfaces = m_networkInformation->listOfInterfaces();
 
@@ -101,7 +103,15 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
             this, &MainWindow::showContextualMenu);
 }
 
-void MainWindow::changeInterface()
+void MainWindow::interfaceNameChanged()
+{
+    QSettings settings;
+    settings.setValue("latestInterfaceName", m_networkInformation->interfaceName());
+
+    QTimer::singleShot(1, this, SLOT(updateInformation()));
+}
+
+void MainWindow::selectNextInterface()
 {
     QString currentInterface = m_networkInformation->interfaceName();
     QStringList listOfInterfaces = m_networkInformation->listOfInterfaces();
@@ -111,11 +121,6 @@ void MainWindow::changeInterface()
     QString newInterface = listOfInterfaces.at(newIndex);
 
     m_networkInformation->setInterfaceName(newInterface);
-
-    QTimer::singleShot(1, this, SLOT(updateInformation()));
-
-    QSettings settings;
-    settings.setValue("latestInterfaceName", newInterface);
 }
 
 void MainWindow::showContextualMenu(const QPoint& position)

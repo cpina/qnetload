@@ -40,9 +40,10 @@ protected:
 
 private Q_SLOTS:
     void updateInformation();
-    void changeInterface();
+    void selectNextInterface();
 
     void showContextualMenu(const QPoint& position);
+    void interfaceNameChanged();
 
 private:
     int readCurrentFontSize() const;
