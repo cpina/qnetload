@@ -142,7 +142,7 @@
          </font>
         </property>
         <property name="toolTip">
-         <string>Total (in and out) transferred data</string>
+         <string/>
         </property>
         <property name="text">
          <string>300 MB</string>

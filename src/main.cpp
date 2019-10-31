@@ -5,7 +5,7 @@
 #include <QMessageBox>
 
 /*
- * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2019 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QApplication::setOrganizationName("qnetload");
     QApplication::setApplicationName("qnetload");
-    QApplication::setApplicationVersion("0.4");
+    QApplication::setApplicationVersion("0.5");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Display traffic for a network interface.\n\nqnetload Copyright (C) 2017, 2019 Carles Pina i Estany <carles@pina.cat>\nLicense: GPLv3");
