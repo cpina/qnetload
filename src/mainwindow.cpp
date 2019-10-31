@@ -165,6 +165,9 @@ void MainWindow::showContextualMenu(const QPoint& position)
 
     contextualMenu->addMenu(interfaces);
 
+    QAction* version = contextualMenu->addAction(tr("Version: %1").arg(QApplication::applicationVersion()));
+    version->setEnabled(false);
+
     contextualMenu->exec(mapToGlobal(position));
 }
 
