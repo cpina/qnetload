@@ -88,7 +88,8 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     // Speed to zero to start with
     setAllLabels(m_networkInformation->interfaceName(), 0,
                  0, 0, 0,
-                 0, 0, 0);
+                 0, 0, 0,
+                 0);
 
     ui->in_graph->setType(InformationStorage::InType);
     ui->in_graph->setInformationStorage(m_informationStorage);
@@ -257,11 +258,14 @@ void MainWindow::setTooltips()
     ui->out_current_speed->setToolTip(tr("Speed sending data"));
     ui->out_maximum_speed->setToolTip(tr("Maximum speed sending data (intervals of 1 second)"));
     ui->out_transferred->setToolTip(tr("Total amount of data sent since qnetload was started"));
+
+    ui->total_transferred->setToolTip(tr("Total (in and out) transferred data"));
 }
 
 void MainWindow::setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
                   quint64 currentSpeedIn, quint64 maximumSpeedIn, quint64 transferredIn,
-                  quint64 currentSpeedOut, quint64 maximumSpeedOut, quint64 transferredOut)
+                  quint64 currentSpeedOut, quint64 maximumSpeedOut, quint64 transferredOut,
+                  quint64 transferredTotal)
 {
     ui->interface_name->setText(interfaceName);
     ui->time_running->setText(FormatNumber::formatElapsedTime(millisecondsSinceStart));
@@ -273,6 +277,8 @@ void MainWindow::setAllLabels(const QString& interfaceName, quint64 milliseconds
     ui->out_current_speed->setText(FormatNumber::formatSpeed(currentSpeedOut));
     ui->out_maximum_speed->setText(QString("(%1)").arg(FormatNumber::formatSpeed(maximumSpeedOut)));
     ui->out_transferred->setText(QString("[%1]").arg(FormatNumber::formatTransfer(transferredOut)));
+
+    ui->total_transferred->setText(QString("%1").arg(FormatNumber::formatTransfer(transferredTotal)));
 }
 
 void MainWindow::updateInformation()
@@ -286,6 +292,7 @@ void MainWindow::updateInformation()
 
     quint64 transferredIn = m_informationStorage->transferredIn();
     quint64 transferredOut = m_informationStorage->transferredOut();
+    quint64 transferredTotal = transferredIn + transferredOut;
 
     NetworkInformationReader::NetworkBytesInOut currentSpeed = m_informationStorage->currentSpeed();
     quint64 currentSpeedIn = currentSpeed.in;
@@ -293,7 +300,8 @@ void MainWindow::updateInformation()
 
     setAllLabels(m_networkInformation->interfaceName(), m_informationStorage->millisecondsSinceStart(),
                  currentSpeedIn, maximumSpeedIn, transferredIn,
-                 currentSpeedOut, maximumSpeedOut, transferredOut);
+                 currentSpeedOut, maximumSpeedOut, transferredOut,
+                 transferredTotal);
 
     ui->in_graph->repaint();
     ui->out_graph->repaint();

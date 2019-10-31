@@ -50,7 +50,8 @@ private:
     QString chooseInterfaceName() const;
     void setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
                       quint64 currentSpeedIn, quint64 maximumSpeedIn, quint64 transferredIn,
-                      quint64 currentSpeedOut, quint64 maximumSpeedOut, quint64 transferredOut);
+                      quint64 currentSpeedOut, quint64 maximumSpeedOut, quint64 transferredOut,
+                      quint64 transferredTotal);
     void setTooltips();
     void setFontSize(int fontSize);
 

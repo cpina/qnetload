@@ -116,6 +116,39 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="total">
+        <property name="font">
+         <font>
+          <family>Monospace</family>
+          <pointsize>7</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Total: </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="total_transferred">
+        <property name="font">
+         <font>
+          <family>Monospace</family>
+          <pointsize>7</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Total (in and out) transferred data</string>
+        </property>
+        <property name="text">
+         <string>300 MB</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
