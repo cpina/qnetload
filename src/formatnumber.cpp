@@ -22,12 +22,25 @@ QString FormatNumber::formatBytes(quint64 bytes, const QString& unitsPostfix)
 {
     float value = bytes;
 
+    bool isBytes = true;
     int i;
     for (i = 0; value > 1024.0 && i < prefixes().count(); i++)
     {
         value /= 1024.0;
+        isBytes = false;
     }
-    return QString("%1 %2%3").arg(QString::number(value, 'f', 1)).arg(prefixes()[i], unitsPostfix);
+
+    int decimals;
+
+    if (isBytes)
+    {
+        decimals = 0;
+    }
+    else
+    {
+        decimals = 2;
+    }
+    return QString("%1 %2%3").arg(QString::number(value, 'f', decimals)).arg(prefixes()[i], unitsPostfix);
 }
 
 QString FormatNumber::formatSpeed(quint64 bytesSecond)
