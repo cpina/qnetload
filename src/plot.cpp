@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QPainter>
+#include <QMouseEvent>
 
 #include <math.h>
 
@@ -101,6 +102,11 @@ void Plot::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     paintScale(&painter);
     paintBars(&painter);
+}
+
+void Plot::mousePressEvent(QMouseEvent* event)
+{
+    qDebug() << "Test:" << event->x();
 }
 
 void Plot::setType(InformationStorage::InOrOutType inOrOutType)
