@@ -6,7 +6,7 @@
 #include "informationstorage.h"
 
 /*
- * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2020 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent* event);
 
 signals:
 
@@ -49,6 +50,8 @@ private:
 
     InformationStorage::InOrOutType m_type;
     InformationStorage* m_informationStorage;
+
+    int m_paintedInitial;
 };
 
 #endif // PLOT_H

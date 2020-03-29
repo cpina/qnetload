@@ -30,7 +30,7 @@ public:
     struct NetworkBytesInOut {
         quint64 in;
         quint64 out;
-        qint64 milliSecondsSinceEpoch;
+        quint64 milliSecondsSinceEpoch;
 
         NetworkBytesInOut() : in(0), out(0), milliSecondsSinceEpoch(0) {}
     };

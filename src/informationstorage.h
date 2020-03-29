@@ -6,7 +6,7 @@
 #include "networkinformationreader.h"
 
 /*
- * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2020 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -44,11 +44,19 @@ public:
     quint64 transferredOut() const;
     quint64 millisecondsSinceStart() const;
 
+    quint64 speed(int position, InOrOutType inOrOut) const;
+
     void setCapacity(int maximumInformation);
 
     QList<int> lastValues(int numberOfValues, InOrOutType type);
 
     NetworkInformationReader::NetworkBytesInOut currentSpeed();
+
+    QVector<NetworkInformationReader::NetworkBytesInOut> informations() const;
+
+    quint64 accumulatedTransfer(int position, InformationStorage::InOrOutType inOrOut) const;
+
+    quint64 secondsAgo(int position);
 
 public slots:
     void initialize();

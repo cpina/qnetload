@@ -1,13 +1,18 @@
 #include "plot.h"
 
+#include "formatnumber.h"
+#include "networkinformationreader.h"
+
 #include <QDebug>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QVector>
+#include <QToolTip>
 
 #include <math.h>
 
 /*
- * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2020 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -26,7 +31,8 @@
 
 Plot::Plot(QWidget *parent) :
     QWidget(parent),
-    m_type(InformationStorage::UndefinedType)
+    m_type(InformationStorage::UndefinedType),
+    m_paintedInitial(0)
 {
     QPalette pal(palette());
     pal.setColor(QPalette::Background, Qt::white);
@@ -36,8 +42,6 @@ Plot::Plot(QWidget *parent) :
 
 int Plot::maximumValue()
 {
-//    int maximum = 0;
-
     return std::max(m_informationStorage->maximumSpeedIn(), m_informationStorage->maximumSpeedOut());
 }
 
@@ -66,16 +70,21 @@ void Plot::paintScale(QPainter* painter)
 
 void Plot::paintBars(QPainter *painter)
 {
-    QList<int> values = m_informationStorage->lastValues(width(), m_type);
+    QVector<NetworkInformationReader::NetworkBytesInOut> informations = m_informationStorage->informations();
 
     float maximumValue = maximumValueLog();
 
-    for (int i = 0; i < values.count(); i++)
+    int initial = qMax(0, informations.count()-width());
+
+    m_paintedInitial = initial;
+
+    for(int i=initial; i < informations.count(); i++)
     {
         float y;
-        if (values[i] != 0)
+        quint64 speed = m_informationStorage->speed(i, m_type);
+        if (speed != 0)
         {
-            y = (height() * log(values[i])) / maximumValue;
+            y = (height() * log(speed)) / maximumValue;
 
         }
         else
@@ -106,7 +115,18 @@ void Plot::paintEvent(QPaintEvent *event)
 
 void Plot::mousePressEvent(QMouseEvent* event)
 {
-    qDebug() << "Test:" << event->x();
+    int valuePosition = m_paintedInitial + event->x();
+
+    if (valuePosition > m_informationStorage->informations().count())
+    {
+        return;
+    }
+
+    quint64 accumulatedTransfer = m_informationStorage->accumulatedTransfer(valuePosition, m_type);
+    QString timeAgo = QString::number(m_informationStorage->secondsAgo(valuePosition));
+    QString information = QString("Last %1 seconds %2 transferred").arg(timeAgo).arg(FormatNumber::formatTransfer(accumulatedTransfer));
+
+    QToolTip::showText(event->globalPos(), information);
 }
 
 void Plot::setType(InformationStorage::InOrOutType inOrOutType)

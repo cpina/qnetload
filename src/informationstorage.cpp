@@ -3,7 +3,7 @@
 #include <QDateTime>
 
 /*
- * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2020 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -51,6 +51,36 @@ void InformationStorage::setCapacity(int maximumInformation)
 quint64 InformationStorage::millisecondsSinceStart() const
 {
     return QDateTime::currentMSecsSinceEpoch() - m_startedBytes.milliSecondsSinceEpoch;
+}
+
+quint64 InformationStorage::accumulatedTransfer(int position, InformationStorage::InOrOutType inOrOut) const
+{
+    quint64 dataAccumulated = 0;
+
+    for (int i = position; i < m_informations.count(); i++)
+    {
+        dataAccumulated += speed(i, inOrOut);
+    }
+    return dataAccumulated;
+}
+
+quint64 InformationStorage::secondsAgo(int position)
+{
+    quint64 milliSecondsSinceEpoch = m_informations[position].milliSecondsSinceEpoch;
+    return (QDateTime::currentMSecsSinceEpoch() - milliSecondsSinceEpoch) / 1000;
+}
+
+quint64 InformationStorage::speed(int position, InformationStorage::InOrOutType inOrOut) const
+{
+    switch(inOrOut)
+    {
+        case InformationStorage::InType:
+            return m_informations[position].in;
+        case InformationStorage::OutType:
+            return m_informations[position].out;
+        case UndefinedType:
+            return 0;
+    }
 }
 
 NetworkInformationReader::NetworkBytesInOut InformationStorage::currentSpeed()
@@ -147,6 +177,12 @@ quint64 InformationStorage::transferredOut() const
 
     return m_latestBytes.out - m_startedBytes.out;
 }
+
+QVector<NetworkInformationReader::NetworkBytesInOut> InformationStorage::informations() const
+{
+    return m_informations;
+}
+
 
 QList<int> InformationStorage::lastValues(int numberOfValues, InOrOutType type)
 {
