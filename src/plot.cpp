@@ -38,18 +38,6 @@ int Plot::maximumValue()
 //    int maximum = 0;
 
     return std::max(m_informationStorage->maximumSpeedIn(), m_informationStorage->maximumSpeedOut());
-//    switch (m_type)
-//    {
-//        case InformationStorage::InType:
-//            maximum = m_informationStorage->maximumSpeedIn();
-//            break;
-//        case InformationStorage::OutType:
-//            maximum = m_informationStorage->maximumSpeedOut();
-//            break;
-//        default:
-//            Q_ASSERT(false);
-//    }
-//    return maximum;
 }
 
 float Plot::maximumValueLog()

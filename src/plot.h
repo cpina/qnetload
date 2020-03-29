@@ -27,7 +27,7 @@ class Plot : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Plot(QWidget *parent = 0);
+    explicit Plot(QWidget *parent = nullptr);
 
     void setType(InformationStorage::InOrOutType inOrOutType);
     void setInformationStorage(InformationStorage* informationStorage);
