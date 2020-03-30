@@ -27,7 +27,12 @@ class FormatNumber
 public:
     static QString formatSpeed(quint64 bytesSecond);
     static QString formatTransfer(quint64 bytes);
+
+    // Formats to hh:mm:ss
     static QString formatElapsedTime(quint64 milliseconds);
+
+    // formats to M min S sec
+    static QString formatSeconds(quint64 totalSeconds);
 
 private:
     static QString formatBytes(quint64 bytes, const QString& unitsPostfix);

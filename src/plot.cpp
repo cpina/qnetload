@@ -124,8 +124,8 @@ void Plot::mousePressEvent(QMouseEvent* event)
     }
 
     quint64 accumulatedTransfer = m_informationStorage->accumulatedTransfer(valuePosition, m_type);
-    QString timeAgo = QString::number(m_informationStorage->secondsAgo(valuePosition));
-    QString information = QString("Last %1 seconds %2 transferred").arg(timeAgo).arg(FormatNumber::formatTransfer(accumulatedTransfer));
+    QString timeAgo = FormatNumber::formatSeconds(m_informationStorage->secondsAgo(valuePosition));
+    QString information = QString("Last %1 %2 transferred").arg(timeAgo).arg(FormatNumber::formatTransfer(accumulatedTransfer));
 
     QToolTip::showText(event->globalPos(), information);
 }

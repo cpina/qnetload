@@ -64,6 +64,21 @@ QString FormatNumber::formatElapsedTime(quint64 milliseconds)
     return QString("%1:%2:%3").arg(hours).arg(padNumber(minutes)).arg(padNumber(seconds));
 }
 
+QString FormatNumber::formatSeconds(quint64 totalSeconds)
+{
+    if (totalSeconds > 59)
+    {
+        quint64 minutes = totalSeconds / 60;
+        quint64 seconds = totalSeconds % 60;
+
+        return QString("%1 min %2 secs").arg(minutes).arg(seconds);
+    }
+    else
+    {
+        return QString("%1 secs").arg(totalSeconds);
+    }
+}
+
 QString FormatNumber::padNumber(int number)
 {
     return QString("%1").arg(number, 2, 10, QChar('0'));
