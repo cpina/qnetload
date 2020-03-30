@@ -78,6 +78,7 @@ void Plot::paintBars(QPainter *painter)
 
     m_paintedInitial = initial;
 
+    int x;
     for(int i=initial; i < informations.count(); i++)
     {
         float y;
@@ -93,10 +94,10 @@ void Plot::paintBars(QPainter *painter)
         }
 
         y = height() - y;
+        x = i - initial;
 
-
-        painter->drawLine(QPoint(i, height()),
-                          QPoint(i, y));
+        painter->drawLine(QPoint(x, height()),
+                          QPoint(x, y));
     }
 }
 
