@@ -123,9 +123,16 @@ void Plot::mousePressEvent(QMouseEvent* event)
         return;
     }
 
-    quint64 accumulatedTransfer = m_informationStorage->accumulatedTransfer(valuePosition, m_type);
     QString timeAgo = FormatNumber::formatSeconds(m_informationStorage->secondsAgo(valuePosition));
-    QString information = QString("Last %1 %2 transferred").arg(timeAgo).arg(FormatNumber::formatTransfer(accumulatedTransfer));
+
+    quint64 accumulatedTransferIn = m_informationStorage->accumulatedTransfer(valuePosition, InformationStorage::InType);
+    quint64 accumulatedTransferOut = m_informationStorage->accumulatedTransfer(valuePosition, InformationStorage::OutType);
+    quint64 accumulatedTransfer = accumulatedTransferIn + accumulatedTransferOut;
+
+    QString information = QString("Last %1\nIn: %2 Out: %3\nTotal: %4 transferred").arg(timeAgo)
+                                                                                 .arg(FormatNumber::formatTransfer(accumulatedTransferIn))
+                                                                                 .arg(FormatNumber::formatTransfer(accumulatedTransferOut))
+                                                                                 .arg(FormatNumber::formatTransfer(accumulatedTransfer));
 
     QToolTip::showText(event->globalPos(), information);
 }
