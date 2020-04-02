@@ -12,7 +12,7 @@
 
 
 /*
- * Copyright 2017, 2019 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2019, 2020 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -36,7 +36,11 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     m_informationStorage(new InformationStorage(this)),
     m_timer(new QTimer(this))
 {
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     ui->setupUi(this);
+
+    m_resetPixmap = QPixmap(":/icons/arrow-circle-135-left.png");
+
     connect(ui->interface_name, &ClickableLabel::clicked,
             this, &MainWindow::selectNextInterface);
 
@@ -44,15 +48,18 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
     setFontSize(readCurrentFontSize());
 
+    ui->reset_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+
     QSettings settings;
     restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
     restoreState(settings.value("mainWindowState").toByteArray());
-
 
     connect(m_networkInformation, &NetworkInformationReader::interfaceNameChanged,
             m_informationStorage, &InformationStorage::initialize);
     connect(m_networkInformation, SIGNAL(interfaceNameChanged()),
             this, SLOT(interfaceNameChanged()));
+    connect(ui->reset_button, &QAbstractButton::clicked,
+            this, &MainWindow::reset);
 
     QStringList listOfInterfaces = m_networkInformation->listOfInterfaces();
 
@@ -102,6 +109,12 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &QWidget::customContextMenuRequested,
             this, &MainWindow::showContextualMenu);
+}
+
+void MainWindow::reset()
+{
+    m_informationStorage->initialize();
+    updateInformation();
 }
 
 void MainWindow::interfaceNameChanged()
@@ -173,6 +186,7 @@ void MainWindow::showContextualMenu(const QPoint& position)
 
 void MainWindow::wheelEvent(QWheelEvent* event)
 {
+    // Resizes fonts
     if (!(QApplication::keyboardModifiers() & Qt::ControlModifier))
     {
         return;
@@ -233,6 +247,16 @@ void MainWindow::setFontSize(int fontSize)
 
     QSettings settings;
     settings.setValue("fontSize", fontSize);
+
+    int labelHeight = ui->out_current_speed->height();
+    ui->reset_button->setFixedSize(labelHeight, labelHeight);
+
+    // Reset button resize
+    int fontHeight = ui->interface_name->fontMetrics().height();
+    QPixmap resetPixmapResized = m_resetPixmap.scaledToHeight(fontHeight);
+    ui->reset_button->setIconSize(resetPixmapResized.size());
+    ui->reset_button->setIcon(resetPixmapResized);
+    ui->reset_button->setFixedSize(resetPixmapResized.size());
 }
 
 QString MainWindow::chooseInterfaceName() const

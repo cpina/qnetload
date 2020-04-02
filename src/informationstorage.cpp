@@ -204,4 +204,3 @@ QList<int> InformationStorage::lastValues(int numberOfValues, InOrOutType type)
 
     return values;
 }
-

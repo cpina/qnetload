@@ -60,3 +60,6 @@ I'd like to keep the user interface and way of working similar to xnetload so th
 If you would like something else let me know (create a bug or drop me an email).
 
 Carles Pina i Estany (carles@pina.cat)
+
+## Icons
+Icons from: https://p.yusukekamiyamane.com (by Creative Commons Attribution 3.0 License)

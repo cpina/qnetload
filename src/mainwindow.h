@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPixmap>
 #include "networkinformationreader.h"
 #include "informationstorage.h"
 
@@ -46,6 +47,7 @@ private Q_SLOTS:
     void interfaceNameChanged();
 
 private:
+    void reset();
     int readCurrentFontSize() const;
     QString chooseInterfaceName() const;
     void setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
@@ -59,6 +61,8 @@ private:
     NetworkInformationReader* m_networkInformation;
     InformationStorage* m_informationStorage;
     QTimer* m_timer;
+
+    QPixmap m_resetPixmap;
 };
 
 #endif // MAINWINDOW_H

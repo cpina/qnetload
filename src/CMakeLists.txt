@@ -22,11 +22,14 @@ set(SOURCES
   formatnumber.cpp
   plot.cpp
   clickablelabel.cpp
+  resources.qrc
 )
 
 set(UI_SOURCES
   mainwindow.ui
 )
+
+set(CMAKE_AUTORCC ON)
 
 qt5_wrap_ui(UI_GENERATED_HEADERS ${UI_SOURCES})
 
