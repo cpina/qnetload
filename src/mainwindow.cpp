@@ -287,6 +287,7 @@ void MainWindow::setTooltips()
     ui->out_transferred->setToolTip(tr("Total amount of data sent since qnetload was started"));
 
     ui->total_transferred->setToolTip(tr("Total (in and out) transferred data"));
+    ui->reset_button->setToolTip(tr("Reset counters"));
 }
 
 void MainWindow::setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
