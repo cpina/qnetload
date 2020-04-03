@@ -19,6 +19,14 @@ class ClickableLabel : public QLabel
 
 	protected:
 		void mousePressEvent(QMouseEvent* event);
+
+        void leaveEvent(QEvent* event);
+        void enterEvent(QEvent* event);
+
+        virtual void paintEvent(QPaintEvent* event);
+
+    private:
+        bool m_inside;
 };
 
 #endif // CLICKABLELABEL_H
