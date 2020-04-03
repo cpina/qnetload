@@ -1,6 +1,7 @@
 #include "clickablelabel.h"
 
 // Copied and changed from: https://wiki.qt.io/Clickable_QLabel
+#include <QMouseEvent>
 #include <QPainter>
 #include <QDebug>
 
@@ -16,7 +17,10 @@ ClickableLabel::~ClickableLabel()
 
 void ClickableLabel::mousePressEvent(QMouseEvent* event)
 {
-    emit clicked();
+    if (event->buttons() & Qt::LeftButton)
+    {
+        emit leftClicked();
+    }
 }
 
 void ClickableLabel::paintEvent(QPaintEvent* event)

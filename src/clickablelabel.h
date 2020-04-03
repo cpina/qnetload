@@ -15,7 +15,7 @@ class ClickableLabel : public QLabel
 		~ClickableLabel();
 
 	Q_SIGNALS:
-		void clicked();
+        void leftClicked();
 
 	protected:
 		void mousePressEvent(QMouseEvent* event);

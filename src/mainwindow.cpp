@@ -41,7 +41,7 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
     m_resetPixmap = QPixmap(":/icons/arrow-circle-135-left.png");
 
-    connect(ui->interface_name, &ClickableLabel::clicked,
+    connect(ui->interface_name, &ClickableLabel::leftClicked,
             this, &MainWindow::selectNextInterface);
 
     QString interfaceSelectedName = interfaceName;
