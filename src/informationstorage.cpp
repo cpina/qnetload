@@ -182,25 +182,3 @@ QVector<NetworkInformationReader::NetworkBytesInOut> InformationStorage::informa
 {
     return m_informations;
 }
-
-
-QList<int> InformationStorage::lastValues(int numberOfValues, InOrOutType type)
-{
-    QList<int> values;
-
-    int initial = qMax(0, m_informations.count()-numberOfValues);
-
-    for (int i = initial; i < m_informations.count(); i++)
-    {
-        if (type == InType)
-        {
-            values.append(m_informations.at(i).in);
-        }
-        else if (type == OutType)
-        {
-            values.append(m_informations.at(i).out);
-        }
-    }
-
-    return values;
-}

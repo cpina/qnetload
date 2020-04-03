@@ -29,34 +29,6 @@ void TestInformationStorage::init()
     m_informationStorage.reset(new InformationStorage);
 }
 
-void TestInformationStorage::testLastValues()
-{
-    // It also checks indirectly calculating the speed
-    QCOMPARE(m_informationStorage->lastValues(10, InformationStorage::InType), QList<int>());
-
-    addData(10000, 400, 1000);
-    addData(20000, 800, 1500);
-
-    QList<int> actual = m_informationStorage->lastValues(10, InformationStorage::InType);
-
-    QCOMPARE(actual, QList<int>() << 20000);
-
-    addData(30000, 1000, 2000);
-    addData(40000, 1200, 2500);
-    addData(50000, 1400, 3000);
-    addData(60000, 1600, 4500);
-    addData(70000, 1800, 5000);
-    addData(80000, 2000, 5500);
-    addData(95000, 2200, 6000);    // Speed in: (95000-80000) / 0.5 = 30000
-    addData(100000, 2400, 6500);    // Speed in: (100000-95000) / 0.5 = 10000
-
-    actual = m_informationStorage->lastValues(2, InformationStorage::InType);
-    QCOMPARE(actual, QList<int>() << 30000 << 10000);
-
-    actual = m_informationStorage->lastValues(2, InformationStorage::OutType);
-    QCOMPARE(actual, QList<int>() << 400 << 400);
-}
-
 void TestInformationStorage::testCurrentSpeed()
 {
     addData(10000, 400, 1000);

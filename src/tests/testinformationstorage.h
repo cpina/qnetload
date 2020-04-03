@@ -30,7 +30,6 @@ public:
 private Q_SLOTS:
     void init();
 
-    void testLastValues();
     void testCurrentSpeed();
 
     void testMaximumSpeedIn();
