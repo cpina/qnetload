@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("qnetload");
     QApplication::setApplicationVersion("0.6");
 
-    qInfo() << "qnetload version" << QApplication::applicationVersion();
-    qInfo() << "Icons from https://p.yusukekamiyamane.com";
+    qInfo() << qUtf8Printable("qnetload version " + QApplication::applicationVersion());
+    qInfo() << qUtf8Printable("Icons from https://p.yusukekamiyamane.com");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Display traffic for a network interface.\n\nqnetload Copyright (C) 2017, 2019, 2020 Carles Pina i Estany <carles@pina.cat>\nLicense: GPLv3");
