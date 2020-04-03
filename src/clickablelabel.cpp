@@ -27,6 +27,7 @@ ClickableLabel::ClickableLabel(QWidget* parent, Qt::WindowFlags f)
     : QLabel(parent)
     , m_inside(false)
 {
+    Q_UNUSED(f);
 }
 
 ClickableLabel::~ClickableLabel()
@@ -55,12 +56,16 @@ void ClickableLabel::paintEvent(QPaintEvent* event)
 
 void ClickableLabel::enterEvent(QEvent* event)
 {
+    Q_UNUSED(event);
+
     m_inside = true;
     update();
 }
 
 void ClickableLabel::leaveEvent(QEvent* event)
 {
+    Q_UNUSED(event);
+
     m_inside = false;
     update();
 }
