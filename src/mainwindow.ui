@@ -169,7 +169,7 @@
          </font>
         </property>
         <property name="text">
-         <string> Total: </string>
+         <string>Total: </string>
         </property>
        </widget>
       </item>

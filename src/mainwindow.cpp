@@ -34,7 +34,9 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     ui(new Ui::MainWindow),
     m_networkInformation(new NetworkInformationReader(this)),
     m_informationStorage(new InformationStorage(this)),
-    m_timer(new QTimer(this))
+    m_timer(new QTimer(this)),
+    m_resetWaitingForConfirmation(false),
+    m_resetCountDown(0)
 {
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     ui->setupUi(this);
@@ -49,6 +51,7 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     setFontSize(readCurrentFontSize());
 
     ui->reset_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    ui->message->setText("");
 
     QSettings settings;
     restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
@@ -113,8 +116,41 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
 
 void MainWindow::reset()
 {
-    m_informationStorage->initialize();
-    updateInformation();
+    if (m_resetWaitingForConfirmation)
+    {
+        ui->message->setText("");
+        m_informationStorage->initialize();
+        updateInformation();
+        m_resetWaitingForConfirmation = false;
+        m_resetCountDown = 0;
+    }
+    else
+    {
+        m_resetCountDown = 5;
+        m_resetWaitingForConfirmation = true;
+        resetCountDown();
+    }
+}
+
+void MainWindow::resetCountDown()
+{
+    if (m_resetCountDown == -1)
+    {
+        m_resetWaitingForConfirmation = false;
+        m_resetCountDown = 0;
+        ui->message->setText("");
+        return;
+    }
+
+    if (!m_resetWaitingForConfirmation)
+    {
+        return;
+    }
+
+    ui->message->setText(tr("Click again to reset... %1").arg(m_resetCountDown));
+    m_resetCountDown--;
+
+    QTimer::singleShot(1000, this, &MainWindow::resetCountDown);
 }
 
 void MainWindow::interfaceNameChanged()

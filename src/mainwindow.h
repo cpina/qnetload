@@ -46,6 +46,8 @@ private Q_SLOTS:
     void showContextualMenu(const QPoint& position);
     void interfaceNameChanged();
 
+    void resetCountDown();
+
 private:
     void reset();
     int readCurrentFontSize() const;
@@ -63,6 +65,9 @@ private:
     QTimer* m_timer;
 
     QPixmap m_resetPixmap;
+
+    bool m_resetWaitingForConfirmation;
+    int m_resetCountDown;
 };
 
 #endif // MAINWINDOW_H
