@@ -147,7 +147,7 @@ void MainWindow::resetCountDown()
         return;
     }
 
-    ui->message->setText(tr("Click again to reset... %1").arg(m_resetCountDown));
+    ui->message->setText(tr("%1 click again").arg(m_resetCountDown));
     m_resetCountDown--;
 
     QTimer::singleShot(1000, this, &MainWindow::resetCountDown);
