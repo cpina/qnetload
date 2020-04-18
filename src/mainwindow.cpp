@@ -42,6 +42,7 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     ui->setupUi(this);
 
     m_resetPixmap = QPixmap(":/icons/arrow-circle-135-left.png");
+    m_pausePixmap = QPixmap(":/icons/control-pause.png");
 
     connect(ui->interface_name, &ClickableLabel::leftClicked,
             this, &MainWindow::selectNextInterface);
@@ -290,9 +291,17 @@ void MainWindow::setFontSize(int fontSize)
     // Reset button resize
     int fontHeight = ui->interface_name->fontMetrics().height();
     QPixmap resetPixmapResized = m_resetPixmap.scaledToHeight(fontHeight);
-    ui->reset_button->setIconSize(resetPixmapResized.size());
-    ui->reset_button->setIcon(resetPixmapResized);
-    ui->reset_button->setFixedSize(resetPixmapResized.size());
+    QPixmap pausePixmapResized = m_pausePixmap.scaledToHeight(fontHeight);
+
+    updateButtonIcon(ui->reset_button, resetPixmapResized);
+    updateButtonIcon(ui->pause_button, pausePixmapResized);
+}
+
+void MainWindow::updateButtonIcon(QToolButton* toolButton, const QPixmap& pixmap)
+{
+    toolButton->setIconSize(pixmap.size());
+    toolButton->setIcon(pixmap);
+    toolButton->setFixedSize(pixmap.size());
 }
 
 QString MainWindow::chooseInterfaceName() const

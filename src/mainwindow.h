@@ -6,6 +6,8 @@
 #include "networkinformationreader.h"
 #include "informationstorage.h"
 
+class QToolButton;
+
 /*
  * Copyright 2017, 2019 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
@@ -59,12 +61,15 @@ private:
     void setTooltips();
     void setFontSize(int fontSize);
 
+    void updateButtonIcon(QToolButton* toolButton, const QPixmap& pixmap);
+
     Ui::MainWindow *ui;
     NetworkInformationReader* m_networkInformation;
     InformationStorage* m_informationStorage;
     QTimer* m_timer;
 
     QPixmap m_resetPixmap;
+    QPixmap m_pausePixmap;
 
     bool m_resetWaitingForConfirmation;
     int m_resetCountDown;

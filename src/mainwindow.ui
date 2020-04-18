@@ -134,6 +134,20 @@
       <item>
        <widget class="QLabel" name="spacer">
         <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="pause_button">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="spacer3">
+        <property name="text">
          <string> </string>
         </property>
        </widget>
@@ -154,7 +168,7 @@
       <item>
        <widget class="QLabel" name="spacer2">
         <property name="text">
-         <string> </string>
+         <string/>
         </property>
        </widget>
       </item>
