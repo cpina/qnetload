@@ -58,8 +58,13 @@ public:
 
     quint64 secondsAgo(int position);
 
+    bool isPaused() const;
+
 public slots:
     void initialize();
+
+    void pause(const NetworkInformationReader::NetworkBytesInOut& networkBytesInOut);
+    void unpause(NetworkInformationReader::NetworkBytesInOut& networkBytesInOut);
 
 private:
     NetworkInformationReader::NetworkBytesInOut calculateSpeed(const NetworkInformationReader::NetworkBytesInOut& before,
@@ -73,6 +78,14 @@ private:
 
     NetworkInformationReader::NetworkBytesInOut m_startedBytes;
     NetworkInformationReader::NetworkBytesInOut m_latestBytes;
+
+    quint64 m_pausedInBytes;
+    quint64 m_pausedOutBytes;
+
+    bool m_isPaused;
+    NetworkInformationReader::NetworkBytesInOut m_pauseStartsNetworkBytesInOut;
+
+
 };
 
 #endif // INFORMATIONSTORAGE_H

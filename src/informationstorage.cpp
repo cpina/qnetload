@@ -1,6 +1,7 @@
 #include "informationstorage.h"
 #include <QVector>
 #include <QDateTime>
+#include <QDebug>
 
 /*
  * Copyright 2017, 2020 Carles Pina i Estany <carles@pina.cat>
@@ -37,6 +38,29 @@ void InformationStorage::initialize()
     m_latestBytes = NetworkInformationReader::NetworkBytesInOut();
 
     setCapacity(4096);
+    m_isPaused = false;
+
+    m_pausedInBytes = 0;
+    m_pausedOutBytes = 0;
+}
+
+void InformationStorage::pause(const NetworkInformationReader::NetworkBytesInOut& networkBytesInOut)
+{
+    m_isPaused = true;
+    m_pauseStartsNetworkBytesInOut = networkBytesInOut;
+}
+
+void InformationStorage::unpause(NetworkInformationReader::NetworkBytesInOut& networkBytesInOut)
+{
+    m_isPaused = false;
+
+    m_pausedInBytes += networkBytesInOut.in - m_pauseStartsNetworkBytesInOut.in;
+    m_pausedOutBytes += networkBytesInOut.out - m_pauseStartsNetworkBytesInOut.out;
+}
+
+bool InformationStorage::isPaused() const
+{
+    return m_isPaused;
 }
 
 void InformationStorage::setCapacity(int maximumInformation)
@@ -108,10 +132,18 @@ NetworkInformationReader::NetworkBytesInOut InformationStorage::calculateSpeed(c
 
 void InformationStorage::addInformation(const NetworkInformationReader::NetworkBytesInOut& information)
 {
+    NetworkInformationReader::NetworkBytesInOut informationCorrected = information;
+
+    if (isPaused())
+    {
+        informationCorrected.in = m_latestBytes.in;
+        informationCorrected.out = m_latestBytes.out;
+    }
+
     if (m_startedBytes.milliSecondsSinceEpoch == 0)
     {
         // It hasn't been initialized yet
-        m_startedBytes = information;
+        m_startedBytes = informationCorrected;
         return;
     }
 
@@ -126,17 +158,17 @@ void InformationStorage::addInformation(const NetworkInformationReader::NetworkB
     // Information comes with total bytes, here we convert it into speed
     if (m_informations.isEmpty()) {
         // We use the initial transfer data
-        speed = calculateSpeed(m_startedBytes, information);
+        speed = calculateSpeed(m_startedBytes, informationCorrected);
     }
     else
     {
-        speed = calculateSpeed(m_latestBytes, information);
+        speed = calculateSpeed(m_latestBytes, informationCorrected);
     }
-    speed.milliSecondsSinceEpoch = information.milliSecondsSinceEpoch;
+    speed.milliSecondsSinceEpoch = informationCorrected.milliSecondsSinceEpoch;
 
     m_informations.append(speed);
 
-    m_latestBytes = information;
+    m_latestBytes = informationCorrected;
 
     if (speed.in > m_maximumSpeedIn)
     {

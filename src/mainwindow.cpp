@@ -52,6 +52,7 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     setFontSize(readCurrentFontSize());
 
     ui->reset_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    ui->pause_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
     ui->message->setText("");
 
     QSettings settings;
@@ -64,6 +65,8 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
             this, SLOT(interfaceNameChanged()));
     connect(ui->reset_button, &QAbstractButton::clicked,
             this, &MainWindow::reset);
+    connect(ui->pause_button, &QAbstractButton::clicked,
+            this, &MainWindow::togglePause);
 
     QStringList listOfInterfaces = m_networkInformation->listOfInterfaces();
 
@@ -130,6 +133,22 @@ void MainWindow::reset()
         m_resetCountDown = 5;
         m_resetWaitingForConfirmation = true;
         resetCountDown();
+    }
+}
+
+void MainWindow::togglePause()
+{
+    NetworkInformationReader::NetworkBytesInOut currentInformation = m_networkInformation->readInformation();
+
+    if (m_informationStorage->isPaused())
+    {
+        m_informationStorage->unpause(currentInformation);
+        ui->message->setText("");
+    }
+    else
+    {
+        m_informationStorage->pause(currentInformation);
+        ui->message->setText("Paused");
     }
 }
 

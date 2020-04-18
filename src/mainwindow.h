@@ -49,6 +49,8 @@ private Q_SLOTS:
     void interfaceNameChanged();
 
     void resetCountDown();
+    void togglePause();
+
 
 private:
     void reset();
