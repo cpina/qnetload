@@ -35,6 +35,20 @@ public:
         UndefinedType
     };
 
+    struct NetworkBytesInOutPaused : public NetworkInformationReader::NetworkBytesInOut {
+        bool paused;
+
+        NetworkBytesInOutPaused() :
+            NetworkInformationReader::NetworkBytesInOut(),
+            paused(false)
+        {}
+
+        NetworkBytesInOutPaused(const NetworkInformationReader::NetworkBytesInOut& networkBytesInOut) :
+            NetworkInformationReader::NetworkBytesInOut(networkBytesInOut),
+            paused(false)
+        {}
+    };
+
     explicit InformationStorage(QObject *parent = 0);
 
     void addInformation(const NetworkInformationReader::NetworkBytesInOut& information);
@@ -45,6 +59,7 @@ public:
     quint64 millisecondsSinceStart() const;
 
     quint64 speed(int position, InOrOutType inOrOut) const;
+    bool wasPaused(int position) const;
 
     void setCapacity(int maximumInformation);
 
@@ -52,7 +67,7 @@ public:
 
     NetworkInformationReader::NetworkBytesInOut currentSpeed();
 
-    QVector<NetworkInformationReader::NetworkBytesInOut> informations() const;
+    QVector<NetworkBytesInOutPaused> informations() const;
 
     quint64 accumulatedTransfer(int position, InformationStorage::InOrOutType inOrOut) const;
 
@@ -63,27 +78,27 @@ public:
 public slots:
     void initialize();
 
-    void pause(const NetworkInformationReader::NetworkBytesInOut& networkBytesInOut);
-    void unpause(NetworkInformationReader::NetworkBytesInOut& networkBytesInOut);
+    void pause(const InformationStorage::NetworkBytesInOutPaused& networkBytesInOut);
+    void unpause(InformationStorage::NetworkBytesInOutPaused& networkBytesInOut);
 
 private:
-    NetworkInformationReader::NetworkBytesInOut calculateSpeed(const NetworkInformationReader::NetworkBytesInOut& before,
+    InformationStorage::NetworkBytesInOutPaused calculateSpeed(const NetworkInformationReader::NetworkBytesInOut& before,
                                                                const NetworkInformationReader::NetworkBytesInOut& after);
 
     int m_maximumInformation;
-    QVector<NetworkInformationReader::NetworkBytesInOut> m_informations;
+    QVector<InformationStorage::NetworkBytesInOutPaused> m_informations;
 
     quint64 m_maximumSpeedIn;
     quint64 m_maximumSpeedOut;
 
-    NetworkInformationReader::NetworkBytesInOut m_startedBytes;
-    NetworkInformationReader::NetworkBytesInOut m_latestBytes;
+    InformationStorage::NetworkBytesInOutPaused m_startedBytes;
+    InformationStorage::NetworkBytesInOutPaused m_latestBytes;
 
     quint64 m_pausedInBytes;
     quint64 m_pausedOutBytes;
 
     bool m_isPaused;
-    NetworkInformationReader::NetworkBytesInOut m_pauseStartsNetworkBytesInOut;
+    InformationStorage::NetworkBytesInOutPaused m_pauseStartsNetworkBytesInOut;
 
 
 };

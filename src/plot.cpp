@@ -70,7 +70,7 @@ void Plot::paintScale(QPainter* painter)
 
 void Plot::paintBars(QPainter *painter)
 {
-    QVector<NetworkInformationReader::NetworkBytesInOut> informations = m_informationStorage->informations();
+    QVector<InformationStorage::NetworkBytesInOutPaused> informations = m_informationStorage->informations();
 
     float maximumValue = maximumValueLog();
 
@@ -95,6 +95,15 @@ void Plot::paintBars(QPainter *painter)
 
         y = height() - y;
         x = i - initial;
+
+        if (m_informationStorage->wasPaused(i))
+        {
+            painter->setPen(Qt::gray);
+        }
+        else
+        {
+            painter->setPen(Qt::black);
+        }
 
         painter->drawLine(QPoint(x, height()),
                           QPoint(x, y));

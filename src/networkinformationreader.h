@@ -32,7 +32,17 @@ public:
         quint64 out;
         quint64 milliSecondsSinceEpoch;
 
-        NetworkBytesInOut() : in(0), out(0), milliSecondsSinceEpoch(0) {}
+        NetworkBytesInOut() :
+            in(0),
+            out(0),
+            milliSecondsSinceEpoch(0)
+        {}
+
+        NetworkBytesInOut(const NetworkBytesInOut& networkBytesInOut_) :
+            in(networkBytesInOut_.in),
+            out(networkBytesInOut_.out),
+            milliSecondsSinceEpoch(networkBytesInOut_.milliSecondsSinceEpoch)
+        {}
     };
 
     NetworkInformationReader(QObject* parent=0);

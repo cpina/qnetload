@@ -44,18 +44,15 @@ void InformationStorage::initialize()
     m_pausedOutBytes = 0;
 }
 
-void InformationStorage::pause(const NetworkInformationReader::NetworkBytesInOut& networkBytesInOut)
+void InformationStorage::pause(const InformationStorage::NetworkBytesInOutPaused& networkBytesInOut)
 {
     m_isPaused = true;
     m_pauseStartsNetworkBytesInOut = networkBytesInOut;
 }
 
-void InformationStorage::unpause(NetworkInformationReader::NetworkBytesInOut& networkBytesInOut)
+void InformationStorage::unpause(NetworkBytesInOutPaused &networkBytesInOut)
 {
     m_isPaused = false;
-
-    m_pausedInBytes += networkBytesInOut.in - m_pauseStartsNetworkBytesInOut.in;
-    m_pausedOutBytes += networkBytesInOut.out - m_pauseStartsNetworkBytesInOut.out;
 }
 
 bool InformationStorage::isPaused() const
@@ -94,6 +91,11 @@ quint64 InformationStorage::secondsAgo(int position)
     return (QDateTime::currentMSecsSinceEpoch() - milliSecondsSinceEpoch) / 1000;
 }
 
+bool InformationStorage::wasPaused(int position) const
+{
+    return m_informations[position].paused;
+}
+
 quint64 InformationStorage::speed(int position, InformationStorage::InOrOutType inOrOut) const
 {
     switch(inOrOut)
@@ -117,7 +119,7 @@ NetworkInformationReader::NetworkBytesInOut InformationStorage::currentSpeed()
     return m_informations.last();
 }
 
-NetworkInformationReader::NetworkBytesInOut InformationStorage::calculateSpeed(const NetworkInformationReader::NetworkBytesInOut& before,
+InformationStorage::NetworkBytesInOutPaused InformationStorage::calculateSpeed(const NetworkInformationReader::NetworkBytesInOut& before,
                                                          const NetworkInformationReader::NetworkBytesInOut& after)
 {
     NetworkInformationReader::NetworkBytesInOut speed;
@@ -132,18 +134,10 @@ NetworkInformationReader::NetworkBytesInOut InformationStorage::calculateSpeed(c
 
 void InformationStorage::addInformation(const NetworkInformationReader::NetworkBytesInOut& information)
 {
-    NetworkInformationReader::NetworkBytesInOut informationCorrected = information;
-
-    if (isPaused())
-    {
-        informationCorrected.in = m_latestBytes.in;
-        informationCorrected.out = m_latestBytes.out;
-    }
-
     if (m_startedBytes.milliSecondsSinceEpoch == 0)
     {
         // It hasn't been initialized yet
-        m_startedBytes = informationCorrected;
+        m_startedBytes = information;
         return;
     }
 
@@ -153,32 +147,41 @@ void InformationStorage::addInformation(const NetworkInformationReader::NetworkB
         m_informations.removeFirst();
     }
 
-    NetworkInformationReader::NetworkBytesInOut speed;
+    InformationStorage::NetworkBytesInOutPaused speed;
 
     // Information comes with total bytes, here we convert it into speed
     if (m_informations.isEmpty()) {
         // We use the initial transfer data
-        speed = calculateSpeed(m_startedBytes, informationCorrected);
+        speed = calculateSpeed(m_startedBytes, information);
     }
     else
     {
-        speed = calculateSpeed(m_latestBytes, informationCorrected);
+        speed = calculateSpeed(m_latestBytes, information);
     }
-    speed.milliSecondsSinceEpoch = informationCorrected.milliSecondsSinceEpoch;
+    speed.milliSecondsSinceEpoch = information.milliSecondsSinceEpoch;
+
+    speed.paused = isPaused();
 
     m_informations.append(speed);
 
-    m_latestBytes = informationCorrected;
-
-    if (speed.in > m_maximumSpeedIn)
+    if (!isPaused())
     {
-        m_maximumSpeedIn = speed.in;
-    }
+        if (speed.in > m_maximumSpeedIn)
+        {
+            m_maximumSpeedIn = speed.in;
+        }
 
-    if (speed.out > m_maximumSpeedOut)
-    {
-        m_maximumSpeedOut = speed.out;
+        if (speed.out > m_maximumSpeedOut)
+        {
+            m_maximumSpeedOut = speed.out;
+        }
     }
+    else
+    {
+        m_pausedInBytes += information.in - m_latestBytes.in;
+        m_pausedOutBytes += information.out - m_latestBytes.out;
+    }
+    m_latestBytes = information;
 }
 
 quint64 InformationStorage::maximumSpeedIn() const
@@ -197,7 +200,7 @@ quint64 InformationStorage::transferredIn() const
     {
         return 0;
     }
-    return m_latestBytes.in - m_startedBytes.in;
+    return m_latestBytes.in - m_startedBytes.in - m_pausedInBytes;
 }
 
 quint64 InformationStorage::transferredOut() const
@@ -207,10 +210,10 @@ quint64 InformationStorage::transferredOut() const
         return 0;
     }
 
-    return m_latestBytes.out - m_startedBytes.out;
+    return m_latestBytes.out - m_startedBytes.out - m_pausedOutBytes;
 }
 
-QVector<NetworkInformationReader::NetworkBytesInOut> InformationStorage::informations() const
+QVector<InformationStorage::NetworkBytesInOutPaused> InformationStorage::informations() const
 {
     return m_informations;
 }

@@ -138,7 +138,7 @@ void MainWindow::reset()
 
 void MainWindow::togglePause()
 {
-    NetworkInformationReader::NetworkBytesInOut currentInformation = m_networkInformation->readInformation();
+    InformationStorage::NetworkBytesInOutPaused currentInformation = m_networkInformation->readInformation();
 
     if (m_informationStorage->isPaused())
     {
@@ -352,6 +352,7 @@ void MainWindow::setTooltips()
 
     ui->total_transferred->setToolTip(tr("Total (in and out) transferred data"));
     ui->reset_button->setToolTip(tr("Reset counters"));
+    ui->pause_button->setToolTip(tr("Pause counters"));
 }
 
 void MainWindow::setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
