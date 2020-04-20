@@ -46,9 +46,9 @@ Try to use your package management to install Qt5 (some equivalent of "sudo apt-
 qnetload would work with any system providing that the file /proc/net/dev has the same structure as Linux.
 
 ## Screenshots
-![qnetload](docs/images/qnetload-font-sizes-0.8.png)
-
 ![qnetload](docs/images/qnetload-speed-tooltip-0.8.png)
+
+![qnetload](docs/images/qnetload-font-sizes-0.8.png)
 
 ## Features
 These features were not available on the original xnetload but might be handy:
