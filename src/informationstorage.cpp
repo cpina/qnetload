@@ -100,13 +100,12 @@ quint64 InformationStorage::speed(int position, InformationStorage::InOrOutType 
 {
     switch(inOrOut)
     {
-        case InformationStorage::InOrOutType::InType:
+        case InOrOutType::InType:
             return m_informations[position].in;
-        case InformationStorage::InOrOutType::OutType:
+        case InOrOutType::OutType:
             return m_informations[position].out;
-        case InformationStorage::InOrOutType::UndefinedType:
-            return 0;
     }
+    __builtin_unreachable();
 }
 
 NetworkInformationReader::NetworkBytesInOut InformationStorage::currentSpeed()
