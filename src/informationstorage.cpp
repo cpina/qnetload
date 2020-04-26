@@ -44,13 +44,12 @@ void InformationStorage::initialize()
     m_pausedOutBytes = 0;
 }
 
-void InformationStorage::pause(const InformationStorage::NetworkBytesInOutPaused& networkBytesInOut)
+void InformationStorage::pause()
 {
     m_isPaused = true;
-    m_pauseStartsNetworkBytesInOut = networkBytesInOut;
 }
 
-void InformationStorage::unpause(NetworkBytesInOutPaused &networkBytesInOut)
+void InformationStorage::unpause()
 {
     m_isPaused = false;
 }

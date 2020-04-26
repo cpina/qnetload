@@ -112,6 +112,8 @@ void Plot::paintBars(QPainter *painter)
 
 void Plot::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
+
     int maxValue = maximumValue();
 
     if (maxValue == 0)

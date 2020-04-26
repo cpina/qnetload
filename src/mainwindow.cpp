@@ -138,16 +138,14 @@ void MainWindow::reset()
 
 void MainWindow::togglePause()
 {
-    InformationStorage::NetworkBytesInOutPaused currentInformation = m_networkInformation->readInformation();
-
     if (m_informationStorage->isPaused())
     {
-        m_informationStorage->unpause(currentInformation);
+        m_informationStorage->unpause();
         ui->message->setText("");
     }
     else
     {
-        m_informationStorage->pause(currentInformation);
+        m_informationStorage->pause();
         ui->message->setText("Paused");
     }
 }

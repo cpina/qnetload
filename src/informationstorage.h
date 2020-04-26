@@ -78,8 +78,8 @@ public:
 public slots:
     void initialize();
 
-    void pause(const InformationStorage::NetworkBytesInOutPaused& networkBytesInOut);
-    void unpause(InformationStorage::NetworkBytesInOutPaused& networkBytesInOut);
+    void pause();
+    void unpause();
 
 private:
     InformationStorage::NetworkBytesInOutPaused calculateSpeed(const NetworkInformationReader::NetworkBytesInOut& before,
