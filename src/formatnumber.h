@@ -37,7 +37,7 @@ public:
 private:
     static QString formatBytes(quint64 bytes, const QString& unitsPostfix);
 
-    static QString padNumber(int number);
+    static QString padNumber(quint64 number);
     static QStringList prefixes();
 };
 

@@ -32,8 +32,8 @@ public:
     void setType(InformationStorage::InOrOutType inOrOutType);
     void setInformationStorage(InformationStorage* informationStorage);
     void update(InformationStorage* informationStorage);
-    int maximumValue();
-    float maximumValueLog();
+    quint64 maximumValue();
+    double maximumValueLog();
 
 
 protected:

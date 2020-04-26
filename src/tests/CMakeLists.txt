@@ -1,9 +1,9 @@
 set(CMAKE_AUTOMOC ON)
 find_package(Qt5Test REQUIRED)
 
-add_executable(testnetworkinformationreader testnetworkinformationreader.cpp ../networkinformationreader.cpp)
+add_executable(testnetworkinformationreader testnetworkinformationreader.cpp ../networkinformationreader.cpp ../utils.cpp)
 add_executable(testformatnumber testformatnumber.cpp ../formatnumber.cpp)
-add_executable(testinformationstorage testinformationstorage.cpp ../informationstorage.cpp)
+add_executable(testinformationstorage testinformationstorage.cpp ../informationstorage.cpp ../utils.cpp)
 
 add_test(testnetworkinformationreader testnetworkinformationreader)
 add_test(testformatnumber testformatnumber)

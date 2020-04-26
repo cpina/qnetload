@@ -22,6 +22,7 @@ set(SOURCES
   formatnumber.cpp
   plot.cpp
   clickablelabel.cpp
+  utils.cpp
   resources.qrc
 )
 

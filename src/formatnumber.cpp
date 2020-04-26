@@ -20,7 +20,7 @@
 
 QString FormatNumber::formatBytes(quint64 bytes, const QString& unitsPostfix)
 {
-    float value = bytes;
+    double value = bytes;
 
     bool isBytes = true;
     int i;
@@ -55,10 +55,10 @@ QString FormatNumber::formatTransfer(quint64 bytes)
 
 QString FormatNumber::formatElapsedTime(quint64 milliseconds)
 {
-    int seconds = milliseconds / 1000;
-    int minutes = seconds / 60;
+    quint64 seconds = milliseconds / 1000;
+    quint64 minutes = seconds / 60;
     seconds %= 60;
-    int hours = minutes / 60;
+    quint64 hours = minutes / 60;
     minutes %= 60;
 
     return QString("%1:%2:%3").arg(hours).arg(padNumber(minutes)).arg(padNumber(seconds));
@@ -79,7 +79,7 @@ QString FormatNumber::formatSeconds(quint64 totalSeconds)
     }
 }
 
-QString FormatNumber::padNumber(int number)
+QString FormatNumber::padNumber(quint64 number)
 {
     return QString("%1").arg(number, 2, 10, QChar('0'));
 }

@@ -40,21 +40,21 @@ Plot::Plot(QWidget *parent) :
     setPalette(pal);
 }
 
-int Plot::maximumValue()
+quint64 Plot::maximumValue()
 {
     return std::max(m_informationStorage->maximumSpeedIn(), m_informationStorage->maximumSpeedOut());
 }
 
-float Plot::maximumValueLog()
+double Plot::maximumValueLog()
 {
     return log(maximumValue());
 }
 
 void Plot::paintScale(QPainter* painter)
 {
-    float logMaximum = maximumValueLog();
+    double logMaximum = maximumValueLog();
 
-    float space_between_horizontal_lines = height() / logMaximum;
+    double space_between_horizontal_lines = height() / logMaximum;
 
     int line_number = 0;
     for (float y = height(); y > space_between_horizontal_lines/2; y-= space_between_horizontal_lines, line_number++)
@@ -63,8 +63,8 @@ void Plot::paintScale(QPainter* painter)
         {
             continue;
         }
-        painter->drawLine(QPoint(0, y),
-                         QPoint(width(), y));
+        painter->drawLine(QPoint(0, int(y)),
+                         QPoint(width(), int(y)));
     }
 }
 
@@ -72,7 +72,7 @@ void Plot::paintBars(QPainter *painter)
 {
     QVector<InformationStorage::NetworkBytesInOutPaused> informations = m_informationStorage->informations();
 
-    float maximumValue = maximumValueLog();
+    double maximumValue = maximumValueLog();
 
     int initial = qMax(0, informations.count()-width());
 
@@ -81,7 +81,7 @@ void Plot::paintBars(QPainter *painter)
     int x;
     for(int i=initial; i < informations.count(); i++)
     {
-        float y;
+        double y;
         quint64 speed = m_informationStorage->speed(i, m_type);
         if (speed != 0)
         {
@@ -105,8 +105,8 @@ void Plot::paintBars(QPainter *painter)
             painter->setPen(Qt::black);
         }
 
-        painter->drawLine(QPoint(x, height()),
-                          QPoint(x, y));
+        painter->drawLine(QPoint(x, int(height())),
+                          QPoint(x, int(y)));
     }
 }
 
@@ -114,7 +114,7 @@ void Plot::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
-    int maxValue = maximumValue();
+    quint64 maxValue = maximumValue();
 
     if (maxValue == 0)
     {

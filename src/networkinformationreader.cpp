@@ -1,5 +1,7 @@
 #include "networkinformationreader.h"
 
+#include "utils.h"
+
 #include <QFile>
 #include <QTextStream>
 #include <QRegularExpression>
@@ -107,7 +109,7 @@ NetworkInformationReader::NetworkBytesInOut NetworkInformationReader::readProcNe
             NetworkInformationReader::NetworkBytesInOut information;
             information.in = match.captured(2).toULong();
             information.out = match.captured(3).toULong();
-            information.milliSecondsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
+            information.milliSecondsSinceEpoch = Utils::currentMSecsSinceEpoch();
 
             return information;
         }

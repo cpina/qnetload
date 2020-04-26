@@ -1,4 +1,6 @@
 #include "informationstorage.h"
+#include "utils.h"
+
 #include <QVector>
 #include <QDateTime>
 #include <QDebug>
@@ -70,7 +72,7 @@ void InformationStorage::setCapacity(int maximumInformation)
 
 quint64 InformationStorage::millisecondsSinceStart() const
 {
-    return QDateTime::currentMSecsSinceEpoch() - m_startedBytes.milliSecondsSinceEpoch;
+    return Utils::currentMSecsSinceEpoch() - m_startedBytes.milliSecondsSinceEpoch;
 }
 
 quint64 InformationStorage::accumulatedTransfer(int position, InformationStorage::InOrOutType inOrOut) const
@@ -87,7 +89,7 @@ quint64 InformationStorage::accumulatedTransfer(int position, InformationStorage
 quint64 InformationStorage::secondsAgo(int position)
 {
     quint64 milliSecondsSinceEpoch = m_informations[position].milliSecondsSinceEpoch;
-    return (QDateTime::currentMSecsSinceEpoch() - milliSecondsSinceEpoch) / 1000;
+    return (Utils::currentMSecsSinceEpoch() - milliSecondsSinceEpoch) / 1000;
 }
 
 bool InformationStorage::wasPaused(int position) const
@@ -103,6 +105,8 @@ quint64 InformationStorage::speed(int position, InformationStorage::InOrOutType 
             return m_informations[position].in;
         case InOrOutType::OutType:
             return m_informations[position].out;
+        case InOrOutType::UndefinedType:
+            __builtin_unreachable();
     }
     __builtin_unreachable();
 }
@@ -122,10 +126,10 @@ InformationStorage::NetworkBytesInOutPaused InformationStorage::calculateSpeed(c
 {
     NetworkInformationReader::NetworkBytesInOut speed;
 
-    float seconds_elapsed = (after.milliSecondsSinceEpoch-before.milliSecondsSinceEpoch)/1000.0;
+    double seconds_elapsed = (after.milliSecondsSinceEpoch-before.milliSecondsSinceEpoch)/1000.0;
 
-    speed.in = (after.in-before.in) / seconds_elapsed;
-    speed.out = (after.out-before.out) / seconds_elapsed;
+    speed.in = quint64((after.in-before.in) / seconds_elapsed);
+    speed.out = quint64((after.out-before.out) / seconds_elapsed);
 
     return speed;
 }
