@@ -31,7 +31,7 @@
 
 Plot::Plot(QWidget *parent) :
     QWidget(parent),
-    m_type(InformationStorage::UndefinedType),
+    m_type(InformationStorage::InOrOutType::UndefinedType),
     m_paintedInitial(0)
 {
     QPalette pal(palette());
@@ -134,8 +134,8 @@ void Plot::mousePressEvent(QMouseEvent* event)
 
     QString timeAgo = FormatNumber::formatSeconds(m_informationStorage->secondsAgo(valuePosition));
 
-    quint64 accumulatedTransferIn = m_informationStorage->accumulatedTransfer(valuePosition, InformationStorage::InType);
-    quint64 accumulatedTransferOut = m_informationStorage->accumulatedTransfer(valuePosition, InformationStorage::OutType);
+    quint64 accumulatedTransferIn = m_informationStorage->accumulatedTransfer(valuePosition, InformationStorage::InOrOutType::InType);
+    quint64 accumulatedTransferOut = m_informationStorage->accumulatedTransfer(valuePosition, InformationStorage::InOrOutType::OutType);
     quint64 accumulatedTransfer = accumulatedTransferIn + accumulatedTransferOut;
 
     QString information = QString("Last %1\nIn: %2 Out: %3\nTotal: %4 transferred").arg(timeAgo)

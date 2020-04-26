@@ -28,7 +28,7 @@ class InformationStorage : public QObject
     Q_OBJECT
 
 public:
-    enum InOrOutType
+    enum class InOrOutType
     {
         InType,
         OutType,

@@ -100,11 +100,11 @@ quint64 InformationStorage::speed(int position, InformationStorage::InOrOutType 
 {
     switch(inOrOut)
     {
-        case InformationStorage::InType:
+        case InformationStorage::InOrOutType::InType:
             return m_informations[position].in;
-        case InformationStorage::OutType:
+        case InformationStorage::InOrOutType::OutType:
             return m_informations[position].out;
-        case UndefinedType:
+        case InformationStorage::InOrOutType::UndefinedType:
             return 0;
     }
 }
