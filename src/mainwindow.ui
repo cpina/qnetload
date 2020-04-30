@@ -102,9 +102,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="time_running">
+       <widget class="ClickableLabel" name="time_running">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -119,6 +119,19 @@
         </property>
         <property name="text">
          <string>20:45:43</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="spacer4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
