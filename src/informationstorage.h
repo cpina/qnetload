@@ -57,6 +57,7 @@ public:
     quint64 transferredIn() const;
     quint64 transferredOut() const;
     quint64 millisecondsSinceStart() const;
+    QString timeStarted() const;
 
     quint64 speed(int position, InOrOutType inOrOut) const;
     bool wasPaused(int position) const;
@@ -93,14 +94,13 @@ private:
 
     InformationStorage::NetworkBytesInOutPaused m_startedBytes;
     InformationStorage::NetworkBytesInOutPaused m_latestBytes;
+    QString m_timeStarted;
 
     quint64 m_pausedInBytes;
     quint64 m_pausedOutBytes;
 
     bool m_isPaused;
     InformationStorage::NetworkBytesInOutPaused m_pauseStartsNetworkBytesInOut;
-
-
 };
 
 #endif // INFORMATIONSTORAGE_H

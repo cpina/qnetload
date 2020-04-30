@@ -35,6 +35,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    enum TimeType
+    {
+        millisecondsSinceStart = 0,
+        timeStarted = 1
+    };
+    Q_ENUM(TimeType);
+
     explicit MainWindow(const QString& interfaceName, QWidget *parent = 0);
     ~MainWindow();
 
@@ -44,6 +51,7 @@ protected:
 private Q_SLOTS:
     void updateInformation();
     void selectNextInterface();
+    void toggleTime();
 
     void showContextualMenu(const QPoint& position);
     void interfaceNameChanged();
@@ -57,6 +65,7 @@ private:
     int readCurrentFontSize() const;
     QString chooseInterfaceName() const;
     void setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
+                      const QString& timeStarted,
                       quint64 currentSpeedIn, quint64 maximumSpeedIn, quint64 transferredIn,
                       quint64 currentSpeedOut, quint64 maximumSpeedOut, quint64 transferredOut,
                       quint64 transferredTotal);
@@ -75,6 +84,7 @@ private:
 
     bool m_resetWaitingForConfirmation;
     int m_resetCountDown;
+    TimeType m_timeType;
 };
 
 #endif // MAINWINDOW_H

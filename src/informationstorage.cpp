@@ -39,6 +39,8 @@ void InformationStorage::initialize()
     m_startedBytes = NetworkInformationReader::NetworkBytesInOut();
     m_latestBytes = NetworkInformationReader::NetworkBytesInOut();
 
+    m_timeStarted = QDateTime::currentDateTime().toString("hh:mm:ss");
+
     setCapacity(4096);
     m_isPaused = false;
 
@@ -73,6 +75,11 @@ void InformationStorage::setCapacity(int maximumInformation)
 quint64 InformationStorage::millisecondsSinceStart() const
 {
     return Utils::currentMSecsSinceEpoch() - m_startedBytes.milliSecondsSinceEpoch;
+}
+
+QString InformationStorage::timeStarted() const
+{
+    return m_timeStarted;
 }
 
 quint64 InformationStorage::accumulatedTransfer(int position, InformationStorage::InOrOutType inOrOut) const

@@ -41,11 +41,15 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     ui->setupUi(this);
 
+    m_timeType = TimeType::millisecondsSinceStart;
+
     m_resetPixmap = QPixmap(":/icons/arrow-circle-135-left.png");
     m_pausePixmap = QPixmap(":/icons/control-pause.png");
 
     connect(ui->interface_name, &ClickableLabel::leftClicked,
             this, &MainWindow::selectNextInterface);
+    connect(ui->time_running, &ClickableLabel::leftClicked,
+            this, &MainWindow::toggleTime);
 
     QString interfaceSelectedName = interfaceName;
 
@@ -58,6 +62,7 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     QSettings settings;
     restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
     restoreState(settings.value("mainWindowState").toByteArray());
+    m_timeType = settings.value("timeType").value<TimeType>();
 
     connect(m_networkInformation, &NetworkInformationReader::interfaceNameChanged,
             m_informationStorage, &InformationStorage::initialize);
@@ -100,7 +105,7 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     m_timer->start(1000);
 
     // Speed to zero to start with
-    setAllLabels(m_networkInformation->interfaceName(), 0,
+    setAllLabels(m_networkInformation->interfaceName(), 0, QString(),
                  0, 0, 0,
                  0, 0, 0,
                  0);
@@ -189,6 +194,21 @@ void MainWindow::selectNextInterface()
     QString newInterface = listOfInterfaces.at(newIndex);
 
     m_networkInformation->setInterfaceName(newInterface);
+}
+
+void MainWindow::toggleTime()
+{
+    if (m_timeType == TimeType::timeStarted)
+    {
+        m_timeType = TimeType::millisecondsSinceStart;
+    }
+    else
+    {
+        m_timeType = TimeType::timeStarted;
+    }
+    updateInformation();
+    QSettings settings;
+    settings.setValue("timeType", m_timeType);
 }
 
 void MainWindow::showContextualMenu(const QPoint& position)
@@ -338,7 +358,7 @@ QString MainWindow::chooseInterfaceName() const
 void MainWindow::setTooltips()
 {
     ui->interface_name->setToolTip(tr("Monitored interface"));
-    ui->time_running->setToolTip(tr("Time elapsed since qnetload was started"));
+    ui->time_running->setToolTip(tr("Time elapsed since/start time qnetload was started"));
 
     ui->in_current_speed->setToolTip(tr("Speed receiving data"));
     ui->in_maximum_speed->setToolTip(tr("Maximum speed receiving data (intervals of 1 second)"));
@@ -353,13 +373,21 @@ void MainWindow::setTooltips()
     ui->pause_button->setToolTip(tr("Pause counters"));
 }
 
-void MainWindow::setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart,
+void MainWindow::setAllLabels(const QString& interfaceName, quint64 millisecondsSinceStart, const QString& timeStarted,
                   quint64 currentSpeedIn, quint64 maximumSpeedIn, quint64 transferredIn,
                   quint64 currentSpeedOut, quint64 maximumSpeedOut, quint64 transferredOut,
                   quint64 transferredTotal)
 {
     ui->interface_name->setText(interfaceName);
-    ui->time_running->setText(FormatNumber::formatElapsedTime(millisecondsSinceStart));
+
+    switch(m_timeType)
+    {
+        case TimeType::millisecondsSinceStart:
+            ui->time_running->setText(QString("Ellapsed: %1").arg(FormatNumber::formatElapsedTime(millisecondsSinceStart)));
+            break;
+        case TimeType::timeStarted:
+            ui->time_running->setText(QString("Started: %1").arg(timeStarted));
+    }
 
     ui->in_current_speed->setText(FormatNumber::formatSpeed(currentSpeedIn));
     ui->in_maximum_speed->setText(QString("(%1)").arg(FormatNumber::formatSpeed(maximumSpeedIn)));
@@ -390,6 +418,7 @@ void MainWindow::updateInformation()
     quint64 currentSpeedOut = currentSpeed.out;
 
     setAllLabels(m_networkInformation->interfaceName(), m_informationStorage->millisecondsSinceStart(),
+                 m_informationStorage->timeStarted(),
                  currentSpeedIn, maximumSpeedIn, transferredIn,
                  currentSpeedOut, maximumSpeedOut, transferredOut,
                  transferredTotal);
