@@ -48,6 +48,8 @@ qnetload would work with any system providing that the file /proc/net/dev has th
 ## Screenshots
 ![qnetload](docs/images/qnetload-speed-tooltip-0.8.png)
 
+Now it also includes the estimated usage for the next hour.
+
 ![qnetload](docs/images/qnetload-font-sizes-0.8.png)
 
 ## Features
