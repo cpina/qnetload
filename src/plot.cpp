@@ -134,16 +134,25 @@ void Plot::mousePressEvent(QMouseEvent* event)
         return;
     }
 
-    QString timeAgo = FormatNumber::formatSeconds(m_informationStorage->secondsAgo(valuePosition));
+    quint64 secondsAgo = m_informationStorage->secondsAgo(valuePosition);
+
+    QString timeAgo = FormatNumber::formatSeconds(secondsAgo);
 
     quint64 accumulatedTransferIn = m_informationStorage->accumulatedTransfer(valuePosition, InformationStorage::InOrOutType::InType);
     quint64 accumulatedTransferOut = m_informationStorage->accumulatedTransfer(valuePosition, InformationStorage::InOrOutType::OutType);
     quint64 accumulatedTransfer = accumulatedTransferIn + accumulatedTransferOut;
 
-    QString information = QString("Last %1\nIn: %2 Out: %3\nTotal: %4 transferred").arg(timeAgo)
-                                                                                 .arg(FormatNumber::formatTransfer(accumulatedTransferIn))
-                                                                                 .arg(FormatNumber::formatTransfer(accumulatedTransferOut))
-                                                                                 .arg(FormatNumber::formatTransfer(accumulatedTransfer));
+    quint64 estimatedOneHourBytes = (accumulatedTransfer / secondsAgo) * 3600;
+
+    QString information = QString("Last %1\n"
+                                  "In: %2 Out: %3\n"
+                                  "Total: %4 transferred\n"
+                                  "Projected use 1 hour: %5")
+                                    .arg(timeAgo)
+                                    .arg(FormatNumber::formatTransfer(accumulatedTransferIn))
+                                    .arg(FormatNumber::formatTransfer(accumulatedTransferOut))
+                                    .arg(FormatNumber::formatTransfer(accumulatedTransfer))
+                                    .arg(FormatNumber::formatTransfer(estimatedOneHourBytes));
 
     QToolTip::showText(event->globalPos(), information);
 }
