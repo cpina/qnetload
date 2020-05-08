@@ -6,10 +6,10 @@ jobs:
   build:
     runs-on: ubuntu-18.04
 
-  steps:
-  - name: Check out repository
-    uses: actions/checkout@v2
-  - name: Install dependencies
-    run: |
-      apt-get install cmake qt5-default g++
-      ls -l
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        apt-get install cmake qt5-default g++
+        ls -l
