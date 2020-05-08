@@ -1,3 +1,5 @@
+![ci](https://github.com/cpina/qnetload/workflows/ci/badge.svg)
+
 # qnetload
 ## Introduction
 In 2016 and 2017 I used again (after years) xnetload. The way that xnetload shows the information is extremely useful in some cases. Sadly xnetload was removed from Debian in 2010:
