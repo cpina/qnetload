@@ -19,7 +19,7 @@ xnetload (the original one):
 
 qnetload (this one):
 
-![qnetload](docs/images/qnetload-0.8.png)
+![qnetload](docs/images/qnetload.png)
 
 ## Installation
 ### Debian and Ubuntu
@@ -49,11 +49,17 @@ Try using your package management to install Qt5 (some equivalent of "sudo apt-g
 qnetload would work with any system providing that the file /proc/net/dev has the same structure as Linux.
 
 ## Screenshots
-![qnetload](docs/images/qnetload-speed-tooltip-0.8.png)
+![qnetload](docs/images/qnetload-speed-tooltip.png)
 
-Now it also includes the estimated usage for the next hour.
+The estimated usage for the next hour is handy to estimate how much usage for a streaming or video conference is going to be.
 
-![qnetload](docs/images/qnetload-font-sizes-0.8.png)
+![qnetload](docs/images/qnetload-font-sizes.png)
+
+Choose your font size.
+
+![qnetload](docs/images/qnetload-started.png)
+
+You can toggle between time since the start of what time was at the start.
 
 ## Features
 These features were not available in the original xnetload but might be handy:
