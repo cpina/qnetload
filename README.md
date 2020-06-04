@@ -10,10 +10,10 @@ Thanks to R.F. Smith for programming the original xnetload!
 
 I've evaluated many similar packages but I wasn't happy with any of them, so I wrote an xnetload replacement. I've named it qnetload as a tribute to xnetload and because it's implemented using the Qt libraries.
 
-Since the initial implementation in 2017 I've added some minor new features: pause, restart, selection of interface using the user interface, etc.
+Since the initial implementation in 2017 I've added some new minor features: pause, restart, selection of interface using the user interface, etc.
 
 See the screenshots below
-xnetload (the original one):
+xnetload (the original):
 
 ![xnetload](docs/images/xnetload.png)
 
@@ -24,7 +24,7 @@ qnetload (this one):
 ## Installation
 ### Debian and Ubuntu
 I've tested it on Ubuntu 17.04 Zesty but it should work with other Ubuntus as well.
-On Debian I've tested it on a Debian 8.7 Jessie.
+I've also tested it on Debian 10 Buster.
 
 ```
 sudo apt-get install git cmake qt5-default g++
@@ -51,7 +51,7 @@ qnetload would work with any system providing that the file /proc/net/dev has th
 ## Screenshots
 ![qnetload](docs/images/qnetload-speed-tooltip.png)
 
-The estimated usage for the next hour is handy to estimate how much usage for a streaming or video conference is going to be.
+The estimated usage for the next hour is handy to estimate how much usage for streaming or a video conference is going to be.
 
 ![qnetload](docs/images/qnetload-font-sizes.png)
 
@@ -59,15 +59,15 @@ Choose your font size.
 
 ![qnetload](docs/images/qnetload-started.png)
 
-You can toggle between time since the start of what time was at the start.
+You can toggle between the amount of time since qnetload was started, and what time it was when qnetload was started.
 
 ## Features
 These features were not available in the original xnetload but might be handy:
 
-* Right click in any place to change the interface name and font size.
-* Control+mouse wheel to also change the size of the font.
+* Right click in any place to change the name and font size of the interface.
+* Control+mouse wheel also changes the size of the font.
 * Clicking on the interface name changes the interface.
-* Click on some part of the graph to get information on the data used from that point to the current moment.
+* Click on some part of the graph to get information on the data used from that point to the current time.
 * Click "Reset" counter to reset totals.
 * Click "Pause" to temporarily pause qnetload recording the in/out/total. The speed is plotted in grey but it doesn't affect the total/in/out/maximum bandwidth.
 * Passing an interface name (e.g. "qnetload -i eth0") monitors the user interface regardless of the latest one used.
@@ -84,4 +84,4 @@ If you would like something else let me know (create an issue or drop me an emai
 Carles Pina i Estany (carles@pina.cat)
 
 ## Icons
-Icons from: https://p.yusukekamiyamane.com (by Creative Commons Attribution 3.0 License)
+Icons from: https://p.yusukekamiyamane.com (by Creative Commons Attribution 3.0 License whose full text can be found at http://creativecommons.org/licenses/by/3.0/)
