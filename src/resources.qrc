@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>icons/arrow-circle-135-left.png</file>
         <file>icons/control-pause.png</file>
+        <file>icons/main-icon.png</file>
     </qresource>
 </RCC>

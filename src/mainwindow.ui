@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>qnetload</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/main-icon.png</normaloff>:/icons/main-icon.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
@@ -97,7 +101,7 @@
          </font>
         </property>
         <property name="text">
-         <string> </string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -515,6 +519,8 @@
    <header>clickablelabel.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
