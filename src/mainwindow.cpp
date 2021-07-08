@@ -384,7 +384,7 @@ void MainWindow::setAllLabels(const QString& interfaceName, quint64 milliseconds
     switch(m_timeType)
     {
         case TimeType::millisecondsSinceStart:
-            ui->time_running->setText(QString("Ellapsed: %1").arg(FormatNumber::formatElapsedTime(millisecondsSinceStart)));
+            ui->time_running->setText(QString("Elapsed: %1").arg(FormatNumber::formatElapsedTime(millisecondsSinceStart)));
             break;
         case TimeType::timeStarted:
             ui->time_running->setText(QString("Started: %1").arg(timeStarted));
