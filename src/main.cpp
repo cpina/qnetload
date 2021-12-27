@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QApplication::setOrganizationName("qnetload");
     QApplication::setApplicationName("qnetload");
-    QApplication::setApplicationVersion("1.1");
+    QApplication::setApplicationVersion("1.2");
 
     qInfo() << qUtf8Printable("qnetload version " + QApplication::applicationVersion());
     qInfo() << qUtf8Printable("Icons from https://p.yusukekamiyamane.com");
