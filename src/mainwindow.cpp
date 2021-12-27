@@ -13,7 +13,7 @@
 
 
 /*
- * Copyright 2017, 2019, 2020 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2019, 2020, 2021 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -254,12 +254,12 @@ void MainWindow::showContextualMenu(const QPoint& position)
 
     contextualMenu->addMenu(interfaces);
 
-    QAction* version = contextualMenu->addAction(tr("Version: %1").arg(QApplication::applicationVersion()));
-    version->setEnabled(false);
-
     QAction* ip = contextualMenu->addAction(tr("IP: %1").arg(m_networkInformation->ip()));
     connect(ip, &QAction::triggered,
             this, &MainWindow::copyIp);
+
+    QAction* version = contextualMenu->addAction(tr("Version: %1").arg(QApplication::applicationVersion()));
+    version->setEnabled(false);
 
     contextualMenu->exec(mapToGlobal(position));
 }
