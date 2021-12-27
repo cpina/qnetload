@@ -60,6 +60,7 @@ private Q_SLOTS:
     void togglePause();
 
     void copyIp();
+    void showCopiedTooltip();
 
 
 private:

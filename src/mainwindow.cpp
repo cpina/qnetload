@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QSettings>
+#include <QToolTip>
 #include <QWheelEvent>
 
 
@@ -268,6 +269,13 @@ void MainWindow::copyIp()
 {
     QClipboard *clipboard = QGuiApplication::clipboard();
     clipboard->setText(m_networkInformation->ip());
+
+    QTimer::singleShot(100, this, &MainWindow::showCopiedTooltip);
+}
+
+void MainWindow::showCopiedTooltip()
+{
+    QToolTip::showText(cursor().pos(), tr("IP Copied"), this);
 }
 
 void MainWindow::wheelEvent(QWheelEvent* event)
