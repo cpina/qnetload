@@ -9,8 +9,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Network REQUIRED)
 
-set(QT5_LIBRARIES Qt5::Widgets)
+set(QT5_LIBRARIES Qt5::Widgets Qt5::Network)
 
 set(TARGET ${CMAKE_PROJECT_NAME})
 

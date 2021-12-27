@@ -3,13 +3,14 @@
 #include "utils.h"
 
 #include <QFile>
+#include <QNetworkInterface>
 #include <QTextStream>
 #include <QRegularExpression>
 #include <QDebug>
 #include <QDateTime>
 
 /*
- * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2021 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -41,6 +42,30 @@ NetworkInformationReader::NetworkInformationReader(const QString& interfaceName,
     setInterfaceName(interfaceName);
 }
 
+QString NetworkInformationReader::ip() const
+{
+    QNetworkInterface interface = QNetworkInterface::interfaceFromName(interfaceName());
+
+    QList<QNetworkAddressEntry> addresses = interface.addressEntries();
+
+    QStringList result;
+
+    Q_FOREACH(const QNetworkAddressEntry& address, addresses)
+    {
+        if (address.ip().protocol() == QAbstractSocket::IPv4Protocol) {
+            result.append(address.ip().toString());
+        }
+    }
+
+    if (result.count() == 0)
+    {
+        return "-";
+    }
+    else
+    {
+        return result.join("-");
+    }
+}
 
 void NetworkInformationReader::setInterfaceName(const QString& interfaceName)
 {

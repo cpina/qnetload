@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "formatnumber.h"
 
+#include <QClipboard>
 #include <QDebug>
 #include <QTimer>
 #include <QTime>
@@ -256,7 +257,17 @@ void MainWindow::showContextualMenu(const QPoint& position)
     QAction* version = contextualMenu->addAction(tr("Version: %1").arg(QApplication::applicationVersion()));
     version->setEnabled(false);
 
+    QAction* ip = contextualMenu->addAction(tr("IP: %1").arg(m_networkInformation->ip()));
+    connect(ip, &QAction::triggered,
+            this, &MainWindow::copyIp);
+
     contextualMenu->exec(mapToGlobal(position));
+}
+
+void MainWindow::copyIp()
+{
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    clipboard->setText(m_networkInformation->ip());
 }
 
 void MainWindow::wheelEvent(QWheelEvent* event)
