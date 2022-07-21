@@ -29,11 +29,14 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("qnetload");
     QApplication::setApplicationVersion("1.2");
 
-    qInfo() << qUtf8Printable("qnetload version " + QApplication::applicationVersion());
+    qInfo() << qUtf8Printable("qnetload version " + QApplication::applicationVersion() + " Copyright (C) 2017, 2019, 2020 Carles Pina i Estany <carles@pina.cat>");
+    qInfo() << qUtf8Printable("This program comes with ABSOLUTELY NO WARRANTY");
+    qInfo() << qUtf8Printable("This is free software, and you are welcome to redistribute it under certain conditions");
+    qInfo() << qUtf8Printable("License: GPL v3");
     qInfo() << qUtf8Printable("Icons from https://p.yusukekamiyamane.com");
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Display traffic for a network interface.\n\nqnetload Copyright (C) 2017, 2019, 2020 Carles Pina i Estany <carles@pina.cat>\nLicense: GPLv3");
+    parser.setApplicationDescription("Display traffic for a network interface.");
     parser.addHelpOption();
     parser.addVersionOption();
     QCommandLineOption interfaceOption(QStringList() << "i" << "interface",
