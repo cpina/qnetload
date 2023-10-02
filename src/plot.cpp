@@ -12,7 +12,7 @@
 #include <math.h>
 
 /*
- * Copyright 2017, 2020 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2020, 2023 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ Plot::Plot(QWidget *parent) :
     m_paintedInitial(0)
 {
     QPalette pal(palette());
-    pal.setColor(QPalette::Background, Qt::white);
+    pal.setColor(QPalette::Window, Qt::white);
     setAutoFillBackground(true);
     setPalette(pal);
 }

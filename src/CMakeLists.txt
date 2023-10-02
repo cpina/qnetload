@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.25.1)
 enable_testing()
 
 project(qnetload)
@@ -8,10 +8,10 @@ add_subdirectory(tests)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Network REQUIRED)
+find_package(Qt6Widgets REQUIRED)
+find_package(Qt6Network REQUIRED)
 
-set(QT5_LIBRARIES Qt5::Widgets Qt5::Network)
+set(QT6_LIBRARIES Qt6::Widgets Qt6::Network)
 
 set(TARGET ${CMAKE_PROJECT_NAME})
 
@@ -33,10 +33,10 @@ set(UI_SOURCES
 
 set(CMAKE_AUTORCC ON)
 
-qt5_wrap_ui(UI_GENERATED_HEADERS ${UI_SOURCES})
+qt6_wrap_ui(UI_GENERATED_HEADERS ${UI_SOURCES})
 
 add_executable(${TARGET} ${SOURCES} ${UI_GENERATED_HEADERS})
 
-target_link_libraries(${TARGET} ${QT5_LIBRARIES})
+target_link_libraries(${TARGET} ${QT6_LIBRARIES})
 
 install(TARGETS qnetload DESTINATION bin)
