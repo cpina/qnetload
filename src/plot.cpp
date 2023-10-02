@@ -154,7 +154,7 @@ void Plot::mousePressEvent(QMouseEvent* event)
                                     .arg(FormatNumber::formatTransfer(accumulatedTransfer))
                                     .arg(FormatNumber::formatTransfer(estimatedOneHourBytes));
 
-    QToolTip::showText(event->globalPos(), information);
+    QToolTip::showText(event->globalPosition().toPoint(), information);
 }
 
 void Plot::setType(InformationStorage::InOrOutType inOrOutType)
