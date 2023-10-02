@@ -127,7 +127,7 @@ void Plot::paintEvent(QPaintEvent *event)
 
 void Plot::mousePressEvent(QMouseEvent* event)
 {
-    int valuePosition = m_paintedInitial + event->x();
+    int valuePosition = m_paintedInitial + event->position().x();
 
     if (valuePosition > m_informationStorage->informations().count())
     {
