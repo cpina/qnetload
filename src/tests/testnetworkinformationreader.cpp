@@ -3,7 +3,7 @@
 #include <QDebug>
 
 /*
- * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2023 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -43,7 +43,11 @@ void TestNetworkInformation::testListOfInterfaces()
 {
     m_networkInformationReader.reset(new NetworkInformationReader("eth1", "proc_net_dev_files/example01.txt"));
 
-    QCOMPARE(m_networkInformationReader->listOfInterfaces(), QStringList() << "tun0" << "lo" << "wlan0" << "docker0" << "eth1");
+	QStringList actual = m_networkInformationReader->listOfInterfaces();
+	QStringList expected = QStringList() << "tun0" << "lo" << "wlan0" << "docker0" << "eth1";
+	expected.sort();
+
+    QCOMPARE(m_networkInformationReader->listOfInterfaces(), expected);
 }
 
 QTEST_MAIN(TestNetworkInformation)

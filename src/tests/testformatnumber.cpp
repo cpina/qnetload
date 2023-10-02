@@ -4,7 +4,7 @@
 #include <QDebug>
 
 /*
- * Copyright 2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2023 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -49,11 +49,11 @@ void TestFormatNumber::testFormatSpeed_data()
     QTest::addColumn<quint64>("bytesSecond");
     QTest::addColumn<QString>("humanReadable");
 
-    QTest::newRow("num1") << quint64(10) << QString("10.0 B/s");
-    QTest::newRow("num2") << quint64(1023) << QString("1023.0 B/s");
-    QTest::newRow("num3") << quint64(1025) << QString("1.0 KB/s");
-    QTest::newRow("num4") << quint64(1024*1024*1024) << QString("1024.0 MB/s");
-    QTest::newRow("num5") << quint64(2)*1024*1024*1024 << QString("2.0 GB/s");
+    QTest::newRow("num1") << quint64(10) << QString("10 B/s");
+    QTest::newRow("num2") << quint64(1023) << QString("1023 B/s");
+    QTest::newRow("num3") << quint64(1025) << QString("1.00 KB/s");
+    QTest::newRow("num4") << quint64(1024*1024*1024) << QString("1024.00 MB/s");
+    QTest::newRow("num5") << quint64(2)*1024*1024*1024 << QString("2.00 GB/s");
 }
 
 void TestFormatNumber::testFormatSpeed()
@@ -70,11 +70,11 @@ void TestFormatNumber::testFormatTransfer_data()
     QTest::addColumn<quint64>("bytes");
     QTest::addColumn<QString>("humanReadable");
 
-    QTest::newRow("num1") << quint64(10) << QString("10.0 B");
-    QTest::newRow("num2") << quint64(1023) << QString("1023.0 B");
-    QTest::newRow("num3") << quint64(1025) << QString("1.0 KB");
-    QTest::newRow("num4") << quint64(1024*1024*1024) << QString("1024.0 MB");
-    QTest::newRow("num5") << quint64(2)*1024*1024*1024 << QString("2.0 GB");
+    QTest::newRow("num1") << quint64(10) << QString("10 B");
+    QTest::newRow("num2") << quint64(1023) << QString("1023 B");
+    QTest::newRow("num3") << quint64(1025) << QString("1.00 KB");
+    QTest::newRow("num4") << quint64(1024*1024*1024) << QString("1024.00 MB");
+    QTest::newRow("num5") << quint64(2)*1024*1024*1024 << QString("2.00 GB");
 }
 
 void TestFormatNumber::testFormatTransfer()
