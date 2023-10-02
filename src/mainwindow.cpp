@@ -40,8 +40,6 @@ MainWindow::MainWindow(const QString& interfaceName, QWidget *parent) :
     m_resetWaitingForConfirmation(false),
     m_resetCountDown(0)
 {
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-
     ui->setupUi(this);
 
     m_timeType = TimeType::millisecondsSinceStart;
