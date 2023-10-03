@@ -1,5 +1,4 @@
-#ifndef INFORMATIONSTORAGE_H
-#define INFORMATIONSTORAGE_H
+#pragma once
 
 #include <QObject>
 #include <QVector>
@@ -102,5 +101,3 @@ private:
     bool m_isPaused;
     InformationStorage::NetworkBytesInOutPaused m_pauseStartsNetworkBytesInOut;
 };
-
-#endif // INFORMATIONSTORAGE_H

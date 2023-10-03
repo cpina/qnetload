@@ -1,5 +1,4 @@
-#ifndef FORMATBYTES_H
-#define FORMATBYTES_H
+#pragma once
 
 #include <QString>
 #include <QStringList>
@@ -40,5 +39,3 @@ private:
     static QString padNumber(quint64 number);
     static QStringList prefixes();
 };
-
-#endif // FORMATBYTES_H

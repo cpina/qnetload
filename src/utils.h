@@ -1,5 +1,4 @@
-#ifndef UTILS_H
-#define UTILS_H
+#pragma once
 
 #include <Qt>
 
@@ -7,5 +6,3 @@ namespace Utils
 {
     quint64 currentMSecsSinceEpoch();
 };
-
-#endif // UTILS_H

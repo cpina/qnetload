@@ -1,5 +1,4 @@
-#ifndef PLOT_H
-#define PLOT_H
+#pragma once
 
 #include <QWidget>
 
@@ -53,5 +52,3 @@ private:
 
     int m_paintedInitial;
 };
-
-#endif // PLOT_H

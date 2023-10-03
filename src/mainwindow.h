@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QPixmap>
@@ -46,7 +45,7 @@ public:
     ~MainWindow();
 
 protected:
-    void wheelEvent(QWheelEvent* event);
+    void wheelEvent(QWheelEvent* event) override;
 
 private Q_SLOTS:
     void updateInformation();
@@ -89,5 +88,3 @@ private:
     int m_resetCountDown;
     TimeType m_timeType;
 };
-
-#endif // MAINWINDOW_H

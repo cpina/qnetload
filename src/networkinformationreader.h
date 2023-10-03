@@ -1,5 +1,4 @@
-#ifndef NETWORKINFORMATION_H
-#define NETWORKINFORMATION_H
+#pragma once
 
 #include <QObject>
 #include <QString>
@@ -73,5 +72,3 @@ private:
     QString m_interfaceName;
     QString m_procNetDev;
 };
-
-#endif // NETWORKINFORMATION_H
