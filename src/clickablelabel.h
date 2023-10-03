@@ -1,6 +1,4 @@
-#ifndef CLICKABLELABEL_H
-#define CLICKABLELABEL_H
-
+#pragma once
 // Copied and changed from https://wiki.qt.io/Clickable_QLabel
 
 #include <QLabel>
@@ -37,15 +35,13 @@ class ClickableLabel : public QLabel
         void leftClicked();
 
 	protected:
-		void mousePressEvent(QMouseEvent* event);
+        void mousePressEvent(QMouseEvent* event) override;
 
-        void leaveEvent(QEvent* event);
-        void enterEvent(QEnterEvent* event);
+        void leaveEvent(QEvent* event) override;
+        void enterEvent(QEnterEvent* event) override;
 
-        virtual void paintEvent(QPaintEvent* event);
+        virtual void paintEvent(QPaintEvent* event) override;
 
     private:
         bool m_inside;
 };
-
-#endif // CLICKABLELABEL_H
