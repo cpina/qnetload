@@ -54,10 +54,10 @@ void ClickableLabel::paintEvent(QPaintEvent* event)
     }
 }
 
-void ClickableLabel::enterEvent(QEvent* event)
+void ClickableLabel::enterEvent(QEnterEvent* event)
 {
     Q_UNUSED(event);
-
+    
     m_inside = true;
     update();
 }

@@ -40,7 +40,7 @@ class ClickableLabel : public QLabel
 		void mousePressEvent(QMouseEvent* event);
 
         void leaveEvent(QEvent* event);
-        void enterEvent(QEvent* event);
+        void enterEvent(QEnterEvent* event);
 
         virtual void paintEvent(QPaintEvent* event);
 
