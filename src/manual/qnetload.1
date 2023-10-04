@@ -1,0 +1,54 @@
+.TH QNETLOAD 1
+.SH NAME
+qnetload \- Display graphically your network speed and usage
+.SH SYNOPSIS
+\fBqnetload
+.SH DESCRIPTION
+Display graphically your network speed and usage.
+
+.TP
+\fB-i\fR, \fB\-\-interface=\fI,INTERFACE\fR
+Display INTERFACE. For example: eth0, wlan0. If unsure, do not specify.
+
+During the execution it is possible to change the interface clicking on it or right-click to list the interfaces.
+
+.TP
+\fB-h\fR, \fB\-\-help\fR
+Displays help on commandline options.
+.TP
+\fB-v\fR, \fB\-\-version\fR
+Displays version information.
+.TP
+\fB\-\-help\-all\fR
+Display help including Qt specific options.
+.PP
+
+.SH USING QNETLOAD
+There are some features on qnetload that might not obvious:
+.RS 2
+.IP \(bu 2
+Click on the interface to change the interface.
+.IP \(bu 2
+Right-click anywhere on qnetload to display a contextual menu with the list of interfaces, the IP and the version. The most common interfaces are in bold (ethX, wlanX, etc.).
+.IP \(bu 2
+There are two buttons: pause the accumulative counter of Downloaded and Uploaded data and reset it. To reset the counters, click twice.
+.IP \(bu 2
+If you click in the graph it will give you extra-information: how much data has been in (downloaded) and out (uploaded) since the position of the click and a projection for a hour usage.
+.IP \(bu 2
+Leave the mouse pointer over any of the numbers and get a description of what it is.
+
+.SH FILES
+.TP
+.I ${HOME}/.config/qnetload/qnetload.conf
+Where the latest used interface is saved. Next time running \fBqnetload\fR it will use that one.
+.TP
+.I /proc/net/dev
+Read this file to know the network usage.
+.SH BUG REPORTS
+.PP
+Bug tracker: <https://github.com/cpina/qnetload/issues>
+.br
+Email: <carles@pina.cat>
+.SH COPYRIGHT
+.PP
+Copyright \[co] 2017-2023 Carles Pina i Estany <carles@pina.cat>
