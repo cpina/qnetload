@@ -23,11 +23,14 @@ qnetload (this one):
 
 ## Installation
 ### Debian and Ubuntu
-I've tested it on Ubuntu 17.04 Zesty but it should work with other Ubuntus as well.
-I've also tested it on Debian 10 Buster.
+I've tested it on Ubuntu 22.04 (Jammy Jellyfish) and in Debian 12 (Bookworm).
 
 ```
-sudo apt-get install git cmake qt5-default g++
+# Ubuntu:
+sudo apt-get install git cmake qt6-base-dev libqt6widgets6 libgl1-mesa-dev
+# Debian:
+sudo apt-get install git cmake qt6-base-dev
+
 git clone https://github.com/cpina/qnetload.git
 cd qnetload
 mkdir build
@@ -39,14 +42,14 @@ sudo make install
 
 Then qnetload should be in your path (probably installed in /usr/local/bin) and can be executed just typing qnetload on the command line.
 
-If it doesn't work for you feel free to contact me (carles@pina.cat) or open a Github issue. Please include the output of the commands.
+If it doesn't work for you feel free to contact me (carles@pina.cat) or open a GitHub issue. Please include the output of the commands.
 
 ### Other distributions
-qnetload should work with any Linux distribution if git (to make it easier to fetch, or use the "Download" option on Github), cmake and Qt5 are available.
+qnetload should work with any Linux distribution if git (to make it easier to fetch, or use the "Download" option on Github), cmake and Qt6 are available.
 
-Try using your package management to install Qt5 (some equivalent of "sudo apt-get install qtbase5-dev" and then follow the steps in the "Debian and Ubuntu" section.
+Try using your package management to install Qt6 (some equivalent of "sudo apt-get install qt6-base-dev" and then follow the steps in the "Debian and Ubuntu" section.
 
-qnetload would work with any system providing that the file /proc/net/dev has the same structure as Linux.
+qnetload would work with any system providing that the file `/proc/net/dev` has the same structure as Linux.
 
 ## Screenshots
 ![qnetload](docs/images/qnetload-speed-tooltip.png)
