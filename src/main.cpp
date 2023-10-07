@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QApplication::setOrganizationName("qnetload");
     QApplication::setApplicationName("qnetload");
-    QApplication::setApplicationVersion("1.3");
+    QApplication::setApplicationVersion("1.3.4");
 
     qInfo() << qUtf8Printable("qnetload version " + QApplication::applicationVersion() + " Copyright (C) 2017, 2019, 2020, 2021, 2023 Carles Pina i Estany <carles@pina.cat>");
     qInfo() << qUtf8Printable("This program comes with ABSOLUTELY NO WARRANTY");
