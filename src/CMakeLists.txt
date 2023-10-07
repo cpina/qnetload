@@ -40,8 +40,5 @@ add_executable(${TARGET} ${SOURCES} ${UI_GENERATED_HEADERS})
 
 target_link_libraries(${TARGET} ${QT6_LIBRARIES})
 
-message(WARNING "The value of TARGET: ${TARGET}")
-message(WARNING "The value of CMAKE_INSTALL_MANDIR: ${CMAKE_INSTALL_MANDIR}")
-
 install(TARGETS qnetload DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES manual/qnetload.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
