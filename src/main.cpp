@@ -1,11 +1,13 @@
 #include "mainwindow.h"
+
 #include <QApplication>
 #include <QCommandLineParser>
-#include <QDebug>
 #include <QMessageBox>
 
+#include <iostream>
+
 /*
- * Copyright 2017, 2019, 2020 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2019, 2020, 2023 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
@@ -27,13 +29,17 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QApplication::setOrganizationName("qnetload");
     QApplication::setApplicationName("qnetload");
-    QApplication::setApplicationVersion("1.3.4");
+    QApplication::setApplicationVersion("1.3.5");
 
-    qInfo() << qUtf8Printable("qnetload version " + QApplication::applicationVersion() + " Copyright (C) 2017, 2019, 2020, 2021, 2023 Carles Pina i Estany <carles@pina.cat>");
-    qInfo() << qUtf8Printable("This program comes with ABSOLUTELY NO WARRANTY");
-    qInfo() << qUtf8Printable("This is free software, and you are welcome to redistribute it under certain conditions");
-    qInfo() << qUtf8Printable("License: GPLv3+");
-    qInfo() << qUtf8Printable("Icons from https://p.yusukekamiyamane.com");
+    QTextStream stdoutStream(stdout);
+
+    stdoutStream << "This will be printed to stdout." << Qt::endl;
+
+    stdoutStream << "qnetload version " + QApplication::applicationVersion() + " Copyright (C) 2017, 2019, 2020, 2021, 2023 Carles Pina i Estany <carles@pina.cat>" << Qt::endl;
+    stdoutStream << "This program comes with ABSOLUTELY NO WARRANTY" << Qt::endl;
+    stdoutStream << "This is free software, and you are welcome to redistribute it under certain conditions" << Qt::endl;
+    stdoutStream << "License: GPLv3+" << Qt::endl;
+    stdoutStream << "Icons from https://p.yusukekamiyamane.com" << Qt::endl;
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Display traffic for a network interface.");
