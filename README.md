@@ -79,12 +79,18 @@ These features were not available in the original xnetload but might be handy:
 
 ## TODO
 
-* Be able to change between kiloBytes and kiloBits (same for the other units).
 * Handle what happens if the monitored interface disappears.
 
-If you would like something else let me know (create an issue or drop me an email).
+If you would like something else let me know (create an issue or drop me an email: carles@pina.cat)
 
-Carles Pina i Estany (carles@pina.cat)
+## Acknowledgements
+Many thanks to R.F. Smith for xnetload: lots of inspiration from it.
 
-## Icons
+Many thanks to Jen Thomas for testing qnetload and helping with the manual page and texts.
+
+## License
 Icons from: https://p.yusukekamiyamane.com (by Creative Commons Attribution 3.0 License whose full text can be found at http://creativecommons.org/licenses/by/3.0/)
+
+Software: GPLv3+.
+
+Carles Pina i Estany <carles@pina.cat>
