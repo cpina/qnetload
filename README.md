@@ -23,7 +23,17 @@ qnetload (this one):
 
 ## Installation
 ### Debian and Ubuntu
-I've tested it on Ubuntu 22.04 (Jammy Jellyfish) and in Debian 12 (Bookworm).
+qnetload is available using "apt" on Debian Trixie (when released) or Debian testing.
+
+To install qnetload on Debian Trixie or Debian testing:
+
+```
+sudo apt install qnetload
+```
+
+Then just use `qnetload` to launch it.
+
+It is possible to install qnetload in Debian 12 (Bookworm) or Ubuntu 22.04 (Jammy Jellyfish) building from source:
 
 ```
 # Ubuntu:
