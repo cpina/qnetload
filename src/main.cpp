@@ -29,11 +29,11 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QApplication::setOrganizationName("qnetload");
     QApplication::setApplicationName("qnetload");
-    QApplication::setApplicationVersion("1.3.6");
+    QApplication::setApplicationVersion("1.3.7");
 
     QTextStream stdoutStream(stdout);
 
-    stdoutStream << "qnetload version " + QApplication::applicationVersion() + " Copyright (C) 2017, 2019, 2020, 2021, 2023 Carles Pina i Estany <carles@pina.cat>" << Qt::endl;
+    stdoutStream << "qnetload version " + QApplication::applicationVersion() + " Copyright (C) 2017, 2019, 2020, 2021, 2023 , 2025 Carles Pina i Estany <carles@pina.cat>" << Qt::endl;
     stdoutStream << "This program comes with ABSOLUTELY NO WARRANTY" << Qt::endl;
     stdoutStream << "This is free software, and you are welcome to redistribute it under certain conditions" << Qt::endl;
     stdoutStream << "License: GPLv3+" << Qt::endl;

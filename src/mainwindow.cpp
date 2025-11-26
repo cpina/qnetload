@@ -14,7 +14,7 @@
 
 
 /*
- * Copyright 2017, 2019, 2020, 2021 Carles Pina i Estany <carles@pina.cat>
+ * Copyright 2017, 2019, 2020, 2021, 2025 Carles Pina i Estany <carles@pina.cat>
  * This file is part of qnetload.
  *
  * qnetload is free software: you can redistribute it and/or modify
