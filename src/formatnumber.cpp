@@ -61,7 +61,20 @@ QString FormatNumber::formatElapsedTime(quint64 milliseconds)
     quint64 hours = minutes / 60;
     minutes %= 60;
 
-    return QString("%1:%2:%3").arg(hours).arg(padNumber(minutes)).arg(padNumber(seconds));
+    if (hours < 24) {
+        return QString("%1:%2:%3").arg(hours).arg(padNumber(minutes)).arg(padNumber(seconds));
+    }
+    else {
+        quint64 days = hours / 24;
+        hours %= 24;
+
+        QString daysSingularOrPlural = "days";
+        if (days == 1) {
+            daysSingularOrPlural = "day";
+        }
+
+        return QString("%1 %2 %3:%4:%5").arg(days).arg(daysSingularOrPlural).arg(padNumber(hours)).arg(padNumber(minutes)).arg(padNumber(seconds));
+    }
 }
 
 QString FormatNumber::formatSeconds(quint64 totalSeconds)
